@@ -1,4 +1,4 @@
-# OPCUA Server of a simulated Building
+# OPCUA server of a simulated building
 
 ### Description
 This OPC UA server uses realistic device configurations and load-profiles to simulate a buildings internal energy management process, i.e. meeting the buildings demand with the installed energy system in the most cost-efficient manner.  
