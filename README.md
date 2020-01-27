@@ -11,6 +11,6 @@ The building provides all necessary information through an OPC UA namespace
 ![alt text](https://github.com/JanAxelMayer/Building_OPCUA_Server/blob/master/Old%20Versions/Scheme.png)
 
 
-### OPC UA Data Model
+### OPC UA data model
 
 ![alt text](https://github.com/JanAxelMayer/Building_OPCUA_Server/blob/master/Old%20Versions/OPCUAtree.PNG)
