@@ -81,7 +81,7 @@ B1_CO2_VProd1 = VolatileProducer.get_children()[0].add_variable(idx, "costCO2Id"
 B1_minP_VProd1 = VolatileProducer.get_children()[0].add_variable(idx, "minPowerId", Value)
 
 # Export Namespace as XML
-# export_xml(idx, "C:\Users\mayer\NamespaceMockupServer1.xml")
+server1.export_xml_by_ns("NamespaceMockupServer1.xml")
 
 
 
@@ -131,7 +131,7 @@ B2_ElecFC = Elec_FC.add_variable(idx, "ElecFC", "")
 
 # Additonal Nodes for testing memapCore 
 
-B2_Cost_Stor1 = Storage.get_children()[0].add_variable(idx, "opCostId", Value)
+B2_Cost_Stor1 = Storage.get_children()[0].add_variable(654, "opCostId", Value)
 B2_CO2_Stor1 = Storage.get_children()[0].add_variable(idx, "costCO2Id", Value)
 
 B2_Cost_Coupl1 = Coupler.get_children()[0].add_variable(idx, "opCostId", Value)
@@ -142,7 +142,7 @@ B2_CO2_VProd1 = VolatileProducer.get_children()[0].add_variable(idx, "costCO2Id"
 B2_minP_VProd1 = VolatileProducer.get_children()[0].add_variable(idx, "minPowerId", Value)
 
 # Export Namespace as XML
-# export_xml(idx, "C:\Users\mayer\NamespaceMockupServer2.xml")
+server2.export_xml(Systems.get_children(), "NamespaceMockupServer2.xml")
 
 # =============================== Start ===================================
 server1.start()
