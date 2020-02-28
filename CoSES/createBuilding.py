@@ -24,10 +24,10 @@ def create_Server_Basics(name, port):
     
 
 def create_Namespace(server, idx, objects):
-    General = objects.add_object(idx, "General")
-    Demand = objects.add_object(idx, "Demand")
+    General = objects.add_folder(idx, "General")
+    Demand = objects.add_folder(idx, "Demand")
 
-    Systems = objects.add_object(idx, "Systems")
+    Systems = objects.add_folder(idx, "Systems")
     # Untersysteme
     Producer = Systems.add_folder(idx, "Producer")
     VolatilePruducer = Systems.add_folder(idx, "VolatileProducer")
