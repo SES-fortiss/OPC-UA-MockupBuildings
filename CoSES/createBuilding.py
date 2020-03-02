@@ -48,14 +48,14 @@ def create_Namespace(server, idx, objects):
 
 def add_General(idx, naming, General, url, connectionStat, EMSname, inMEMAP, buildCat):
     
-    k = ua.NodeId.from_string('ns=%d;i=100' % idx)
+    k = range(100, 150, 2)
     
-    endPoint = General.add_variable(k, naming+"_NONE_0_ZM_XX_EndPoint", url)
-    connStat = General.add_variable(idx, naming+"_NONE_0_ZM_XX_ConnStat", connectionStat)
-    MEMAPflag = General.add_variable(idx, naming+"_NONE_0_ZM_XX_MEMAPflag", inMEMAP)
+    endPoint = General.add_variable(ua.NodeId.from_string('ns={};i={}'.format(idx, k[0])), naming+"_NONE_0_ZM_XX_EndPoint", url)
+    connStat = General.add_variable(ua.NodeId.from_string('ns={};i={}'.format(idx, k[1])), naming+"_NONE_0_ZM_XX_ConnStat", connectionStat)
+    MEMAPflag = General.add_variable(ua.NodeId.from_string('ns={};i={}'.format(idx, k[2])), naming+"_NONE_0_ZM_XX_MEMAPflag", inMEMAP)
     MEMAPflag.set_writable()
-    EMSnameID = General.add_variable(idx, naming+"_NONE_0_ZM_XX_EMSnameID", EMSname)
-    bCategory = General.add_variable(idx, naming+"_NONE_1_ZM_XX_BCategory", buildCat)
+    EMSnameID = General.add_variable(ua.NodeId.from_string('ns={};i={}'.format(idx, k[3])), naming+"_NONE_0_ZM_XX_EMSnameID", EMSname)
+    bCategory = General.add_variable(ua.NodeId.from_string('ns={};i={}'.format(idx, k[4])), naming+"_NONE_1_ZM_XX_BCategory", buildCat)
 
     #return (only writables?)
     return (endPoint, connStat, MEMAPflag, EMSnameID, bCategory)
@@ -63,7 +63,7 @@ def add_General(idx, naming, General, url, connectionStat, EMSname, inMEMAP, bui
 
 
 def add_Demand(counter, naming, idx, Demand, sector, demName, FC_step, FC_size, minT, maxT, cost):
-
+    
     Demnd = Demand.add_folder(idx, "DEMND{:02d}".format(int(counter[0,0]+1)))
     demdNaming = naming+"_DEMND{:02d}".format(int(counter[0,0]+1))
     print(demdNaming + " added...")
@@ -85,7 +85,11 @@ def add_Demand(counter, naming, idx, Demand, sector, demName, FC_step, FC_size, 
         marketFC.append(Forecast.add_variable(idx, demdNaming+"_2_ZM_" + short + "GrdBuyCost" + str(i+1), cost))
         marketFC[i].set_writable()
     
-    demandJson = Forecast.add_variable(idx, demdNaming+"_1_ZM_" + short + "_DemFCjson", "" )
+    #ua.NodeId.from_string('ns={};i={}'.format(idx, 35))
+    demandArray = Forecast.add_variable(idx, demdNaming +"_1_ZM_" + short + "_DemFCarray", [0, 0, 0, 0, 0])
+    demandArray.set_writable()
+    
+    demandJson = Forecast.add_variable(idx, demdNaming +"_1_ZM_" + short + "_DemFCjson", "" )
     demandJson.set_writable()
     marketJson = Forecast.add_variable(idx, demdNaming+"_1_ZM_" + short + "_MktFCjson", "" )
     marketJson.set_writable()
@@ -102,7 +106,7 @@ def add_Demand(counter, naming, idx, Demand, sector, demName, FC_step, FC_size, 
     
     counter[0,0]+=1
     #return writables ?
-    return (demandSetpoint, demdFC, demandJson, marketFC, marketJson)
+    return (demandSetpoint, demdFC, demandJson, demandArray, marketFC, marketJson)
   
 
 

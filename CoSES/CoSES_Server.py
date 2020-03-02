@@ -42,8 +42,8 @@ naming = objectName + EMS + "OBJ01"
 # (Add Demand, Producer, Volatile Producer, Coupler, ThermalStorage, ElectricStorage)
 
 ### Demand   -                          add_Demand(counter, naming, idx, Demand, sector, demName, FC_step, FC_size, minT, maxT, cost):
-(heatDemandSP, htDemdFC, htDemFCjson, htCostFC, htCostFCjson) = add_Demand(counter, naming, idx, Demand, "heat", "Wärmebedarf_Haus1", mpc, 60*time_factor, 60, 0.0, 0.0)
-(elecDemandSP, elDemdFC, elDemFCjson, elCostFC, elCostFCjson) = add_Demand(counter, naming, idx, Demand, "elec", "Strombedarf_Haus1", mpc, 60*time_factor, 0.0, 0.0, 0.0)
+(heatDemandSP, htDemdFC, htDemFCjson, htDemFCarray, htCostFC, htCostFCjson) = add_Demand(counter, naming, idx, Demand, "heat", "Wärmebedarf_Haus1", mpc, 60*time_factor, 60, 0.0, 0.0)
+(elecDemandSP, elDemdFC, elDemFCjson, elDemFCarray, elCostFC, elCostFCjson) = add_Demand(counter, naming, idx, Demand, "elec", "Strombedarf_Haus1", mpc, 60*time_factor, 0.0, 0.0, 0.0)
 
 ### Devices
 # Producer -                                                                       add_Producer(counter, naming, FC_step, idx, name, Producer, PrimSect, EffPrim, P_min, P_max, Temp_min, Temp_max, PrimEnCost, GenCosts, PrimCO2Cost):
@@ -89,15 +89,19 @@ def forecast_to_json(FC_step, timefactor, FC_array):
 
 while True:
 
-    for j in range (mpc-1):
+    for j in range (mpc):
         # Stündliche Werte auf time_factor skalieren
         htDemdFC[j].set_value(Consumption_B1[i+j]*time_factor)
         elDemdFC[j].set_value(0.0)
     
+    htDemFCarray.set_value([Consumption_B1[i]*time_factor,Consumption_B1[i+1]*time_factor,Consumption_B1[i+2]*time_factor,
+                            Consumption_B1[i+3]*time_factor,Consumption_B1[i+4]*time_factor])
+        
     elDemFCjson.set_value(forecast_to_json(mpc, time_factor, elDemdFC))
     htDemFCjson.set_value(forecast_to_json(mpc, time_factor, htDemdFC))
     elCostFCjson.set_value(forecast_to_json(mpc, time_factor, elCostFC))
     htCostFCjson.set_value(forecast_to_json(mpc, time_factor, htCostFC))
+    
     
     
     # We cut away 5 timesteps from the day here for the MPC
