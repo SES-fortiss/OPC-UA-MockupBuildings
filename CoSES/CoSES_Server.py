@@ -14,7 +14,7 @@ import json
 
 # General Information:
 objectName = "CoSES"
-opc_port = "4880"
+opc_port = "4840"
 
 mpc = 5
 #time_factor = 0.25
