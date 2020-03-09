@@ -81,7 +81,7 @@ B1_CO2_VProd1 = VolatileProducer.get_children()[0].add_variable(idx, "costCO2Id"
 B1_minP_VProd1 = VolatileProducer.get_children()[0].add_variable(idx, "minPowerId", Value)
 
 # Export Namespace as XML
-server1.export_xml_by_ns("NamespaceMockupServer1.xml")
+# server1.export_xml_by_ns("NamespaceMockupServer1.xml")
 
 
 
@@ -142,7 +142,7 @@ B2_CO2_VProd1 = VolatileProducer.get_children()[0].add_variable(idx, "costCO2Id"
 B2_minP_VProd1 = VolatileProducer.get_children()[0].add_variable(idx, "minPowerId", Value)
 
 # Export Namespace as XML
-server2.export_xml(Systems.get_children(), "NamespaceMockupServer2.xml")
+# server2.export_xml(Systems.get_children(), "NamespaceMockupServer2.xml")
 
 # =============================== Start ===================================
 server1.start()
