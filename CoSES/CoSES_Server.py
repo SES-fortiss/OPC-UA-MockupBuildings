@@ -17,7 +17,8 @@ objectName = "CoSES"
 opc_port = "4880"
 
 mpc = 5
-time_factor = 0.25
+#time_factor = 0.25
+time_factor = 1
 
 demandPath = "data/SkalierteDatenGeb1.csv"
 
@@ -50,7 +51,7 @@ naming = objectName + EMS + "OBJ01"
 (Prod1_Setpoint, Prod1_Power) = add_Producer(counter, naming, mpc, idx, "SFH1_EB1", Producer, "heat", 0.88, 3.8, 18.9, 50, 90, 0.07, 0.11, 0.202)
 
 # Storage - add_Storage(counter, naming, FC_step idx, name, Storage, PrimSect, CEffPrim, DisCEffPrim, Capacity, loss, Pmax_in, Pmax_Out, minTemp, maxTemp, minTempOut SOC_init, GenCosts, PrimCO2Cost)
-(Stor1_setpointChgFC, Stor1_setpointDisChgFC, Stor1_SOC) = add_Storage(counter, naming, mpc, idx, "SFH1_TS1", Storage, "electricity", 0.97, 0.97, 69.5, 2.59, 95, 95, 20, 95, 60, 0.0, 0.0, 0.0)
+(Stor1_setpointChgFC, Stor1_setpointDisChgFC, Stor1_SOC) = add_Storage(counter, naming, mpc, idx, "SFH1_TS1", Storage, "heat", 0.97, 0.97, 69.5, 2.59, 95, 95, 20, 95, 60, 0.0, 0.0, 0.0)
 
 
 
