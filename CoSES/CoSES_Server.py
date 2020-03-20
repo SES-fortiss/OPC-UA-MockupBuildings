@@ -14,18 +14,19 @@ import json
 
 # General Information:
 objectName = "CoSES"
-opc_port = "4840"
+opc_port = "4850"
 
 mpc = 5
-#time_factor = 0.25
-time_factor = 1
+time_factor = 0.25
+
+nrOfEms = 1
 
 demandPath = "data/SkalierteDatenGeb1.csv"
 
 
 # Add Counter list/array to count for numer of EMS x Device Types and construct display names
 # Entries for DEMND, PROD, VPROD, COUPL, STRGE
-counter = np.zeros([1,5])
+counter = np.zeros([nrOfEms,5])
 #print(counter)
 
 # ================= Defining the Namespace of the Building =====================
@@ -67,7 +68,8 @@ server1.PublishingEnabled = True
 size=10000
 i = 0
 
-# Consumption_B1 = np.zeros([1,size])
+# 15 min values
+profile_time_factor = 0.25
 Consumption_B1 = np.genfromtxt(demandPath, delimiter=";")
 
 
@@ -91,12 +93,12 @@ def forecast_to_json(FC_step, timefactor, FC_array):
 while True:
 
     for j in range (mpc):
-        # Stündliche Werte auf time_factor skalieren
-        htDemdFC[j].set_value(Consumption_B1[i+j]*time_factor)
+        # Werte auf time_factor/profile_time_factor skalieren
+        htDemdFC[j].set_value(Consumption_B1[i+j])
         elDemdFC[j].set_value(0.0)
     
-    htDemFCarray.set_value([Consumption_B1[i]*time_factor,Consumption_B1[i+1]*time_factor,Consumption_B1[i+2]*time_factor,
-                            Consumption_B1[i+3]*time_factor,Consumption_B1[i+4]*time_factor])
+    htDemFCarray.set_value([Consumption_B1[i],Consumption_B1[i+1]*time_factor/profile_time_factor,Consumption_B1[i+2]*time_factor/profile_time_factor,
+                            Consumption_B1[i+3]*time_factor/profile_time_factor,Consumption_B1[i+4]*time_factor/profile_time_factor])
         
     elDemFCjson.set_value(forecast_to_json(mpc, time_factor, elDemdFC))
     htDemFCjson.set_value(forecast_to_json(mpc, time_factor, htDemdFC))

@@ -6,7 +6,7 @@ Created on Tue Oct 16 17:20:59 2018
 """
 
 #from opcua import Server
-from createBuilding import create_Server_Basics, create_Namespace, add_Demand, add_VolatileProducer, add_Coupler, add_Producer, add_Storage
+from createMockupBuilding import create_Server_Basics, create_Namespace, add_Demand, add_VolatileProducer, add_Coupler, add_Producer, add_Storage
 
 import time
 import numpy as np
@@ -19,7 +19,7 @@ time_factor = 0.25
 n = 192
 size = n
 #size = 1440
-
+Value = 0.0
 
 # ============================== Building 1 ==============================
 Geb = "Building1"
@@ -68,7 +68,7 @@ B1_ElecFC = Elec_FC.add_variable(idx, "ElecFC", "")
 # Additonal Nodes for testing memapCore 
 
 #print(Storage.get_children()[0].get_display_name())
-Value = 0.0
+
 
 B1_Cost_Stor1 = Storage.get_children()[0].add_variable(idx, "opCostId", Value)
 B1_CO2_Stor1 = Storage.get_children()[0].add_variable(idx, "costCO2Id", Value)
