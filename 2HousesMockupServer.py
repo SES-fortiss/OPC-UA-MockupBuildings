@@ -131,7 +131,7 @@ B2_ElecFC = Elec_FC.add_variable(idx, "ElecFC", "")
 
 # Additonal Nodes for testing memapCore 
 
-B2_Cost_Stor1 = Storage.get_children()[0].add_variable(654, "opCostId", Value)
+B2_Cost_Stor1 = Storage.get_children()[0].add_variable(idx, "opCostId", Value)
 B2_CO2_Stor1 = Storage.get_children()[0].add_variable(idx, "costCO2Id", Value)
 
 B2_Cost_Coupl1 = Coupler.get_children()[0].add_variable(idx, "opCostId", Value)
