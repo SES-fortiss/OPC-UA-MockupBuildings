@@ -1,5 +1,5 @@
 {
-  "name": "CoSES-Building1",
+  "name": "CoSESEMS01OBJ01",
   "endpointURL": "opc.tcp://10.10.10.60:4840",
   "endpointDescriptor": "0"
 }

@@ -95,7 +95,7 @@ while True:
     for j in range (mpc):
         # Werte auf time_factor/profile_time_factor skalieren
         htDemdFC[j].set_value(Consumption_B1[i+j])
-        elDemdFC[j].set_value(0.0)
+        elDemdFC[j].set_value(float(0.0))
     
     htDemFCarray.set_value([Consumption_B1[i],Consumption_B1[i+1]*time_factor/profile_time_factor,Consumption_B1[i+2]*time_factor/profile_time_factor,
                             Consumption_B1[i+3]*time_factor/profile_time_factor,Consumption_B1[i+4]*time_factor/profile_time_factor])

@@ -4,7 +4,7 @@ Created on Mon Jul  8 09:41:18 2019
 
 @author: mayer
 """
-
+import opcua
 from opcua import ua, Server
 
 # __init__
@@ -94,7 +94,7 @@ def add_Demand(counter, naming, idx, Demand, sector, demName, FC_step, FC_size, 
         marketFC[i].set_writable()
     
     #ua.NodeId.from_string('ns={};i={}'.format(idx, 35))
-    demandArray = Forecast.add_variable(idx, demdNaming +"_1_ZM_" + short + "_DemFCarray", [0, 0, 0, 0, 0])
+    demandArray = Forecast.add_variable(idx, demdNaming +"_1_ZM_" + short + "_DemFCarray", [0.0, 0.0, 0.0, 0.0, 0.0], datatype=opcua.ua.ObjectIds.Double)
     demandArray.set_writable()
     
     demandJson = Forecast.add_variable(idx, demdNaming +"_1_ZM_" + short + "_DemFCjson", "" )
