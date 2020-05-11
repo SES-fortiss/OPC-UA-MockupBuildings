@@ -63,8 +63,8 @@ server1.PublishingEnabled = True
 
 # =========================================================================
 # Export Namespace as XML
-server1.export_xml(Systems.get_children(), "CoSES_Server_raw.xml")
-server1.export_xml_by_ns("CoSES_Server_full.xml")
+# server1.export_xml(Systems.get_children(), "CoSES_Server_raw.xml")
+# server1.export_xml_by_ns("CoSES_Server_full.xml")
 
 
 # ==================== Load 2 Days from Simulation ========================
