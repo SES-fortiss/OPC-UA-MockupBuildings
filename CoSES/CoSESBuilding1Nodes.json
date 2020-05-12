@@ -36,7 +36,7 @@
     { 
       "PrimSect": "ns=2;i=72",
       "Capacity" : "ns=2;i=75",
-      "MaxPowerIn": "ns=2;i=78",
+      "MaxChrgPwr": "ns=2;i=78",
       "MaxPower": "ns=2;i=77",
       "EffPrim": "ns=2;i=73",
       "DisEffPrim": "ns=2;i=74",
