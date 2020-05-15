@@ -1,48 +1,46 @@
 {
-  "INFO": [ 
+  "EMS": [ 
     {
-      "EMSnameID": "ns=2;i=106"
+      "nameId": "ns=2;i=106"
     }
   ],
   "COUPL": [],
   "DEMND": [
     {
-      "DemndSect": "ns=2;i=10",
-      "DemandFC1": "ns=2;i=14",
-      "DemFCarray": "ns=2;i=24",
-      "DemFCjson": "ns=2;i=25",
+      "PrimSect": "ns=2;i=10",
+      "DemandFC": "ns=2;i=19",
+	  "currentDem": "ns=2;i=17",
       "DemndSetPt": "ns=2;i=27"
     },
 	{
-      "DemndSect": "ns=2;i=32",
-      "DemandFC1": "ns=2;i=36",
-      "DemFCarray": "ns=2;i=46",
-      "DemFCjson": "ns=2;i=47",	  
-      "DemndSetPt": "ns=2;i=27"
+      "PrimSect": "ns=2;i=28",
+      "DemandFC": "ns=2;i=37",
+	  "currentDem": "ns=2;i=35",
+      "DemndSetPt": "ns=2;i=39"
 	}
   ],
   "CPROD": [
     { 
-      "PrimSect": "ns=2;i=54",
-      "MinPower": "ns=2;i=56",
-      "MaxPower": "ns=2;i=57",
-      "EffPrim": "ns=2;i=55",
-      "PrimEnCost": "ns=2;i=60",
-      "CO2PerKWh": "ns=2;i=62"
+      "PrimSect": "ns=2;i=46",
+      "MinPower": "ns=2;i=48",
+      "MaxPower": "ns=2;i=49",
+      "EffPrim": "ns=2;i=47",
+      "PrimEnCost": "ns=2;i=52",
+      "CO2PerKWh": "ns=2;i=54"
     }
   ],
   "VPROD": [],
   "STRGE": [
     { 
-      "PrimSect": "ns=2;i=72",
-      "Capacity" : "ns=2;i=75",
-      "MaxChrgPwr": "ns=2;i=78",
-      "MaxPower": "ns=2;i=77",
-      "EffPrim": "ns=2;i=73",
-      "DisEffPrim": "ns=2;i=74",
-      "curSOC": "ns=2;i=82",
-      "PrimEnCost": "ns=2;i=96",
-      "CO2PerKWh": "ns=2;i=97"
+      "PrimSect": "ns=2;i=65",
+	  "EffPrim": "ns=2;i=66",
+      "DisEffPrim": "ns=2;i=67",
+      "MaxPowerIn": "ns=2;i=69",
+      "MaxPower": "ns=2;i=68",
+      "Capacity" : "ns=2;i=70",
+      "curSOC": "ns=2;i=81",
+      "PrimEnCost": "ns=2;i=75",
+      "CO2PerKWh": "ns=2;i=77"
     }
   ]
 }
