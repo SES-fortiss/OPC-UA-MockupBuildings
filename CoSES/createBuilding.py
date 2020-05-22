@@ -184,10 +184,10 @@ def add_Producer(counter, naming, FC_step, idx, name, Producer, inMEMAP,
     
     
  
-def add_VolatileProducer(counter, naming, idx, name, VolatilePruducer, inMEMAP, 
+def add_VolatileProducer(counter, naming, idx, name, VolatileProducer, inMEMAP, 
                          PrimSect, installedPwr, MinTemp, MaxTemp, FC_step, FC_size, PrimEnCost, GenCosts, PrimCO2Cost):
     
-    VProd = VolatilePruducer.add_folder(idx, "VPROD{:2d}".format(int(counter[0,2]+1)))
+    VProd = VolatileProducer.add_folder(idx, "VPROD{:2d}".format(int(counter[0,2]+1)))
     vProdNaming = naming+"_VPROD{:2d}".format(int(counter[0,2]+1))
     print(vProdNaming + " added...")
     short = sector_to_short(PrimSect)

@@ -70,8 +70,8 @@ server1.PublishingEnabled = True
 
 # =========================================================================
 # Export Namespace as XML
-server1.export_xml(Systems.get_children(), "Template_Server_raw.xml")
-server1.export_xml_by_ns("Tamplate_Server_full.xml")
+#server1.export_xml(Systems.get_children(), "Template_Server_raw.xml")
+#server1.export_xml_by_ns("Tamplate_Server_full.xml")
 
 
 # ==================== Load 2 Days from Simulation ========================
