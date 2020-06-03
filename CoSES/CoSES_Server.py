@@ -3,7 +3,7 @@
 Created on Tue Feb 25 17:20:59 2020
 Modified on Fr May 15 10:50:00 2020
 
-@author: mayer, licklederer (TUM)
+@author: mayer (fortiss), licklederer (TUM)
 """
 
 
@@ -52,8 +52,8 @@ naming = objectName + EMS + "OBJ01"
 # (Add Demand, Producer, Volatile Producer, Coupler, ThermalStorage, ElectricStorage)
 
 ### Demand   -                          add_Demand(counter, naming, idx, Demand, sector, demName, FC_step, FC_size, minT, maxT, buyCost, sellCost):
-(heatDemandSP, htDemFCarray) = add_Demand(counter, naming, idx, Demand, "heat", "Wärmebedarf_Haus1", mpc, 60*mpc_time_factor, 60, 120, 999, 0.0)
-(elecDemandSP, elDemFCarray) = add_Demand(counter, naming, idx, Demand, "elec", "Strombedarf_Haus1", mpc, 60*mpc_time_factor, 0.0, 0.0, 0.285, 0.0)
+(heatDemandSP, htDemFCarray, htPrice) = add_Demand(counter, naming, idx, Demand, "heat", "Wärmebedarf_Haus1", mpc, 60*mpc_time_factor, 60, 120, 999, 0.0)
+(elecDemandSP, elDemFCarray, elPrice) = add_Demand(counter, naming, idx, Demand, "elec", "Strombedarf_Haus1", mpc, 60*mpc_time_factor, 0.0, 0.0, 0.285, 0.0)
 
 ### Devices
 # Producer -                            add_Producer(counter, naming, FC_step, idx, name, Producer, inMEMAP, PrimSect, EffPrim, P_min, P_max, Temp_min, Temp_max, PrimEnCost, GenCosts, PrimCO2Cost):
@@ -62,7 +62,6 @@ naming = objectName + EMS + "OBJ01"
 # Storage -                             add_Storage(counter, naming, FC_step, idx, name, Storage, inMEMAP, PrimSect, CEffPrim, DisCEffPrim, Capacity, loss, Pmax_in, Pmax_Out, minTemp, maxTemp, minTempOut, SOC_init, PrimEnCost, GenCosts, PrimCO2Cost
 (Stor1_setpointChgFC, Stor1_setpointDisChgFC, Stor1_SOC) = add_Storage(counter, naming, mpc, idx, "SFH1_TS1", Storage, True, "heat", 0.97, 0.97, 69.5, 2.59, 95, 95, 20, 95, 60, 0.0, 0.0, 0.0, 0.0)
 
-<<<<<<< HEAD
 
 # =============================== Start ===================================
 server1.start()
@@ -74,7 +73,7 @@ server1.PublishingEnabled = True
 #server1.export_xml(Systems.get_children(), "CoSES_Server_raw.xml")
 #server1.export_xml_by_ns("CoSES_Server_full.xml")
 
-=======
+
 # for heat sink
 # counter=np.append(counter, np.zeros([nrOfEms,2]), axis=1)
 heat_sink = objects.add_folder(idx, "heat_sink")
@@ -89,7 +88,7 @@ electric_demand_setpoint = egston_load_simulator.add_variable(idx, "electric_dem
 electric_demand_setpoint.set_writable()
 electric_demand_is = egston_load_simulator.add_variable(idx, "electric_demand_is", 0)
 electric_demand_is.set_writable()
->>>>>>> af791d323be228379fd27fc9c8dfe9d4e8702db4
+
 
 # ==================== Load 2 Days from Simulation ========================
 # reading
@@ -126,16 +125,6 @@ def forecast_to_json(FC_step, timefactor, FC_array):
         Str = 'Forecast_t' + str(60*timefactor*(j+1))
         Forecast[Str] = str(FC_array[j].get_value())
     return json.dumps(Forecast)
-
-# =============================== Start ===================================
-server1.start()
-print("Server " + naming + " started at {}".format(url1))
-server1.PublishingEnabled = True
-
-# =========================================================================
-# Export Namespace as XML
-server1.export_xml(Systems.get_children(), "CoSES_Server_raw.xml")
-server1.export_xml_by_ns("CoSES_Server_full.xml")
 
 # ============================= set values =================================
 

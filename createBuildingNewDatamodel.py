@@ -83,10 +83,10 @@ def add_Demand(counter, naming, idx, Demand, sector, demName, FC_step, FC_size, 
     maxTempDemand.set_writable()
     
     # static values - costs
-    GridBuy = Demnd.add_variable(idx, demdNaming+"_1_ZM_" + short + "GrdBuyCost", buyCost)
-    GridBuy.set_writable()
-    GridSell = Demnd.add_variable(idx, demdNaming+"_1_ZM_" + short + "GrdSelCost", sellCost)
-    GridSell.set_writable()
+    gridBuy = Demnd.add_variable(idx, demdNaming+"_1_ZM_" + short + "GrdBuyCost", buyCost)
+    gridBuy.set_writable()
+    gridSell = Demnd.add_variable(idx, demdNaming+"_1_ZM_" + short + "GrdSelCost", sellCost)
+    gridSell.set_writable()
     
     # static values - forecast
     numberDFCSteps = Demnd.add_variable(idx, demdNaming+"_1_ZM_" + short + "_NumDFCstp", FC_step)
@@ -127,7 +127,7 @@ def add_Demand(counter, naming, idx, Demand, sector, demName, FC_step, FC_size, 
 
     counter[0,0]+=1
 
-    return (demandSetpoint, demandArray)
+    return (demandSetpoint, demandArray, gridBuy)
   
 
 
@@ -187,8 +187,8 @@ def add_Producer(counter, naming, FC_step, idx, name, Producer, inMEMAP,
 def add_VolatileProducer(counter, naming, idx, name, VolatileProducer, inMEMAP, 
                          PrimSect, installedPwr, MinTemp, MaxTemp, FC_step, FC_size, PrimEnCost, GenCosts, PrimCO2Cost):
     
-    VProd = VolatileProducer.add_folder(idx, "VPROD{:2d}".format(int(counter[0,2]+1)))
-    vProdNaming = naming+"_VPROD{:2d}".format(int(counter[0,2]+1))
+    VProd = VolatileProducer.add_folder(idx, "VPROD{:02d}".format(int(counter[0,2]+1)))
+    vProdNaming = naming+"_VPROD{:02d}".format(int(counter[0,2]+1))
     print(vProdNaming + " added...")
     short = sector_to_short(PrimSect)
 

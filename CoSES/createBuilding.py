@@ -83,10 +83,10 @@ def add_Demand(counter, naming, idx, Demand, sector, demName, FC_step, FC_size, 
     maxTempDemand.set_writable()
     
     # static values - costs
-    GridBuy = Demnd.add_variable(idx, demdNaming+"_1_ZM_" + short + "GrdBuyCost", buyCost)
-    GridBuy.set_writable()
-    GridSell = Demnd.add_variable(idx, demdNaming+"_1_ZM_" + short + "GrdSelCost", sellCost)
-    GridSell.set_writable()
+    gridBuy = Demnd.add_variable(idx, demdNaming+"_1_ZM_" + short + "GrdBuyCost", buyCost)
+    gridBuy.set_writable()
+    gridSell = Demnd.add_variable(idx, demdNaming+"_1_ZM_" + short + "GrdSelCost", sellCost)
+    gridSell.set_writable()
     
     # static values - forecast
     numberDFCSteps = Demnd.add_variable(idx, demdNaming+"_1_ZM_" + short + "_NumDFCstp", FC_step)
@@ -127,7 +127,7 @@ def add_Demand(counter, naming, idx, Demand, sector, demName, FC_step, FC_size, 
 
     counter[0,0]+=1
 
-    return (demandSetpoint, demandArray)
+    return (demandSetpoint, demandArray, gridBuy)
   
 
 

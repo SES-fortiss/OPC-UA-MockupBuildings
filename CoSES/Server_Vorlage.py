@@ -45,8 +45,8 @@ naming = objectName + EMS + "OBJ01"
 # (Add Demand, Producer, Volatile Producer, Coupler, ThermalStorage, ElectricStorage)
 
 # Demand 
-(heatDemandSP, htDemFCarray) = add_Demand(counter, naming, idx, Demand, "heat", "Wärmebedarf_Haus1", mpc, 60*time_factor, 60, 120, 999, 0.0)
-(elecDemandSP, elDemFCarray) = add_Demand(counter, naming, idx, Demand, "elec", "Strombedarf_Haus1", mpc, 60*time_factor, 0.0, 0.0, 0.285, 0.0)
+(heatDemandSP, htDemFCarray, htPirce) = add_Demand(counter, naming, idx, Demand, "heat", "Wärmebedarf_Haus1", mpc, 60*time_factor, 60, 120, 999, 0.0)
+(elecDemandSP, elDemFCarray, elPrice) = add_Demand(counter, naming, idx, Demand, "elec", "Strombedarf_Haus1", mpc, 60*time_factor, 0.0, 0.0, 0.285, 0.0)
 
 # Controllable Producer
 (Prod1_Setpoint, Prod1_Power) = add_Producer(counter, naming, mpc, idx, "MFH1_HK1", Producer, True, "heat", 0.92, 1.2, 11.9, 40, 80, 0.07, 0.13, 0.202)
