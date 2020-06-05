@@ -8,7 +8,7 @@ Updated on Tue May 22 11:20:00 2020
 """
 
 #from opcua import Server
-from createBuildingNewDatamodel import create_Server_Basics, create_Namespace, add_Demand, add_VolatileProducer, add_Coupler, add_Producer, add_Storage, add_General
+from createBuilding_NewDatamodel import create_Server_Basics, create_Namespace, add_Demand, add_VolatileProducer, add_Coupler, add_Producer, add_Storage, add_General
 
 import time
 import numpy as np
@@ -28,10 +28,6 @@ nrOfEms = 2
 
 demandPath1 = "data/ConsumptionGEB1.csv"
 demandPath2 = "data/ConsumptionGEB2.csv"
-
-# Add Counter list/array to count for numer of EMS x Device Types and construct display names
-# Entries for DEMND, PROD, VPROD, COUPL, STRGE
-counter = np.zeros([nrOfEms,5])
 
 
 # ================= Defining the Namespace of the Building =====================
