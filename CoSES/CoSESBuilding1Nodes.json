@@ -26,7 +26,12 @@
       "MaxPower": "ns=2;i=49",
       "EffPrim": "ns=2;i=47",
       "PrimEnCost": "ns=2;i=52",
-      "CO2PerKWh": "ns=2;i=54"
+      "CO2PerKWh": "ns=2;i=54",
+	  "SPdevPwr1": "ns=2;i=58",
+	  "SPdevPwr2": "ns=2;i=59",
+	  "SPdevPwr3": "ns=2;i=60",
+	  "SPdevPwr4": "ns=2;i=61",
+	  "SPdevPwr5": "ns=2;i=62"
     }
   ],
   "VPROD": [],
