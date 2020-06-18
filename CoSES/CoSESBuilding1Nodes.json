@@ -45,7 +45,17 @@
       "Capacity" : "ns=2;i=70",
       "curSOC": "ns=2;i=81",
       "PrimEnCost": "ns=2;i=75",
-      "CO2PerKWh": "ns=2;i=77"
+      "CO2PerKWh": "ns=2;i=77",
+	  "SPCharge1": "ns=2;i=83",
+	  "SPCharge2": "ns=2;i=85",
+	  "SPCharge3": "ns=2;i=87",
+	  "SPCharge4": "ns=2;i=89",
+	  "SPCharge5": "ns=2;i=91",
+	  "SPDisChrg1": "ns=2;i=84",
+	  "SPDisChrg2": "ns=2;i=86",
+	  "SPDisChrg3": "ns=2;i=88",
+	  "SPDisChrg4": "ns=2;i=90",
+	  "SPDisChrg5": "ns=2;i=92"
     }
   ]
 }
