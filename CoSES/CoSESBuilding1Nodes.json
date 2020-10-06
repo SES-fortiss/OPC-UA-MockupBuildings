@@ -26,12 +26,7 @@
       "MaxPower": "ns=2;i=49",
       "EffPrim": "ns=2;i=47",
       "PrimEnCost": "ns=2;i=52",
-      "CO2PerKWh": "ns=2;i=54",
-	  "SPdevPwr1": "ns=2;i=58",
-	  "SPdevPwr2": "ns=2;i=59",
-	  "SPdevPwr3": "ns=2;i=60",
-	  "SPdevPwr4": "ns=2;i=61",
-	  "SPdevPwr5": "ns=2;i=62"
+      "CO2PerKWh": "ns=2;i=54"
     }
   ],
   "VPROD": [],
@@ -45,17 +40,7 @@
       "Capacity" : "ns=2;i=70",
       "curSOC": "ns=2;i=81",
       "PrimEnCost": "ns=2;i=75",
-      "CO2PerKWh": "ns=2;i=77",
-	  "SPCharge1": "ns=2;i=83",
-	  "SPCharge2": "ns=2;i=85",
-	  "SPCharge3": "ns=2;i=87",
-	  "SPCharge4": "ns=2;i=89",
-	  "SPCharge5": "ns=2;i=91",
-	  "SPDisChrg1": "ns=2;i=84",
-	  "SPDisChrg2": "ns=2;i=86",
-	  "SPDisChrg3": "ns=2;i=88",
-	  "SPDisChrg4": "ns=2;i=90",
-	  "SPDisChrg5": "ns=2;i=92"
+      "CO2PerKWh": "ns=2;i=77"
     }
   ]
 }

@@ -3,7 +3,7 @@
 Created on Tue Feb 25 17:20:59 2020
 Modified on Fr May 15 10:50:00 2020
 
-@author: mayer (fortiss), licklederer (TUM)
+@author: mayer, licklederer (TUM)
 """
 
 
@@ -14,6 +14,7 @@ import numpy as np
 import json
 
 from scipy.interpolate import splrep, splev
+import matplotlib.pyplot as plt
 
 # General Information:
 objectName = "CoSES"
@@ -28,10 +29,12 @@ simulation_time_factor = 60  # 1 s in simulation time equals X seconds in real t
 
 nrOfEms = 1
 
-demandPath = "data/SkalierteDatenGeb1.csv"
+demandPath  =   "data/Test1_Last.csv"
+pricePath    =   "data/Test1_Preise.csv"
+interp_type = "step" # alternatives: "step", "linear", "spline",
 
 
-# Add Counter list/array to count for numer of EMS x Device Types and construct display names
+# Add Counter list/array to count for number of EMS x Device Types and construct display names
 # Entries for DEMND, PROD, VPROD, COUPL, STRGE
 counter = np.zeros([nrOfEms,5])
 #print(counter)
@@ -52,54 +55,46 @@ naming = objectName + EMS + "OBJ01"
 # (Add Demand, Producer, Volatile Producer, Coupler, ThermalStorage, ElectricStorage)
 
 ### Demand   -                          add_Demand(counter, naming, idx, Demand, sector, demName, FC_step, FC_size, minT, maxT, buyCost, sellCost):
-(heatDemandSP, htDemFCarray, htPrice) = add_Demand(counter, naming, idx, Demand, "heat", "Wärmebedarf_Haus1", mpc, 60*mpc_time_factor, 60, 120, 999, 0.0)
-(elecDemandSP, elDemFCarray, elPrice) = add_Demand(counter, naming, idx, Demand, "elec", "Strombedarf_Haus1", mpc, 60*mpc_time_factor, 0.0, 0.0, 0.285, 0.0)
+(heatDemandSP, htDemFCarray) = add_Demand(counter, naming, idx, Demand, "heat", "Wärmebedarf_Haus1", mpc, 60*mpc_time_factor, 60, 120, 999, 0.0)
+(elecDemandSP, elDemFCarray) = add_Demand(counter, naming, idx, Demand, "elec", "Strombedarf_Haus1", mpc, 60*mpc_time_factor, 0.0, 0.0, 0.285, 0.0)
 
 ### Devices
 # Producer -                            add_Producer(counter, naming, FC_step, idx, name, Producer, inMEMAP, PrimSect, EffPrim, P_min, P_max, Temp_min, Temp_max, PrimEnCost, GenCosts, PrimCO2Cost):
-(Prod1_Setpoint, Prod1_Power) = add_Producer(counter, naming, mpc, idx, "SFH1_EB1", Producer, True, "heat", 0.88, 3.8, 14, 50, 90, 0.07, 0.11, 0.202)
+(Prod1_Setpoint, Prod1_Power) = add_Producer(counter, naming, mpc, idx, "SFH1_EB1", Producer, True, "heat", 0.88, 2, 14, 40, 80, 0.045, 0.11, 0.202)
 
 # Storage -                             add_Storage(counter, naming, FC_step, idx, name, Storage, inMEMAP, PrimSect, CEffPrim, DisCEffPrim, Capacity, loss, Pmax_in, Pmax_Out, minTemp, maxTemp, minTempOut, SOC_init, PrimEnCost, GenCosts, PrimCO2Cost
-(Stor1_setpointChgFC, Stor1_setpointDisChgFC, Stor1_SOC) = add_Storage(counter, naming, mpc, idx, "SFH1_TS1", Storage, True, "heat", 0.97, 0.97, 69.5, 2.59, 95, 95, 20, 95, 60, 0.0, 0.0, 0.0, 0.0)
-
-
-# =============================== Start ===================================
-server1.start()
-print("Server " + naming + " started at {}".format(url1))
-server1.PublishingEnabled = True
+(Stor1_setpointChgFC, Stor1_setpointDisChgFC, Stor1_SOC) = add_Storage(counter, naming, mpc, idx, "SFH1_TS1", Storage, True, "heat", 0.97, 0.97, 36.1, 2.59, 56, 56, 40, 80, 60, 0.0, 0.0, 0.0, 0.0)
 
 # =========================================================================
-# Export Namespace as XML
-#server1.export_xml(Systems.get_children(), "CoSES_Server_raw.xml")
-#server1.export_xml_by_ns("CoSES_Server_full.xml")
 
-
+# =======
 # for heat sink
 # counter=np.append(counter, np.zeros([nrOfEms,2]), axis=1)
 heat_sink = objects.add_folder(idx, "heat_sink")
-heat_demand_setpoint = heat_sink.add_variable(idx, "heat_demand_setpoint", 0)
+heat_demand_setpoint = heat_sink.add_variable(idx, "heat_demand_setpoint", 0.0)
 heat_demand_setpoint.set_writable()
-heat_demand_is = heat_sink.add_variable(idx, "heat_demand_is", 0)
+heat_demand_is = heat_sink.add_variable(idx, "heat_demand_is", 0.0)
 heat_demand_is.set_writable()
 
 # for egston load simulator
 egston_load_simulator = objects.add_folder(idx, "egston_load_simulator")
-electric_demand_setpoint = egston_load_simulator.add_variable(idx, "electric_demand_setpoint", 0)
+electric_demand_setpoint = egston_load_simulator.add_variable(idx, "electric_demand_setpoint", 0.0)
 electric_demand_setpoint.set_writable()
-electric_demand_is = egston_load_simulator.add_variable(idx, "electric_demand_is", 0)
+electric_demand_is = egston_load_simulator.add_variable(idx, "electric_demand_is", 0.0)
 electric_demand_is.set_writable()
 
 
-# ==================== Load 2 Days from Simulation ========================
+# ==================== Load demand from file ========================
 # reading
-Consumption_B1 = np.genfromtxt(demandPath, delimiter=";")
+Consumption_B1 = np.genfromtxt(demandPath, delimiter="\n")
 size = np.shape(Consumption_B1)[0]
 # scaling
-demand1_old_max = np.max(Consumption_B1)
-demand1_max_set = 14
-demand1_scaled = Consumption_B1 * (demand1_max_set / demand1_old_max)
-demand1_max = np.max(demand1_scaled)
-print("scaled max. demand: ", demand1_max)
+#demand1_old_max = np.max(Consumption_B1)
+#demand1_max_set = 13
+#demand1_scaled = Consumption_B1 * (demand1_max_set / demand1_old_max)
+#demand1_max = np.max(demand1_scaled)
+#print("scaled max. demand: ", demand1_max)
+demand1_scaled = Consumption_B1
 # interpolating
 delta_t_profile = profile_time_factor * 60  # in min
 delta_t_mpc = mpc_time_factor * 60  # in min
@@ -107,14 +102,46 @@ delta_t_CoSES = CoSES_time_factor * 60  # in min
 timeline_profile = np.arange(0, delta_t_profile * (size), delta_t_profile)
 timeline_mpc = np.arange(0, delta_t_profile * (size), delta_t_mpc)
 timeline_CoSES = np.arange(0, delta_t_profile * (size), delta_t_CoSES)
-tck = splrep(timeline_profile, demand1_scaled, k=5, s=0)
-demand1_interp_mpc = splev(timeline_mpc, tck)
-demand1_interp_CoSES = splev(timeline_CoSES, tck)
+
+if interp_type == "spline":
+    mydegree = 5
+    tck1 = splrep(timeline_profile, demand1_scaled, k=mydegree, s=0)
+    demand1_interp_mpc = splev(timeline_mpc, tck1, ext=3)
+    demand1_interp_CoSES = splev(timeline_CoSES, tck1, ext=3)
+elif interp_type == "linear":
+    mydegree = 1
+    tck1 = splrep(timeline_profile, demand1_scaled, k=mydegree, s=0)
+    demand1_interp_mpc = splev(timeline_mpc, tck1, ext=3)
+    demand1_interp_CoSES = splev(timeline_CoSES, tck1, ext=3)
+elif interp_type == "step":
+    nbr_reps_mpc = int(delta_t_profile/delta_t_mpc)
+    demand1_interp_mpc = np.array([np.repeat(step,nbr_reps_mpc) for step in demand1_scaled]).flatten()
+    nbr_reps_CoSES = int(delta_t_profile / delta_t_CoSES)
+    demand1_interp_CoSES = np.array([np.repeat(step, nbr_reps_CoSES) for step in demand1_scaled]).flatten()
+else:
+    raise ValueError('wrong value for interp_type')
 
 #plt.figure()
 #plt.plot(timeline_profile, demand1_scaled, label="origin scaled", marker="x")
 #plt.plot(timeline_mpc, demand1_interp_mpc, label="mpc")
 #plt.plot(timeline_CoSES, demand1_interp_CoSES, label="CoSES", marker=".", linestyle="none")
+#plt.legend()
+#plt.show(block=False)
+
+# ==================== Load prices from file ========================
+# reading
+dynamic_prices = np.genfromtxt(pricePath, delimiter="\n")
+size = np.shape(dynamic_prices)[0]
+# interpolating
+delta_t_profile = profile_time_factor * 60  # in min
+delta_t_mpc = mpc_time_factor * 60  # in min
+nbr_reps_mpc = int(delta_t_profile / delta_t_mpc)
+prices_interp_mpc = np.array([np.repeat(step, nbr_reps_mpc) for step in dynamic_prices]).flatten()
+
+#plt.figure()
+#plt.plot(timeline_profile, dynamic_prices, label="origin scaled", marker="x")
+#plt.plot(timeline_mpc, prices_interp_mpc, label="mpc", marker=".", linestyle="none")
+##plt.plot(timeline_CoSES, prices_interp_CoSES, label="CoSES", marker=".", linestyle="none")
 #plt.legend()
 #plt.show(block=False)
 
@@ -125,6 +152,16 @@ def forecast_to_json(FC_step, timefactor, FC_array):
         Str = 'Forecast_t' + str(60*timefactor*(j+1))
         Forecast[Str] = str(FC_array[j].get_value())
     return json.dumps(Forecast)
+
+# =============================== Start ===================================
+server1.start()
+print("Server " + naming + " started at {}".format(url1))
+server1.PublishingEnabled = True
+
+# =========================================================================
+# Export Namespace as XML
+server1.export_xml(Systems.get_children(), "CoSES_Server_raw.xml")
+server1.export_xml_by_ns("CoSES_Server_full.xml")
 
 # ============================= set values =================================
 
