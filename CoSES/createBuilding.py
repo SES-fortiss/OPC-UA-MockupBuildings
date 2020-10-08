@@ -164,6 +164,12 @@ def add_Producer(counter, naming, FC_step, idx, name, Producer, inMEMAP,
     generationCosts.set_writable()
     CO2Costs = Prod.add_variable(idx, prodNaming + "_1_ZM_" + short + "_CO2PerKWh", PrimCO2Cost)
     CO2Costs.set_writable()
+
+    # cost forecast
+    Forecast = Prod.add_folder(idx, short+"_priceforecast")
+    #ua.NodeId.from_string('ns={};i={}'.format(idx, 35))
+    priceFC = Forecast.add_variable(idx, prodNaming +"_2_ZM_" + short + "_priceFC", [0.0, 0.0, 0.0, 0.0, 0.0], datatype=opcua.ua.ObjectIds.Double)
+    priceFC.set_writable()
     
     # dynamic values
     MEMAPflag = Prod.add_variable(idx, prodNaming + "_0_ZM_" + short + "_MEMAPflag", inMEMAP)
@@ -172,15 +178,16 @@ def add_Producer(counter, naming, FC_step, idx, name, Producer, inMEMAP,
     production.set_writable()
     
     Setpoint = Prod.add_folder(idx, "Setpoints_CPROD{:02d}".format(int(counter[0,1]+1)))
-    setpointFC = []
-    for i in range(FC_step):
-        setpointFC.append(Setpoint.add_variable(idx, prodNaming + "_3_VM_" + short + "_SPDevPwr"+ str(i+1), 0.0) )
-        setpointFC[i].set_writable()
+    setpointFC = Setpoint.add_variable(idx, prodNaming + "_3_VM_" + short + "_SPDevPwr", [0.0, 0.0, 0.0, 0.0, 0.0])
+    setpointFC.set_writable()
+    #for i in range(FC_step):
+     #   setpointFC.append(Setpoint.add_variable(idx, prodNaming + "_3_VM_" + short + "_SPDevPwr"+ str(i+1), 0.0) )
+       # setpointFC[i].set_writable()
     
 
     counter[0,1]+=1
     
-    return(production, setpointFC)
+    return(production, setpointFC, priceFC)
     
     
  

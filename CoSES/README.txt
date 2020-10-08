@@ -1,0 +1,1 @@
+siehe auch https://github.com/SES-fortiss/OPC-UA-MockupBuildings/CoSES

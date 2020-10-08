@@ -25,7 +25,7 @@ mpc = 5  # number of mpc horizont steps, usually 5-48
 mpc_time_factor = 0.25  # time factor as ratio of hours, determining the time different between steps, 0.25 = 15 min
 profile_time_factor = 0.25  # time factor as ratio of hours, for time difference between read values from profile, 0.25 = 15 min
 CoSES_time_factor = 1 / 60  # time factor as ratio of hours, for wished time difference for CoSES-Demand-Values, 1/60 = 1 min
-simulation_time_factor = 60  # 1 s in simulation time equals X seconds in real time
+simulation_time_factor = 6  # 1 s in simulation time equals X seconds in real time
 
 nrOfEms = 1
 
@@ -60,7 +60,7 @@ naming = objectName + EMS + "OBJ01"
 
 ### Devices
 # Producer -                            add_Producer(counter, naming, FC_step, idx, name, Producer, inMEMAP, PrimSect, EffPrim, P_min, P_max, Temp_min, Temp_max, PrimEnCost, GenCosts, PrimCO2Cost):
-(Prod1_Setpoint, Prod1_Power) = add_Producer(counter, naming, mpc, idx, "SFH1_EB1", Producer, True, "heat", 0.88, 2, 14, 40, 80, 0.045, 0.11, 0.202)
+(Prod1_Power, Prod1_Setpoint, Prod1_priceFC) = add_Producer(counter, naming, mpc, idx, "SFH1_EB1", Producer, True, "heat", 0.88, 2, 14, 40, 80, 0.045, 0.11, 0.202)
 
 # Storage -                             add_Storage(counter, naming, FC_step, idx, name, Storage, inMEMAP, PrimSect, CEffPrim, DisCEffPrim, Capacity, loss, Pmax_in, Pmax_Out, minTemp, maxTemp, minTempOut, SOC_init, PrimEnCost, GenCosts, PrimCO2Cost
 (Stor1_setpointChgFC, Stor1_setpointDisChgFC, Stor1_SOC) = add_Storage(counter, naming, mpc, idx, "SFH1_TS1", Storage, True, "heat", 0.97, 0.97, 36.1, 2.59, 56, 56, 40, 80, 60, 0.0, 0.0, 0.0, 0.0)
@@ -163,6 +163,16 @@ server1.PublishingEnabled = True
 server1.export_xml(Systems.get_children(), "CoSES_Server_raw.xml")
 server1.export_xml_by_ns("CoSES_Server_full.xml")
 
+# ============================= wait =================================
+myinput = input('Press enter to start experiment!')
+
+while myinput != '':
+    pass
+t = time.localtime()
+current_time = time.strftime("%d.%m.%Y, %H:%M:%S", t)
+
+print('############## EXPERIMENT STARTED: ', current_time, ' ##############')
+
 # ============================= set values =================================
 
 delta_t_for_setting_CoSES = 60 * delta_t_CoSES / simulation_time_factor  # in seconds
@@ -184,44 +194,62 @@ while True:
     timing_delta2 = time.monotonic() - mytime2
 
     if timing_delta1 >= delta_t_for_setting_MEMAP:
-        print('MEMAP, alle ', timing_delta1, ' Sekunden, =  alle ', timing_delta1*simulation_time_factor, " Sekunden Realzeit")
+        print('MEMAP alle ', timing_delta1, ' Sekunden =  alle ', timing_delta1*simulation_time_factor, " Sekunden Realzeit")
         mytime1 = time.monotonic()
         timing_delta1 = 0
 
         ## write MEMAP values
-        #for j in range(mpc):
-            ## Werte auf mpc_time_factor/profile_time_factor skalieren
-            #htDemdFC[j].set_value(Consumption_B1[k + j])
-            #elDemdFC[j].set_value(0.0)
+        # in cycle
+        if k%(np.shape(demand1_interp_mpc)[0])<=np.shape(demand1_interp_mpc)[0]-mpc:
+            mycntr = k%(np.shape(demand1_interp_mpc)[0])
+            myforecast = [demand1_interp_mpc[mycntr + x] for x in range(mpc)]
+            print('demand forecast: ', myforecast, ', nr.', k+1, '/', np.shape(demand1_interp_mpc)[0])
+            htDemFCarray.set_value(myforecast)
 
-        myforecast = [demand1_interp_mpc[k+x] for x in range(mpc)]
-        print(myforecast, k)
-        htDemFCarray.set_value(myforecast)
+            mypriceforecast = [prices_interp_mpc[mycntr + x] for x in range(mpc)]
+            print('price forecast: ', mypriceforecast, ', nr.', k+1,'/', np.shape(demand1_interp_mpc)[0])
+            Prod1_priceFC.set_value(mypriceforecast)
+
+            # just for tests
+            Prod1_Setpoint.set_value(myforecast)
+
+        elif k%(np.shape(demand1_interp_mpc)[0]) > np.shape(demand1_interp_mpc)[0]-mpc:
+            mycntr = k % (np.shape(demand1_interp_mpc)[0])
+            x2 = (k%(np.shape(demand1_interp_mpc)[0])) - (np.shape(demand1_interp_mpc)[0]-mpc)
+            x1 = mpc - x2
+
+            myforecast = [demand1_interp_mpc[mycntr+x] for x in range(x1)] + [demand1_interp_mpc[x] for x in range(x2)]
+            print('demand forecast: ', myforecast, ', nr.', k+1,'/', np.shape(demand1_interp_mpc)[0])
+            htDemFCarray.set_value(myforecast)
+
+            mypriceforecast = [prices_interp_mpc[mycntr+x] for x in range(x1)] + [prices_interp_mpc[x] for x in range(x2)]
+            print('price forecast: ', mypriceforecast, ', nr.', k+1,'/', np.shape(demand1_interp_mpc)[0])
+            Prod1_priceFC.set_value(mypriceforecast)
 
         #elDemFCjson.set_value(forecast_to_json(mpc, mpc_time_factor, elDemdFC))
         #htDemFCjson.set_value(forecast_to_json(mpc, mpc_time_factor, htDemdFC))
         #elCostFCjson.set_value(forecast_to_json(mpc, mpc_time_factor, elCostFC))
         #htCostFCjson.set_value(forecast_to_json(mpc, mpc_time_factor, htCostFC))
 
-        # We cut away 5 timesteps from the day here for the MPC
-        if k < size - mpc-1:
-            k += 1
-        else:
-            k = 0
+        # iterator
+        k += 1
+
 
     if timing_delta2 >= delta_t_for_setting_CoSES:
-        print('CoSES, alle ', timing_delta2, ' Sekunden =  alle ', timing_delta2*simulation_time_factor, " Sekunden Realzeit")
+        print('CoSES alle ', timing_delta2, ' Sekunden =  alle ', timing_delta2*simulation_time_factor, " Sekunden Realzeit")
         mytime2 = time.monotonic()
         timing_delta2 = 0
 
-        # write CoSES values
-        heat_demand_setpoint.set_value(demand1_interp_CoSES[l])
+        mycntr2 = l%np.shape(demand1_interp_CoSES)[0]
+        mynr = (l%np.shape(demand1_interp_CoSES)[0])%(np.shape(demand1_interp_CoSES)[0]/np.shape(demand1_interp_mpc)[0])
+        # write CoSES values in cycles
+        heat_demand_setpoint.set_value(demand1_interp_CoSES[mycntr2])
+        print('demand setpoint: ', demand1_interp_CoSES[mycntr2], ', nr.', k, '+ (', int(mynr+1), '/', int(np.shape(demand1_interp_CoSES)[0]/np.shape(demand1_interp_mpc)[0]),')')
         electric_demand_setpoint.set_value(0.0)
 
-        if l < np.size(demand1_interp_CoSES)-1:
-            l += 1
-        else:
-            l = 0
+
+
+        l += 1
 
 
 
