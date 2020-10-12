@@ -14,14 +14,14 @@ import numpy as np
 import json
 
 from scipy.interpolate import splrep, splev
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 
 # General Information:
 objectName = "CoSES"
 opc_port = "4850"
 
 # TIMING
-mpc = 5  # number of mpc horizont steps, usually 5-48
+mpc = 12  # number of mpc horizont steps, usually 5-48
 mpc_time_factor = 0.25  # time factor as ratio of hours, determining the time different between steps, 0.25 = 15 min
 profile_time_factor = 0.25  # time factor as ratio of hours, for time difference between read values from profile, 0.25 = 15 min
 CoSES_time_factor = 1 / 60  # time factor as ratio of hours, for wished time difference for CoSES-Demand-Values, 1/60 = 1 min
