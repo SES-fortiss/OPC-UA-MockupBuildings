@@ -21,7 +21,7 @@ objectName = "CoSES"
 opc_port = "4850"
 
 # TIMING
-mpc = 12  # number of mpc horizont steps, usually 5-48
+mpc = 5  # number of mpc horizont steps, usually 5-48
 mpc_time_factor = 0.25  # time factor as ratio of hours, determining the time different between steps, 0.25 = 15 min
 profile_time_factor = 0.25  # time factor as ratio of hours, for time difference between read values from profile, 0.25 = 15 min
 CoSES_time_factor = 1 / 60  # time factor as ratio of hours, for wished time difference for CoSES-Demand-Values, 1/60 = 1 min
@@ -29,8 +29,8 @@ simulation_time_factor = 6  # 1 s in simulation time equals X seconds in real ti
 
 nrOfEms = 1
 
-demandPath  =   "data/Test1_Last.csv"
-pricePath    =   "data/Test1_Preise.csv"
+demandPath  =   "FC_data_series/Test1_Last.csv"
+pricePath    =   "FC_data_series/Test1_Preise.csv"
 interp_type = "step" # alternatives: "step", "linear", "spline",
 
 
@@ -55,15 +55,15 @@ naming = objectName + EMS + "OBJ01"
 # (Add Demand, Producer, Volatile Producer, Coupler, ThermalStorage, ElectricStorage)
 
 ### Demand   -                          add_Demand(counter, naming, idx, Demand, sector, demName, FC_step, FC_size, minT, maxT, buyCost, sellCost):
-(heatDemandSP, htDemFCarray) = add_Demand(counter, naming, idx, Demand, "heat", "Wärmebedarf_Haus1", mpc, 60*mpc_time_factor, 60, 120, 999, 0.0)
-(elecDemandSP, elDemFCarray) = add_Demand(counter, naming, idx, Demand, "elec", "Strombedarf_Haus1", mpc, 60*mpc_time_factor, 0.0, 0.0, 0.285, 0.0)
+(heatDemandSP, htDemFCarray) = add_Demand(counter, naming, idx, Demand, "heat", "Wärmebedarf_Haus1", mpc, 60*mpc_time_factor, 40, 90, 9999, 0.0)
+(elecDemandSP, elDemFCarray) = add_Demand(counter, naming, idx, Demand, "elec", "Strombedarf_Haus1", mpc, 60*mpc_time_factor, 0.0, 0.0, 0.30, 0.09)
 
 ### Devices
 # Producer -                            add_Producer(counter, naming, FC_step, idx, name, Producer, inMEMAP, PrimSect, EffPrim, P_min, P_max, Temp_min, Temp_max, PrimEnCost, GenCosts, PrimCO2Cost):
-(Prod1_Power, Prod1_Setpoint, Prod1_priceFC) = add_Producer(counter, naming, mpc, idx, "SFH1_EB1", Producer, True, "heat", 0.88, 2, 14, 40, 80, 0.045, 0.11, 0.202)
+(Prod1_Power, Prod1_Setpoint, Prod1_priceFC) = add_Producer(counter, naming, mpc, idx, "SFH1_EB1", Producer, True, "heat", 0.88, 5, 14, 40, 80, 0.07, 0.13, 0.202)
 
 # Storage -                             add_Storage(counter, naming, FC_step, idx, name, Storage, inMEMAP, PrimSect, CEffPrim, DisCEffPrim, Capacity, loss, Pmax_in, Pmax_Out, minTemp, maxTemp, minTempOut, SOC_init, PrimEnCost, GenCosts, PrimCO2Cost
-(Stor1_setpointChgFC, Stor1_setpointDisChgFC, Stor1_SOC) = add_Storage(counter, naming, mpc, idx, "SFH1_TS1", Storage, True, "heat", 0.97, 0.97, 36.1, 2.59, 56, 56, 40, 80, 60, 0.0, 0.0, 0.0, 0.0)
+(Stor1_setpointChgFC, Stor1_setpointDisChgFC, Stor1_SOC) = add_Storage(counter, naming, mpc, idx, "SFH1_TS1", Storage, True, "heat", 0.97, 0.97, 36.1, 1.405, 56, 56, 40, 80, 60, 0.0, 0.0, 0.0, 0.0)
 
 # =========================================================================
 
@@ -211,7 +211,7 @@ while True:
             Prod1_priceFC.set_value(mypriceforecast)
 
             # just for tests
-            Prod1_Setpoint.set_value(myforecast)
+            # Prod1_Setpoint.set_value(myforecast)
 
         elif k%(np.shape(demand1_interp_mpc)[0]) > np.shape(demand1_interp_mpc)[0]-mpc:
             mycntr = k % (np.shape(demand1_interp_mpc)[0])

@@ -1,0 +1,29 @@
+- Setpoints für Anlagen müssen Sekunärenergie entsprechen,
+	also bei Gaskessel z.B. wahre Wärmeleistung und nicht Gasleistung,
+	weil auf Wärmeleistung geregelt wird
+
+- variable Gaspreise: Einlesen über File unvorteilhaft,
+	weil Optimierer ca. alle 17 Sekunden neu optimiert und einen Zeitschritt vorangeht.
+	Damit entspricht ein Zeitschritt bei den Gaspreisen nicht mehr dem 15-Intervall
+	und es wird unmöglich die Gaspreise mit dem Wärmelastprofil abzugleichen.
+	Lösungsansatz:
+	variable Gaspreise werden ebenfalls vom EMS (via OPC-UA) mit übergeben als Forecast
+	und von MEMAP über OPC-UA gelesen	
+
+- generelle Optimierungsroutine:
+	Der Optimierer beginnt nach jeder Optimierung direkt mit der nächsten und
+	liest die aktuellsten Werte ein. Das ist aber problematisch, wenn er z.B.
+	einen Optimierungsschritt in Mitten eines 15-Minuten-Intervalls beginnt
+	und dann davon ausgeht, dass der Setpoint, den er berechnet noch für
+	15 Minuten gehalten wird, allerdings nur noch 8 Minuten in diesem Intervall
+	übrig sind. Das führt zu einem falschen internen SOC und einem falschen Optimierungsverhalten.
+	Lösungsansätze:
+	1. Von Leistung auf Energie gehen, den jeweiligen Leistungswert rücklesen,
+	berechnen wie lange der gehalten wurde, wieviel Energie also schon erzeugt wurde und wieviel
+	noch zu erzeugen ist (eleganter, mächtiger Weg, aber umständlich)
+	2. Synchronisation der Zeitschritte zwischen Anlagen (EMS) und MEMAP über einen Trigger.
+	Z.B. über einen Counter, der Hochzählt und eine Änderung des Wertes triggert den Start des
+	nächsten Optimierungsschritts. So eine Änderungsmeldung sollte mit OPC-UA einfach zu realisieren
+	sein. In Java muss dann nur eine Whileschleife eingebaut werden, die schaut, ob der Triggerwert sich
+	verändert hat im Vergleich zum letzten Durchlauf und falls ja dann durchschält auf die Optimierung.
+	Danach gehts wieder in die Schleife.

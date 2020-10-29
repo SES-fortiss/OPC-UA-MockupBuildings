@@ -1,5 +1,0 @@
-{
-  "name": "CoSES-Building1",
-  "endpointURL": "opc.tcp://10.10.10.60:4840",
-  "endpointDescriptor": "0"
-}
