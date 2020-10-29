@@ -27,3 +27,12 @@
 	sein. In Java muss dann nur eine Whileschleife eingebaut werden, die schaut, ob der Triggerwert sich
 	verändert hat im Vergleich zum letzten Durchlauf und falls ja dann durchschält auf die Optimierung.
 	Danach gehts wieder in die Schleife.
+
+- variable Preise allgemein:
+	Es gibt verschiedene Arten von variablen Preisen:
+	- Netzbezug Strom pro Verbraucher
+	- Netzeinspeisung Strom pro Verbraucher
+	- Netzbezug Wärme pro Verbraucher
+	- Netzeinspeisung Wärme pro Verbraucher
+	- Bezug Gas pro Anlage
+	Alle verschiedenen variablen Preise sollten irgendwie kommuniziert werden können.
