@@ -25,7 +25,7 @@ mpc = 5  # number of mpc horizont steps, usually 5-48
 mpc_time_factor = 0.25  # time factor as ratio of hours, determining the time different between steps, 0.25 = 15 min
 profile_time_factor = 0.25  # time factor as ratio of hours, for time difference between read values from profile, 0.25 = 15 min
 CoSES_time_factor = 1 / 60  # time factor as ratio of hours, for wished time difference for CoSES-Demand-Values, 1/60 = 1 min
-simulation_time_factor = 6  # 1 s in simulation time equals X seconds in real time
+simulation_time_factor = 1  # 1 s in simulation time equals X seconds in real time
 
 nrOfEms = 1
 
