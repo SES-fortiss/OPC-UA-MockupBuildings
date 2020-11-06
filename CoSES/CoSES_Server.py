@@ -63,7 +63,7 @@ naming = objectName + EMS + "OBJ01"
 (Prod1_Power, Prod1_Setpoint, Prod1_priceFC) = add_Producer(counter, naming, mpc, idx, "SFH1_EB1", Producer, True, "heat", 0.88, 5, 14, 40, 80, 0.07, 0.13, 0.202)
 
 # Storage -                             add_Storage(counter, naming, FC_step, idx, name, Storage, inMEMAP, PrimSect, CEffPrim, DisCEffPrim, Capacity, loss, Pmax_in, Pmax_Out, minTemp, maxTemp, minTempOut, SOC_init, PrimEnCost, GenCosts, PrimCO2Cost
-(Stor1_setpointChgFC, Stor1_setpointDisChgFC, Stor1_SOC) = add_Storage(counter, naming, mpc, idx, "SFH1_TS1", Storage, True, "heat", 0.97, 0.97, 36.1, 1.405, 56, 56, 40, 80, 60, 0.0, 0.0, 0.0, 0.0)
+(Stor1_setpointChgFC, Stor1_setpointDisChgFC, Stor1_SOC) = add_Storage(counter, naming, mpc, idx, "SFH1_TS1", Storage, True, "heat", 0.97, 0.97, 36.1, 24, 56, 56, 40, 80, 60, 0.0, 0.0, 0.0, 0.0)
 
 # =========================================================================
 
@@ -211,7 +211,7 @@ while True:
             Prod1_priceFC.set_value(mypriceforecast)
 
             # just for tests
-            # Prod1_Setpoint.set_value(myforecast)
+            Prod1_Setpoint.set_value(myforecast)
 
         elif k%(np.shape(demand1_interp_mpc)[0]) > np.shape(demand1_interp_mpc)[0]-mpc:
             mycntr = k % (np.shape(demand1_interp_mpc)[0])
