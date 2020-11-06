@@ -1,7 +1,8 @@
 {
   "EMS": [ 
     {
-      "nameId": "ns=2;i=106"
+      "nameId": "ns=2;i=106",
+	  "trigger": "ns=2;i=110"
     }
   ],
   "COUPL": [],
