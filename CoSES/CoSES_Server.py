@@ -25,7 +25,7 @@ mpc = 5  # number of mpc horizont steps, usually 5-48
 mpc_time_factor = 0.25  # time factor as ratio of hours, determining the time different between steps, 0.25 = 15 min
 profile_time_factor = 0.25  # time factor as ratio of hours, for time difference between read values from profile, 0.25 = 15 min
 CoSES_time_factor = 1 / 60  # time factor as ratio of hours, for wished time difference for CoSES-Demand-Values, 1/60 = 1 min
-simulation_time_factor = 1  # 1 s in simulation time equals X seconds in real time
+simulation_time_factor = 60  # 1 s in simulation time equals X seconds in real time
 
 nrOfEms = 1
 
@@ -48,7 +48,7 @@ EMS = "EMS01"
 naming = objectName + EMS + "OBJ01"
 
 #                                                       add_General(idx, naming, General, url, connectionStat, EMSname, buildCat):
-(endPoint, connStat, EMSnameID, bCategory) = add_General(idx, naming, General, url1, True, "SFH1_HS", "Single Family House")
+(endPoint, connStat, EMSnameID, bCategory, Trigger) = add_General(idx, naming, General, url1, True, "SFH1_HS", "Single Family House")
 
 
 # ============================== EMS 1 - Systems ==============================
@@ -200,6 +200,9 @@ while True:
 
         ## write MEMAP values
         # in cycle
+
+        Trigger.set_value(k)
+
         if k%(np.shape(demand1_interp_mpc)[0])<=np.shape(demand1_interp_mpc)[0]-mpc:
             mycntr = k%(np.shape(demand1_interp_mpc)[0])
             myforecast = [demand1_interp_mpc[mycntr + x] for x in range(mpc)]
@@ -211,7 +214,7 @@ while True:
             Prod1_priceFC.set_value(mypriceforecast)
 
             # just for tests
-            Prod1_Setpoint.set_value(myforecast)
+            # Prod1_Setpoint.set_value(myforecast)
 
         elif k%(np.shape(demand1_interp_mpc)[0]) > np.shape(demand1_interp_mpc)[0]-mpc:
             mycntr = k % (np.shape(demand1_interp_mpc)[0])
@@ -233,6 +236,7 @@ while True:
 
         # iterator
         k += 1
+        Trigger.set_value(k)
 
 
     if timing_delta2 >= delta_t_for_setting_CoSES:

@@ -61,8 +61,11 @@ def add_General(idx, naming, General, url, connectionStat, EMSname, buildCat):
     bCategory = General.add_variable(ua.NodeId.from_string('ns={};i={}'.format(idx, k[4])), naming+"_NONE_1_ZM_XX_BCategory", buildCat)
     bCategory.set_writable()
 
+    Trigger = General.add_variable(ua.NodeId.from_string('ns={};i={}'.format(idx, k[5])), naming+" Trigger", 0)
+    Trigger.set_writable()
+
     #return (only writables?)
-    return (endPoint, connStat, EMSnameID, bCategory)
+    return (endPoint, connStat, EMSnameID, bCategory, Trigger)
 
 
 

@@ -23,6 +23,7 @@
       <Reference ReferenceType="HasComponent">ns=1;i=102</Reference>
       <Reference ReferenceType="HasComponent">ns=1;i=106</Reference>
       <Reference ReferenceType="HasComponent">ns=1;i=108</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=110</Reference>
     </References>
   </UAObject>
   <UAObject BrowseName="1:1_Demand" NodeId="ns=1;i=2" ParentNodeId="i=85">
@@ -123,6 +124,17 @@
     </References>
     <Value>
       <uax:String>Single Family House</uax:String>
+    </Value>
+  </UAVariable>
+  <UAVariable AccessLevel="3" BrowseName="0:CoSESEMS01OBJ01 Trigger" DataType="Int64" NodeId="ns=1;i=110" ParentNodeId="ns=1;i=1" UserAccessLevel="3">
+    <DisplayName>CoSESEMS01OBJ01 Trigger</DisplayName>
+    <Description>CoSESEMS01OBJ01 Trigger</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=1</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
     </Value>
   </UAVariable>
   <UAObject BrowseName="1:DEMND01" NodeId="ns=1;i=8" ParentNodeId="ns=1;i=2">
@@ -776,7 +788,7 @@
       <uax:Double>36.1</uax:Double>
     </Value>
   </UAVariable>
-  <UAVariable AccessLevel="3" BrowseName="1:CoSESEMS01OBJ01_STRGE01_1_ZM_HT_StorLossPD" DataType="Double" NodeId="ns=1;i=61" ParentNodeId="ns=1;i=53" UserAccessLevel="3">
+  <UAVariable AccessLevel="3" BrowseName="1:CoSESEMS01OBJ01_STRGE01_1_ZM_HT_StorLossPD" DataType="Int64" NodeId="ns=1;i=61" ParentNodeId="ns=1;i=53" UserAccessLevel="3">
     <DisplayName>CoSESEMS01OBJ01_STRGE01_1_ZM_HT_StorLossPD</DisplayName>
     <Description>CoSESEMS01OBJ01_STRGE01_1_ZM_HT_StorLossPD</Description>
     <References>
@@ -784,7 +796,7 @@
       <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
     </References>
     <Value>
-      <uax:Double>1.405</uax:Double>
+      <uax:Int64>24</uax:Int64>
     </Value>
   </UAVariable>
   <UAVariable AccessLevel="3" BrowseName="1:CoSESEMS01OBJ01_STRGE01_1_ZM_HT_TminStorHt" DataType="Int64" NodeId="ns=1;i=62" ParentNodeId="ns=1;i=53" UserAccessLevel="3">
