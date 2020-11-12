@@ -121,7 +121,7 @@ def add_Demand(counter, naming, idx, Demand, sector, demName, FC_step, FC_size, 
     
     Setpoint = Demnd.add_folder(idx, "Setpoints_DEMND{:02d}".format(int(counter[0,1]+1)))
     
-	setpointArray = Setpoint.add_variable(idx, demdNaming +"_3_VM_" + short + "_DemndSetPt", list(np.zeros(FC_step)), datatype=opcua.ua.ObjectIds.Double)
+    setpointArray = Setpoint.add_variable(idx, demdNaming +"_3_VM_" + short + "_DemndSetPt", list(np.zeros(FC_step)), datatype=opcua.ua.ObjectIds.Double)
     setpointArray.set_writable()
 
     counter[0,0]+=1
