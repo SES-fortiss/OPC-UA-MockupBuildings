@@ -6,6 +6,7 @@ Created on Mon Jul  8 09:41:18 2019
 """
 import opcua
 from opcua import ua, Server
+import numpy as np			  
 
 # __init__
 
@@ -100,7 +101,7 @@ def add_Demand(counter, naming, idx, Demand, sector, demName, FC_step, FC_size, 
     
     Forecast = Demnd.add_folder(idx, short+"_Forecast")
     #ua.NodeId.from_string('ns={};i={}'.format(idx, 35))
-    demandArray = Forecast.add_variable(idx, demdNaming +"_2_ZM_" + short + "_DemandFC", [0.0, 0.0, 0.0, 0.0, 0.0], datatype=opcua.ua.ObjectIds.Double)
+    demandArray = Forecast.add_variable(idx, demdNaming +"_2_ZM_" + short + "_DemandFC", list(np.zeros(FC_step)), datatype=opcua.ua.ObjectIds.Double)
     demandArray.set_writable()
     
     '''
@@ -119,15 +120,13 @@ def add_Demand(counter, naming, idx, Demand, sector, demName, FC_step, FC_size, 
     # Only for CoSES
     
     Setpoint = Demnd.add_folder(idx, "Setpoints_DEMND{:02d}".format(int(counter[0,1]+1)))
-    demandSetpoint = []
-    for i in range(FC_step):
-        demandSetpoint.append(Setpoint.add_variable(idx, demdNaming+"_3_VM_" + short + "_DemndSetPt"+ str(i+1), 0))
-        demandSetpoint[i].set_writable()
-   
+    
+	setpointArray = Setpoint.add_variable(idx, demdNaming +"_3_VM_" + short + "_DemndSetPt", list(np.zeros(FC_step)), datatype=opcua.ua.ObjectIds.Double)
+    setpointArray.set_writable()
 
     counter[0,0]+=1
 
-    return (demandSetpoint, demandArray, gridBuy)
+    return (setpointArray, demandArray, gridBuy)
   
 
 
@@ -172,10 +171,11 @@ def add_Producer(counter, naming, FC_step, idx, name, Producer, inMEMAP,
     production.set_writable()
     
     Setpoint = Prod.add_folder(idx, "Setpoints_CPROD{:02d}".format(int(counter[0,1]+1)))
-    setpointFC = []
-    for i in range(FC_step):
-        setpointFC.append(Setpoint.add_variable(idx, prodNaming + "_3_VM_" + short + "_SPDevPwr"+ str(i+1), 0.0) )
-        setpointFC[i].set_writable()
+    setpointFC = Setpoint.add_variable(idx, prodNaming + "_3_VM_" + short + "_SPDevPwr", list(np.zeros(FC_step)), datatype=opcua.ua.ObjectIds.Double)
+    setpointFC.set_writable()
+    #for i in range(FC_step):
+    #    setpointFC.append(Setpoint.add_variable(idx, prodNaming + "_3_VM_" + short + "_SPDevPwr"+ str(i+1), 0.0) )
+    #    setpointFC[i].set_writable()
     
 
     counter[0,1]+=1
@@ -281,10 +281,12 @@ def add_Coupler(counter, naming, idx, name, Coupler, inMEMAP,
 
     # Setpoints
     Setpoint = Coup.add_folder(idx, "Setpoints_COUPL{:02d}".format(int(counter[0,3]+1)))
-    setpointFC = []
-    for i in range(FC_step):
-        setpointFC.append(Setpoint.add_variable(idx, coupNaming + "_3_VM_" + short + "_SPDevPwr"+ str(i+1), 0.0) )
-        setpointFC[i].set_writable()
+    setpointFC = Setpoint.add_variable(idx, coupNaming + "_3_VM_" + short + "_SPDevPwr", list(np.zeros(FC_step)), datatype=opcua.ua.ObjectIds.Double)
+    setpointFC.set_writable()
+	
+    #for i in range(FC_step):
+    #    setpointFC.append(Setpoint.add_variable(idx, coupNaming + "_3_VM_" + short + "_SPDevPwr"+ str(i+1), 0.0) )
+    #    setpointFC[i].set_writable()
     
     
     counter[0,3]+=1
@@ -348,13 +350,16 @@ def add_Storage(counter, naming, FC_step, idx, name, Storage, inMEMAP,
     
      # Setpoints
     Setpoint = Stor.add_folder(idx, "Setpoints_STRGE{:02d}".format(int(counter[0,4]+1)))
-    setpointChgFC = []
-    setpointDisChgFC = []
-    for i in range(FC_step):
-        setpointChgFC.append(Setpoint.add_variable(idx, storNaming + "_3_VM_" + short + "_SPCharge"+ str(i+1), 0.0) )
-        setpointChgFC[i].set_writable()
-        setpointDisChgFC.append(Setpoint.add_variable(idx, storNaming + "_3_VM_" + short + "_SPDisChrg"+ str(i+1), 0.0) )
-        setpointDisChgFC[i].set_writable()
+    setpointChgFC = Setpoint.add_variable(idx, storNaming + "_3_VM_" + short + "_SPCharge", list(np.zeros(FC_step)), datatype=opcua.ua.ObjectIds.Double)
+    setpointChgFC.set_writable()
+    setpointDisChgFC = Setpoint.add_variable(idx, storNaming + "_3_VM_" + short + "_SPDisChrg", list(np.zeros(FC_step)), datatype=opcua.ua.ObjectIds.Double)
+    setpointDisChgFC.set_writable()
+	
+    #for i in range(FC_step):
+    #    setpointChgFC.append(Setpoint.add_variable(idx, storNaming + "_3_VM_" + short + "_SPCharge"+ str(i+1), 0.0) )
+    #    setpointChgFC[i].set_writable()
+    #    setpointDisChgFC.append(Setpoint.add_variable(idx, storNaming + "_3_VM_" + short + "_SPDisChrg"+ str(i+1), 0.0) )
+    #    setpointDisChgFC[i].set_writable()
     
     
     counter[0,4]+=1
