@@ -201,7 +201,7 @@ while True:
         ## write MEMAP values
         # in cycle
 
-        Trigger.set_value(k)
+        #Trigger.set_value(k)
 
         if k%(np.shape(demand1_interp_mpc)[0])<=np.shape(demand1_interp_mpc)[0]-mpc:
             mycntr = k%(np.shape(demand1_interp_mpc)[0])
@@ -236,7 +236,7 @@ while True:
 
         # iterator
         k += 1
-        Trigger.set_value(k)
+        #Trigger.set_value(k)
 
 
     if timing_delta2 >= delta_t_for_setting_CoSES:
