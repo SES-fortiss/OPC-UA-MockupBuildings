@@ -50,8 +50,8 @@ counter = np.zeros([nrOfEms,5])
 (endPoint, connStat, EMSnameID, bCategory) = add_General(idx, naming, General, url1, True, "MFH1_EMS", "Multi-Family-Home")
 
 ### Demand
-(B1_heatDemandSP, B1_htDemFCarray, B1_elBuyCost) = add_Demand(counter, naming, idx, Demand, "heat", "Wärmebedarf_Haus1", mpc, 60*time_factor, 30, 40, 5.34, 999.0)
-(B1_elecDemandSP, B1_elDemFCarray, B1_htBuyCost) = add_Demand(counter, naming, idx, Demand, "elec", "Strombedarf_Haus1", mpc, 60*time_factor, 0.0, 0.0, B1_elBuyCost, 0.0)
+(B1_heatDemandSP, B1_htDemFCarray, B1_htBuyCost) = add_Demand(counter, naming, idx, Demand, "heat", "Wärmebedarf_Haus1", mpc, 60*time_factor, 30, 40, 5.34, 999.0)
+(B1_elecDemandSP, B1_elDemFCarray, B1_elBuyCost) = add_Demand(counter, naming, idx, Demand, "elec", "Strombedarf_Haus1", mpc, 60*time_factor, 0.0, 0.0, 11, 0.0)
 
 ### Anlagen
 
@@ -108,8 +108,8 @@ counter = np.zeros([nrOfEms,5])
 (endPoint, connStat, EMSnameID, bCategory) = add_General(idx, naming, General, url2, True, "MFH2_EMS", "Multi-Family House")
 
 ### Demand
-(B2_heatDemandSP, B2_htDemFCarray, B2_elBuyCost) = add_Demand(counter, naming, idx, Demand, "heat", "Wärmebedarf_Haus2", mpc, 60*time_factor, 40, 120, 5.34, 999.0)
-(B2_elecDemandSP, B2_elDemFCarray, B2_htBuyCost) = add_Demand(counter, naming, idx, Demand, "elec", "Strombedarf_Haus2", mpc, 60*time_factor, 0.0, 0.0, B2_elBuyCost, 0.0)
+(B2_heatDemandSP, B2_htDemFCarray, B2_htBuyCost) = add_Demand(counter, naming, idx, Demand, "heat", "Wärmebedarf_Haus2", mpc, 60*time_factor, 40, 120, 5.34, 999.0)
+(B2_elecDemandSP, B2_elDemFCarray, B2_elBuyCost) = add_Demand(counter, naming, idx, Demand, "elec", "Strombedarf_Haus2", mpc, 60*time_factor, 0.0, 0.0, 11.2, 0.0)
 
 
 ### Anlagen
