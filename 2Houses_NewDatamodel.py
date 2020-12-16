@@ -180,38 +180,31 @@ i = 0
 
 while True:
    
-    '''
+    
     # convert from kwh to kw with time_factor
-    B1_heatDemandSP.set_value(Consumption_B1[i]/time_factor)
-    B2_heatDemandSP.set_value(Consumption_B2[i]/time_factor)
-    B1_elecDemandSP.set_value(Consumption_B1[n+i]/time_factor)
-    B2_elecDemandSP.set_value(Consumption_B2[n+i]/time_factor)
     
     
-    # Forecast in JSON Format
-    Forecast1 = {}
-    Forecast2 = {}
-    Forecast3 = {}
-    Forecast4 = {}
+    # ToDo: Methode: Add data to forecast for building 
+    demForecast1 = [Consumption_B1[n+i + x]/time_factor for x in range(mpc)]
+    B1_elDemFCarray.set_value(demForecast1)
     
-        StrH = 'HeatForecast_t' + str(15*(j+1))
-        StrE = 'ElecForecast_t' + str(15*(j+1))
-        Forecast1[StrH] = str(Consumption_B1[i+(j+1)]/time_factor)
-        Forecast2[StrH] = str(Consumption_B2[i+(j+1)]/time_factor)
-        Forecast3[StrE] = str(Consumption_B1[n+i+j+1]/time_factor)
-        Forecast4[StrE] = str(Consumption_B2[n+i+j+1]/time_factor)
-    B1_HeatFC.set_value(json.dumps(Forecast1))
-    B2_HeatFC.set_value(json.dumps(Forecast2))
-    B1_ElecFC.set_value(json.dumps(Forecast3))
-    B2_ElecFC.set_value(json.dumps(Forecast4))
-    ''' 
+    demForecast2 = [Consumption_B2[n+i + x]/time_factor for x in range(mpc)]
+    B2_elDemFCarray.set_value(demForecast2)
     
+    demForecast3 = [Consumption_B1[i + x]/time_factor for x in range(mpc)]
+    B1_htDemFCarray.set_value(demForecast3)
+    
+    demForecast4 = [Consumption_B2[i + x]/time_factor for x in range(mpc)]
+    B2_htDemFCarray.set_value(demForecast4)
    
+    
+    '''
     for j in range(mpc):
         B1_elDemFCarray.get_value()[j] = Consumption_B1[n+i+j]/time_factor
         B2_elDemFCarray.get_value()[j] = Consumption_B2[n+i+j]/time_factor
         B1_htDemFCarray.get_value()[j] = Consumption_B1[i+j]/time_factor
         B2_htDemFCarray.get_value()[j] = Consumption_B2[i+j]/time_factor
+    '''
     
     B1_elBuyCost.set_value(-E_Price[i])
     B2_elBuyCost.set_value(-E_Price[i])
@@ -253,3 +246,4 @@ while True:
         i -= size
         
     time.sleep(10)
+
