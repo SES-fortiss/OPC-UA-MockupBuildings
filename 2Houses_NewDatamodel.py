@@ -50,19 +50,22 @@ counter = np.zeros([nrOfEms,5])
 (endPoint, connStat, EMSnameID, bCategory) = add_General(idx, naming, General, url1, True, "MFH1_EMS", "Multi-Family-Home")
 
 ### Demand
-(B1_heatDemandSP, B1_htDemFCarray, B1_htBuyCost) = add_Demand(counter, naming, idx, Demand, "heat", "Wärmebedarf_Haus1", mpc, 60*time_factor, 30, 40, 5.34, 999.0)
-(B1_elecDemandSP, B1_elDemFCarray, B1_elBuyCost) = add_Demand(counter, naming, idx, Demand, "elec", "Strombedarf_Haus1", mpc, 60*time_factor, 0.0, 0.0, 11, 0.0)
+(B1_heatDemandSP, B1_htDemFCarray, B1_htBuyCost, B1_currHtDem) = add_Demand(counter, naming, idx, Demand, "heat", "Wärmebedarf_Haus1", mpc, 60*time_factor, 30, 40, 5.34, 999.0)
+(B1_elecDemandSP, B1_elDemFCarray, B1_elBuyCost, B1_currElDem) = add_Demand(counter, naming, idx, Demand, "elec", "Strombedarf_Haus1", mpc, 60*time_factor, 0.0, 0.0, 11, 0.0)
 
 ### Anlagen
 
 # VolatileProducer
 B1_Eff_VProd1 = 0.18
-(B1_vProd1_Power) = add_VolatileProducer(counter, naming, idx, "MFH1_PV", VolatileProducer, True, "elec", 3.24, 0.0, 0.0,  mpc, 60*time_factor,  0.0, 0.0, 0.0)
+B1_area_VProd1 = 18 #m²
+(B1_vProd1_Power) = add_VolatileProducer(counter, naming, idx, "MFH1_PV", VolatileProducer, True, "elec", B1_Eff_VProd1*B1_area_VProd1, 0.0, 0.0,  mpc, 60*time_factor,  0.0, 0.0, 0.0)
 
 # Coupler 
 B1_Eff1_Coup1 = 3.8
 B1_Eff2_Coup1 = -1
-(B1_Prod1_Setpoint, B1_Prod1_Power1, B1_Prod1_Power2) = add_Coupler(counter, naming, idx, "MFH1_HP", Coupler, True, "heat", "elec", B1_Eff1_Coup1 , B1_Eff2_Coup1, 3, 10, 30, 55, mpc, 0.0, 0.0, 0.0)
+B1_P_min_Coup1 = 2
+B1_P_max_Coup1 = 10
+(B1_Prod1_Setpoint, B1_Prod1_Power1, B1_Prod1_Power2) = add_Coupler(counter, naming, idx, "MFH1_HP", Coupler, True, "heat", "elec", B1_Eff1_Coup1 , B1_Eff2_Coup1, B1_P_min_Coup1, B1_P_max_Coup1, 30, 55, mpc, 0.0, 0.0, 0.0)
     
 # Storage 
 B1_Eff_Stor1 = 0.98
@@ -108,20 +111,23 @@ counter = np.zeros([nrOfEms,5])
 (endPoint, connStat, EMSnameID, bCategory) = add_General(idx, naming, General, url2, True, "MFH2_EMS", "Multi-Family House")
 
 ### Demand
-(B2_heatDemandSP, B2_htDemFCarray, B2_htBuyCost) = add_Demand(counter, naming, idx, Demand, "heat", "Wärmebedarf_Haus2", mpc, 60*time_factor, 40, 120, 5.34, 999.0)
-(B2_elecDemandSP, B2_elDemFCarray, B2_elBuyCost) = add_Demand(counter, naming, idx, Demand, "elec", "Strombedarf_Haus2", mpc, 60*time_factor, 0.0, 0.0, 11.2, 0.0)
+(B2_heatDemandSP, B2_htDemFCarray, B2_htBuyCost, B2_currHtDem) = add_Demand(counter, naming, idx, Demand, "heat", "Wärmebedarf_Haus2", mpc, 60*time_factor, 40, 120, 5.34, 999.0)
+(B2_elecDemandSP, B2_elDemFCarray, B2_elBuyCost, B2_currElDem) = add_Demand(counter, naming, idx, Demand, "elec", "Strombedarf_Haus2", mpc, 60*time_factor, 0.0, 0.0, 11.2, 0.0)
 
 
 ### Anlagen
 
 # VolatileProducer
 B2_Eff_VProd1 = 0.5
-(B2_vProd1_Power) = add_VolatileProducer(counter, naming, idx, "MFH2_ST", VolatileProducer, True, "heat", 1.5, 20.0, 110.0,  mpc, 60*time_factor,  0.0, 0.0, 0.0)
+B2_area_VProd1 = 6
+(B2_vProd1_Power) = add_VolatileProducer(counter, naming, idx, "MFH2_ST", VolatileProducer, True, "heat", B2_Eff_VProd1*B2_area_VProd1, 20.0, 110.0,  mpc, 60*time_factor,  0.0, 0.0, 0.0)
 
 # Coupler
 B2_Eff1_Coup1 = .6
 B2_Eff2_Coup1 = .25
-(B2_Prod1_Setpoint, B2_Prod1_Power1, B2_Prod1_Power2) = add_Coupler(counter, naming, idx, "MFH2_uCHP", Coupler, True, "heat", "elec", B2_Eff1_Coup1, B2_Eff2_Coup1, 1, 3.6, 80, 100, mpc, 0.0, 0.0, 0.0)
+B2_P_min_Coup1 = .5
+B2_P_max_Coup1 = 6.6
+(B2_Prod1_Setpoint, B2_Prod1_Power1, B2_Prod1_Power2) = add_Coupler(counter, naming, idx, "MFH2_uCHP", Coupler, True, "heat", "elec", B2_Eff1_Coup1, B2_Eff2_Coup1, B2_P_min_Coup1, B2_P_max_Coup1, 80, 100, mpc, 0.0, 0.0, 0.0)
 
 # Storage 
 B2_Eff_Stor1 = 0.98
@@ -148,10 +154,6 @@ B2_ElecFC = Elec_FC.add_variable(idx, "ElecFC", "")
 
 # Export Namespace as XML
 # server2.export_xml(Systems.get_children(), "NamespaceMockupServer2.xml")
-
-
-
-
 
 
 
@@ -185,18 +187,24 @@ while True:
     
     
     # ToDo: Methode: Add data to forecast for building 
-    demForecast1 = [Consumption_B1[n+i + x]/time_factor for x in range(mpc)]
+    demForecast1 = [-Consumption_B1[n+i + x]/time_factor for x in range(mpc)]
     B1_elDemFCarray.set_value(demForecast1)
     
-    demForecast2 = [Consumption_B2[n+i + x]/time_factor for x in range(mpc)]
+    demForecast2 = [-Consumption_B2[n+i + x]/time_factor for x in range(mpc)]
     B2_elDemFCarray.set_value(demForecast2)
     
-    demForecast3 = [Consumption_B1[i + x]/time_factor for x in range(mpc)]
+    demForecast3 = [-Consumption_B1[i + x]/time_factor for x in range(mpc)]
     B1_htDemFCarray.set_value(demForecast3)
     
-    demForecast4 = [Consumption_B2[i + x]/time_factor for x in range(mpc)]
+    demForecast4 = [-Consumption_B2[i + x]/time_factor for x in range(mpc)]
     B2_htDemFCarray.set_value(demForecast4)
    
+    if i != 0:
+        B1_currElDem.set_value(-Consumption_B1[n+i-1]/time_factor)
+        B2_currElDem.set_value(-Consumption_B2[n+i-1]/time_factor)
+        B1_currHtDem.set_value(-Consumption_B1[i-1]/time_factor)
+        B2_currHtDem.set_value(-Consumption_B2[i-1]/time_factor)
+        
     
     '''
     for j in range(mpc):

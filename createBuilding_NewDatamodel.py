@@ -126,7 +126,7 @@ def add_Demand(counter, naming, idx, Demand, sector, demName, FC_step, FC_size, 
 
     counter[0,0]+=1
 
-    return (setpointArray, demandArray, gridBuy)
+    return (setpointArray, demandArray, gridBuy, currDemand)
   
 
 
