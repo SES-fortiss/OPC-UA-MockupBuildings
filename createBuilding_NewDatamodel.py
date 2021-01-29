@@ -47,7 +47,7 @@ def create_Namespace(server, idx, objects):
     
 
 
-def add_General(idx, naming, General, url, connectionStat, EMSname, buildCat):
+def add_General(idx, naming, General, MemapActivated, url, connectionStat, EMSname, buildCat):
     
     k = range(100, 150, 2)
     
@@ -59,9 +59,13 @@ def add_General(idx, naming, General, url, connectionStat, EMSname, buildCat):
     EMSnameID.set_writable()
     bCategory = General.add_variable(ua.NodeId.from_string('ns={};i={}'.format(idx, k[4])), naming+"_NONE_1_ZM_XX_BCategory", buildCat)
     bCategory.set_writable()
+    MemapActive = General.add_variable(ua.NodeId.from_string('ns={};i={}'.format(idx, 8013)), naming+"_NONE_1_ZM_XX_MemapAct", MemapActivated)
+    MemapActive.set_writable()
+    trigger = General.add_variable(ua.NodeId.from_string('ns={};i={}'.format(idx, 5000)), naming+"_NONE_1_ZM_XX_trigger", 0.0)
+    trigger.set_writable()
 
     #return (only writables?)
-    return (endPoint, connStat, EMSnameID, bCategory)
+    return (MemapActive, endPoint, EMSnameID, trigger)
 
 
 
@@ -224,11 +228,13 @@ def add_VolatileProducer(counter, naming, idx, name, VolatileProducer, inMEMAP,
     MEMAPflag.set_writable()
     production = VProd.add_variable(idx, vProdNaming + "_2_ZM_" + short + "_curPwrPrim", 0.0)
     production.set_writable()
+    productionFC = VProd.add_variable(idx, vProdNaming + "_2_ZM_" + short + "_ProdFC", list(np.zeros(FC_step)), datatype=opcua.ua.ObjectIds.Double)
+    productionFC.set_writable()
     
     
     counter[0,2]+=1
     
-    return(production)
+    return(production, productionFC)
     
    
 def add_Coupler(counter, naming, idx, name, Coupler, inMEMAP, 
@@ -364,7 +370,7 @@ def add_Storage(counter, naming, FC_step, idx, name, Storage, inMEMAP,
     
     counter[0,4]+=1
     
-    return(setpointChgFC, setpointDisChgFC, SOC)
+    return(currentP_in, currentP_out, setpointChgFC, setpointDisChgFC, SOC)
     
 
 
