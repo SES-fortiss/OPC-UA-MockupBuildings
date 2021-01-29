@@ -238,14 +238,14 @@ while True:
     
     # Update SOC
     
-    if (B1_MemapActive):
+    if (B1_MemapActive.get_value()):
         B1_Stor1_In.set_value(B1_Stor1_setpointChgFC.get_value()[0])
         B1_Stor1_Out.set_value(B1_Stor1_setpointDisChgFC.get_value()[0])
     else:
         B1_Stor1_In.set_value(P_B1_Strge[i,1])
         B1_Stor1_Out.set_value(P_B1_Strge[i,0])
     
-    if (B2_MemapActive):    
+    if (B2_MemapActive.get_value()):    
         B2_Stor1_In.set_value(B2_Stor1_setpointChgFC.get_value()[0])
         B2_Stor1_Out.set_value(B2_Stor1_setpointDisChgFC.get_value()[0])
     else:
@@ -260,15 +260,15 @@ while True:
     B2_Stor1_SOC.set_value(B2_Stor1_SOC.get_value() + B2_StorChange)
     
 
-    print(i+1, "B1: ", B1_elDemFCarray.get_value()[0], B1_htDemFCarray.get_value()[0], "B2: " , B2_elDemFCarray.get_value()[0], B2_htDemFCarray.get_value()[0])
+    print(i+1, "B1: ", B1_Stor1_In.get_value(), B1_Stor1_Out.get_value(), B1_Stor1_SOC.get_value(), "B2: " ,B2_Stor1_In.get_value(), B2_Stor1_Out.get_value(), B2_Stor1_SOC.get_value())
     #print(i, ElecPower_B1.get_value(), HeatPower_B1.get_value(), ElecPower_B2.get_value(), HeatPower_B2.get_value())
     #print(" ")
     
     # We cut away 5 timesteps from the day here for the MPC
-    if i < size-5:
+    if i < size-mpc-1:
         i += 1
     else:
-        i -= size
+        i = 0
         
     time.sleep(15)
 
