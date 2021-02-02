@@ -1,0 +1,51 @@
+{
+  "EMS": [ 
+    {
+      "nameId": "ns=2;i=100",
+	  "trigger": "ns=2;i=101"
+    }
+  ],
+  "DEMND": [
+    {
+      "nameId": "ns=2;i=102",
+      "PrimSect": "ns=2;i=103",
+      "DemandFC": "ns=2;i=104",
+	  "currentDem": "ns=2;i=105",
+	  "DemndSetPt": "ns=2;i=106"
+    }
+  ],
+  "CPROD": [
+    { 
+      "nameId": "ns=2;i=107",
+      "PrimSect": "ns=2;i=108",
+      "MinPower": "ns=2;i=109",
+      "MaxPower": "ns=2;i=110",
+      "EffPrim": "ns=2;i=111",
+      "PrimEnCost": "ns=2;i=112",
+      "CO2PerKWh": "ns=2;i=113",
+      "priceFC": "ns=2;i=114",
+	  "SPDevPwr": "ns=2;i=115",
+	  "curPwr": "ns=2;i=116",
+    }
+  ],
+  "STRGE": [
+    { 
+      "nameId": "ns=2;i=117",
+      "PrimSect": "ns=2;i=118",
+	  "EffPrim": "ns=2;i=119",
+      "DisEffPrim": "ns=2;i=120",
+      "StorLossPD": "ns=2;i=121",
+      "MaxChrgPwr": "ns=2;i=122",
+      "MaxDisChrgPwr": "ns=2;i=123",
+      "Capacity" : "ns=2;i=124",
+      "curChrg" : "ns=2;i=125",
+      "curDisChrg" : "ns=2;i=126",
+      "curSOC": "ns=2;i=127",
+	  "calcSOC": "ns=2;i=128",
+	  "SPCharge": "ns=2;i=129",
+	  "SPDisChrg": "ns=2;i=130",
+    }
+  ],
+  "VPROD": [],
+  "COUPL": [],
+}
