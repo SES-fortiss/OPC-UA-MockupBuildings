@@ -45,8 +45,7 @@
       "PrimEnCost": "ns=2;i=65",
       "CO2PerKWh": "ns=2;i=67",
 	  "SPCharge": "ns=2;i=74",
-	  "SPDisChrg": "ns=2;i=75",
-	  "StorLossPD": "ns=2;i=61"
+	  "SPDisChrg": "ns=2;i=75"
     }
   ]
 }

@@ -365,7 +365,7 @@ def add_Storage(counter, naming, FC_step, idx, name, Storage, inMEMAP,
     
     counter[0,4]+=1
     
-    return(setpointChgFC, setpointDisChgFC, SOC)
+    return(setpointChgFC, setpointDisChgFC, SOC, calcSOC)
     
 
 

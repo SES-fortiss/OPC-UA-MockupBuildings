@@ -12,9 +12,10 @@ from createBuilding import create_Server_Basics, create_Namespace, add_General, 
 import time
 import numpy as np
 import json
+import random
 
 from scipy.interpolate import splrep, splev
-#import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 
 # General Information:
 objectName = "CoSES"
@@ -24,14 +25,14 @@ opc_port = "4850"
 mpc = 5  # number of mpc horizont steps, usually 5-48
 mpc_time_factor = 0.25  # time factor as ratio of hours, determining the time different between steps, 0.25 = 15 min
 profile_time_factor = 0.25  # time factor as ratio of hours, for time difference between read values from profile, 0.25 = 15 min
-CoSES_time_factor = 1 / 60  # time factor as ratio of hours, for wished time difference for CoSES-Demand-Values, 1/60 = 1 min
-simulation_time_factor = 60  # 1 s in simulation time equals X seconds in real time
+CoSES_time_factor = 1 / 120  # time factor as ratio of hours, for wished time difference for CoSES-Demand-Values, 1/60 = 1 min
+simulation_time_factor = 30  # 1 s in simulation time equals X seconds in real time
 
 nrOfEms = 1
 
 demandPath  =   "FC_data_series/Test1_Last.csv"
 pricePath    =   "FC_data_series/Test1_Preise.csv"
-interp_type = "step" # alternatives: "step", "linear", "spline",
+interp_type = "spline" # alternatives: "step", "linear", "spline",
 
 
 # Add Counter list/array to count for number of EMS x Device Types and construct display names
@@ -63,7 +64,7 @@ naming = objectName + EMS + "OBJ01"
 (Prod1_Power, Prod1_Setpoint, Prod1_priceFC) = add_Producer(counter, naming, mpc, idx, "SFH1_EB1", Producer, True, "heat", 0.88, 5, 14, 40, 80, 0.07, 0.13, 0.202)
 
 # Storage -                             add_Storage(counter, naming, FC_step, idx, name, Storage, inMEMAP, PrimSect, CEffPrim, DisCEffPrim, Capacity, loss, Pmax_in, Pmax_Out, minTemp, maxTemp, minTempOut, SOC_init, PrimEnCost, GenCosts, PrimCO2Cost
-(Stor1_setpointChgFC, Stor1_setpointDisChgFC, Stor1_SOC) = add_Storage(counter, naming, mpc, idx, "SFH1_TS1", Storage, True, "heat", 0.97, 0.97, 36.1, 24, 56, 56, 40, 80, 60, 0.0, 0.0, 0.0, 0.0)
+(Stor1_setpointChgFC, Stor1_setpointDisChgFC, Stor1_SOC, Stor1_calcSOC) = add_Storage(counter, naming, mpc, idx, "SFH1_TS1", Storage, True, "heat", 0.97, 0.97, 36.1, 24, 56, 56, 40, 80, 60, 18.05, 0.0, 0.0, 0.0)
 
 # =========================================================================
 
@@ -90,7 +91,7 @@ Consumption_B1 = np.genfromtxt(demandPath, delimiter="\n")
 size = np.shape(Consumption_B1)[0]
 # scaling
 #demand1_old_max = np.max(Consumption_B1)
-#demand1_max_set = 13
+#demand1_max_set = 14
 #demand1_scaled = Consumption_B1 * (demand1_max_set / demand1_old_max)
 #demand1_max = np.max(demand1_scaled)
 #print("scaled max. demand: ", demand1_max)
@@ -121,12 +122,22 @@ elif interp_type == "step":
 else:
     raise ValueError('wrong value for interp_type')
 
-#plt.figure()
-#plt.plot(timeline_profile, demand1_scaled, label="origin scaled", marker="x")
-#plt.plot(timeline_mpc, demand1_interp_mpc, label="mpc")
-#plt.plot(timeline_CoSES, demand1_interp_CoSES, label="CoSES", marker=".", linestyle="none")
-#plt.legend()
+nbr_reps_mpc_plot = int(delta_t_profile/delta_t_CoSES)
+demand1_interp_mpc_plot = np.array([np.repeat(step,nbr_reps_mpc_plot) for step in demand1_interp_mpc]).flatten()
+
+fig1=plt.figure(num='heat demand', figsize=[8.3, 5.8], dpi=300.0)
+plt.plot(timeline_CoSES/60, demand1_interp_CoSES, label="interpolated reality", linestyle="-")
+plt.plot(timeline_CoSES/60, demand1_interp_mpc_plot, label="mpc", linestyle="-", color = 'g')
+plt.plot(timeline_mpc/60, demand1_interp_mpc, label="mpc write", marker="o", linestyle="none", color = 'g')
+plt.plot(timeline_profile/60, demand1_scaled, label="original measurement", marker="x", linestyle="none", color = 'k')
+plt.legend()
+plt.title('heat demand')
+plt.xlabel('time [hours]')
+plt.ylabel('power [kW]')
 #plt.show(block=False)
+fig1.savefig('heat_demand.png')
+
+
 
 # ==================== Load prices from file ========================
 # reading
@@ -135,16 +146,22 @@ size = np.shape(dynamic_prices)[0]
 # interpolating
 delta_t_profile = profile_time_factor * 60  # in min
 delta_t_mpc = mpc_time_factor * 60  # in min
+
 nbr_reps_mpc = int(delta_t_profile / delta_t_mpc)
 prices_interp_mpc = np.array([np.repeat(step, nbr_reps_mpc) for step in dynamic_prices]).flatten()
+nbr_reps_mpc_plot = int(delta_t_profile / delta_t_CoSES)
+prices_interp_mpc_plot = np.array([np.repeat(step, nbr_reps_mpc_plot) for step in dynamic_prices]).flatten()
 
-#plt.figure()
-#plt.plot(timeline_profile, dynamic_prices, label="origin scaled", marker="x")
-#plt.plot(timeline_mpc, prices_interp_mpc, label="mpc", marker=".", linestyle="none")
-##plt.plot(timeline_CoSES, prices_interp_CoSES, label="CoSES", marker=".", linestyle="none")
-#plt.legend()
+fig2 =plt.figure(num='gas price', figsize=[8.3, 5.8], dpi=300.0)
+plt.plot(timeline_CoSES[nbr_reps_mpc_plot:]/60, prices_interp_mpc_plot[nbr_reps_mpc_plot:], label="mpc", linestyle="-", color = 'g')
+plt.plot(timeline_mpc[1:]/60, prices_interp_mpc[1:], label="mpc write", marker="o", linestyle="none", color = 'g')
+plt.plot(timeline_profile[1:]/60, dynamic_prices[1:], label="original measurement", marker="x", linestyle="none", color = 'k')
+plt.legend()
+plt.title('gas price')
+plt.xlabel('time [hours]')
+plt.ylabel('price [€]')
 #plt.show(block=False)
-
+fig2.savefig('gas_price.png')
 
 def forecast_to_json(FC_step, timefactor, FC_array):
     Forecast = {}
@@ -201,7 +218,7 @@ while True:
         ## write MEMAP values
         # in cycle
 
-        #Trigger.set_value(k)
+        Trigger.set_value(k)
 
         if k%(np.shape(demand1_interp_mpc)[0])<=np.shape(demand1_interp_mpc)[0]-mpc:
             mycntr = k%(np.shape(demand1_interp_mpc)[0])
@@ -214,7 +231,10 @@ while True:
             Prod1_priceFC.set_value(mypriceforecast)
 
             # just for tests
+            # Stor1_calcSOC.set_value(random.randint(0, 100))
             # Prod1_Setpoint.set_value(myforecast)
+
+            Stor1_SOC.set_value(Stor1_calcSOC.get_value())
 
         elif k%(np.shape(demand1_interp_mpc)[0]) > np.shape(demand1_interp_mpc)[0]-mpc:
             mycntr = k % (np.shape(demand1_interp_mpc)[0])
@@ -229,6 +249,12 @@ while True:
             print('price forecast: ', mypriceforecast, ', nr.', k+1,'/', np.shape(demand1_interp_mpc)[0])
             Prod1_priceFC.set_value(mypriceforecast)
 
+            # just for tests
+            # Stor1_calcSOC.set_value(random.randint(0, 100))
+            # Prod1_Setpoint.set_value(myforecast)
+
+            Stor1_SOC.set_value(Stor1_calcSOC.get_value())
+
         #elDemFCjson.set_value(forecast_to_json(mpc, mpc_time_factor, elDemdFC))
         #htDemFCjson.set_value(forecast_to_json(mpc, mpc_time_factor, htDemdFC))
         #elCostFCjson.set_value(forecast_to_json(mpc, mpc_time_factor, elCostFC))
@@ -236,7 +262,7 @@ while True:
 
         # iterator
         k += 1
-        #Trigger.set_value(k)
+        Trigger.set_value(k)
 
 
     if timing_delta2 >= delta_t_for_setting_CoSES:
@@ -251,7 +277,7 @@ while True:
         print('demand setpoint: ', demand1_interp_CoSES[mycntr2], ', nr.', k, '+ (', int(mynr+1), '/', int(np.shape(demand1_interp_CoSES)[0]/np.shape(demand1_interp_mpc)[0]),')')
         electric_demand_setpoint.set_value(0.0)
 
-
+        Stor1_SOC.set_value(Stor1_calcSOC.get_value())
 
         l += 1
 
