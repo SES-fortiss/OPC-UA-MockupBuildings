@@ -47,7 +47,7 @@ counter = np.zeros([nrOfEms,5])
 
 ### General
 # add_General(idx, naming, General, url, connectionStat, EMSname, buildCat)
-(B1_MemapActive, B1_endPoint, B1_EMSnameID, B1_trigger) = add_General(idx, naming, General, False, url1, True, "MFH1_EMS", "Electric-Multi-Family-Home")
+(B1_MemapActive, B1_endPoint, B1_EMSnameID, B1_trigger) = add_General(idx, naming, General, True, url1, True, "MFH1_EMS", "Electric-Multi-Family-Home")
 
 ### Demand
 # (counter, naming, idx, Demand, sector, demName, FC_step, FC_size, minT, maxT, buyCost, sellCost):
@@ -111,7 +111,7 @@ counter = np.zeros([nrOfEms,5])
 (General, Demand, Systems, Producer, VolatileProducer, Coupler, Storage) = create_Namespace(server2, idx, objects)
 
 #General = objects.add_object(idx, "General")
-(B2_MemapActive, B2_endPoint, B2_EMSnameID, B2_trigger) = add_General(idx, naming, General, False, url2, True, "MFH2_EMS", "Gas-Multi-Family House")
+(B2_MemapActive, B2_endPoint, B2_EMSnameID, B2_trigger) = add_General(idx, naming, General, True, url2, True, "MFH2_EMS", "Gas-Multi-Family House")
 
 ### Demand
 (B2_heatDemandSP, B2_htDemFCarray, B2_htBuyCost, B2_currHtDem) = add_Demand(counter, naming, idx, Demand, "heat", "Wärmebedarf_Haus2", mpc, 60*time_factor, 40, 120, 999.0, 999.0)
@@ -130,7 +130,7 @@ B2_Eff1_Coup1 = .6
 B2_Eff2_Coup1 = .25
 B2_P_min_Coup1 = .5
 B2_P_max_Coup1 = 6.6
-(B2_Prod1_Setpoint, B2_Prod1_Power1, B2_Prod1_Power2) = add_Coupler(counter, naming, idx, "MFH2_uCHP", Coupler, True, "heat", "elec", B2_Eff1_Coup1, B2_Eff2_Coup1, B2_P_min_Coup1, B2_P_max_Coup1, 80, 100, mpc, 0.0, 0.0, 0.0)
+(B2_Prod1_Setpoint, B2_Prod1_Power1, B2_Prod1_Power2) = add_Coupler(counter, naming, idx, "MFH2_uCHP", Coupler, True, "heat", "elec", B2_Eff1_Coup1, B2_Eff2_Coup1, B2_P_min_Coup1, B2_P_max_Coup1, 80, 100, mpc, 0.059, 0.0, 0.202)
 
 # Storage 
 B2_Eff_Stor1 = 0.98
@@ -270,5 +270,5 @@ while True:
     else:
         i = 0
         
-    time.sleep(15)
+    time.sleep(900)
 
