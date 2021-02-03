@@ -228,7 +228,6 @@ while True:
             # just for tests
             # Stor1_calcSOC.set_value(random.randint(0, 100))
             # Prod1_Setpoint.set_value(myforecast)
-
             Stor1_SOC.set_value(Stor1_calcSOC.get_value())
 
         elif k%(np.shape(demand1_interp_mpc)[0]) > np.shape(demand1_interp_mpc)[0]-mpc:
@@ -249,7 +248,7 @@ while True:
             # just for tests
             # Stor1_calcSOC.set_value(random.randint(0, 100))
             # Prod1_Setpoint.set_value(myforecast)
-            # Stor1_SOC.set_value(Stor1_calcSOC.get_value())
+            Stor1_SOC.set_value(Stor1_calcSOC.get_value())
 
         # iterator
         k += 1
@@ -270,7 +269,7 @@ while True:
               int(np.shape(demand1_interp_CoSES)[0]/np.shape(demand1_interp_mpc)[0]),')')
 
         # just for tests
-        # Stor1_SOC.set_value(Stor1_calcSOC.get_value())
+        Stor1_SOC.set_value(Stor1_calcSOC.get_value())
 
         l += 1
 

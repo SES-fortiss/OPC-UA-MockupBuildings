@@ -36,14 +36,14 @@ nrOfEms = 1
 
 demandPath  =   "FC_data_series/Test1_Last.csv"
 pricePath    =   "FC_data_series/Test1_Preise.csv"
-interp_type = "step" # alternatives: "step", "linear", "spline",
+interp_type = "spline" # alternatives: "step", "linear", "spline",
 
 
 # Add Counter list/array to count for number of EMS x Device Types and construct display names
 # Entries for DEMND, PROD, VPROD, COUPL, STRGE
 counter = np.zeros([nrOfEms,5])
 myNodeIDcntr = 100
-#print(counter)
+
 
 # ================= Defining the Namespace of the Building =====================
 
@@ -165,7 +165,6 @@ def forecast_to_json(FC_step, timefactor, FC_array):
         Forecast[Str] = str(FC_array[j].get_value())
     return json.dumps(Forecast)
 
-print(demand1_interp_CoSES)
 # =============================== Start ===================================
 server1.start()
 print("Server " + naming + " started at {}".format(url1))
@@ -255,7 +254,7 @@ while True:
             # just for tests
             # Stor1_calcSOC.set_value(random.randint(0, 100))
             # Prod1_Setpoint.set_value(myforecast)
-            # Stor1_SOC.set_value(Stor1_calcSOC.get_value())
+            Stor1_SOC.set_value(Stor1_calcSOC.get_value())
 
         elif k%(np.shape(demand1_interp_mpc)[0]) > np.shape(demand1_interp_mpc)[0]-mpc:
             mycntr = k % (np.shape(demand1_interp_mpc)[0])
@@ -275,7 +274,7 @@ while True:
             # just for tests
             # Stor1_calcSOC.set_value(random.randint(0, 100))
             # Prod1_Setpoint.set_value(myforecast)
-            # Stor1_SOC.set_value(Stor1_calcSOC.get_value())
+            Stor1_SOC.set_value(Stor1_calcSOC.get_value())
 
         # iterator
         done1 = 1
@@ -292,10 +291,13 @@ while True:
             print('demand setpoint: ', demand1_interp_CoSES[mycntr2], ', nr.', k, '+ (', int(mynr+1), '/',
                   int(np.shape(demand1_interp_CoSES)[0]/np.shape(demand1_interp_mpc)[0]),')')
 
-            # just for tests
-            # Stor1_SOC.set_value(Stor1_calcSOC.get_value())
             i += 1
             l += 1
+
+            # just for tests
+            # Stor1_SOC.set_value(Stor1_calcSOC.get_value())
+
+
 
 
 
