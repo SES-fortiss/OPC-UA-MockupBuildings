@@ -52,12 +52,11 @@ def add_General(idx, myNodeIDcntr, naming, General, EMSname):
 
     k=myNodeIDcntr
 
-    EMSnameID = General.add_variable(ua.NodeId.from_string('ns={};i={}'.format(idx,k)),
-                                     naming+"_NONE_0_ZM_XX_nameID", EMSname)
+    EMSnameID = General.add_variable(mynsid(idx, k), naming + "_NONE_0_ZM_XX_nameID", EMSname)
     EMSnameID.set_writable()
     k+=1
 
-    Trigger = General.add_variable(ua.NodeId.from_string('ns={};i={}'.format(idx,k)), naming+" Trigger", 0)
+    Trigger = General.add_variable(mynsid(idx, k), naming + "_NONE_0_ZM_XX_trigger", 0)
     Trigger.set_writable()
     k+=1
 
@@ -74,7 +73,7 @@ def add_Demand(counter, naming, idx, myNodeIDcntr, Demand, sector, demName, FC_s
     print(demdNaming + " added...")
     short = sector_to_short(sector)
     
-    nameID = Demnd.add_variable(mynsid(idx, k),
+    nameID = Demnd.add_property(mynsid(idx, k),
                                 demdNaming+"_1_ZM_XX_nameID", demName)
     nameID.set_writable()
     k+=1
@@ -92,15 +91,14 @@ def add_Demand(counter, naming, idx, myNodeIDcntr, Demand, sector, demName, FC_s
     demandArray.set_writable()
     k+=1
 
-    currDemand = Demnd.add_variable(mynsid(idx, k),
-                                    demdNaming + "_2_ZM_" + short + "_currentDem", 0.0)
+    currDemand = Demnd.add_variable(mynsid(idx, k), demdNaming + "_2_ZM_" + short + "_currentDem", 0.0)
     currDemand.set_writable()
     k+=1
 
     # Only for CoSES
 
-    DemndSetPt = Demnd.add_variable(mynsid(idx, k), demdNaming + "_2_ZM_" + short + "_DemndSetPt", 0.0)
-    DemndSetPt.set_writable()
+    DemandSetPt = Demnd.add_variable(mynsid(idx, k), demdNaming + "_2_ZM_" + short + "_DemndSetPt", 0.0)
+    DemandSetPt.set_writable()
     k+=1
 
     '''Setpoint = Demnd.add_folder(idx, "Setpoints_DEMND{:02d}".format(int(counter[0,1]+1)))
@@ -112,7 +110,7 @@ def add_Demand(counter, naming, idx, myNodeIDcntr, Demand, sector, demName, FC_s
     myNodeIDcntr = k
     counter[0,0]+=1
 
-    return (myNodeIDcntr, DemndSetPt, demandArray)
+    return (myNodeIDcntr, DemandSetPt, demandArray)
   
 
 
@@ -131,7 +129,7 @@ def add_Producer(counter, naming, FC_step, idx, myNodeIDcntr, name, Producer,
     k+=1
     
     # static values - device
-    primarySector = Prod.add_property(mynsid(idx, k), prodNaming + "_1_ZM_" + short + "_PrimSect", PrimSect)
+    primarySector = Prod.add_variable(mynsid(idx, k), prodNaming + "_1_ZM_" + short + "_PrimSect", PrimSect)
     primarySector.set_writable()
     k+=1
     MinP = Prod.add_variable(mynsid(idx, k), prodNaming + "_1_ZM_" + short + "_MinPower", P_min)
@@ -190,7 +188,7 @@ def add_VolatileProducer(counter, naming, idx, myNodeIDcntr, name, VolatileProdu
     
     
     # static values - device
-    primarySector = VProd.add_property(mynsid(idx, k), vProdNaming + "_1_ZM_" + short + "_PrimSect", PrimSect)
+    primarySector = VProd.add_variable(mynsid(idx, k), vProdNaming + "_1_ZM_" + short + "_PrimSect", PrimSect)
     primarySector.set_writable()
     k+=1
     MaxP = VProd.add_variable(mynsid(idx, k), vProdNaming + "_1_ZM_" + short + "_MaxPower", installedPwr)
@@ -211,7 +209,7 @@ def add_VolatileProducer(counter, naming, idx, myNodeIDcntr, name, VolatileProdu
     capacityFC.set_writable()
     k+=1
 
-    setpointFC = VProd.add_variable(mynsid(idx, k), prodNaming + "_2_VM_" + short + "_SPDevPwr",
+    setpointFC = VProd.add_variable(mynsid(idx, k), vProdNaming + "_2_VM_" + short + "_SPDevPwr",
                                     list(np.zeros(FC_step)), datatype=opcua.ua.ObjectIds.Double)
     setpointFC.set_writable()
     k+=1
@@ -239,10 +237,10 @@ def add_Coupler(counter, naming, idx, myNodeIDcntr, name, Coupler,
     k+=1
 
     # static values - device
-    primarySector = Coup.add_property(mynsid(idx, k), coupNaming + "_1_ZM_" + short + "_PrimSect", PrimSect)
+    primarySector = Coup.add_variable(mynsid(idx, k), coupNaming + "_1_ZM_" + short + "_PrimSect", PrimSect)
     primarySector.set_writable()
     k+=1
-    secondarySector = Coup.add_property(mynsid(idx, k), coupNaming + "_1_ZM_" + short + "_SecdSect", SecdSect)
+    secondarySector = Coup.add_variable(mynsid(idx, k), coupNaming + "_1_ZM_" + short + "_SecdSect", SecdSect)
     secondarySector.set_writable()
     k+=1
     primaryEff = Coup.add_variable(mynsid(idx, k), coupNaming + "_1_ZM_" + short + "_EffPrim", EffPrim)
@@ -306,7 +304,7 @@ def add_Storage(counter, naming, FC_step, idx, myNodeIDcntr, name, Storage,
     k+=1
     
     # static values - device
-    primarySector = Stor.add_property(mynsid(idx, k), storNaming + "_1_ZM_" + short + "_PrimSect", PrimSect)
+    primarySector = Stor.add_variable(mynsid(idx, k), storNaming + "_1_ZM_" + short + "_PrimSect", PrimSect)
     primarySector.set_writable()
     k+=1
     chargingEff = Stor.add_variable(mynsid(idx, k), storNaming + "_1_ZM_" + short + "_EffPrim", CEffPrim)
@@ -318,15 +316,23 @@ def add_Storage(counter, naming, FC_step, idx, myNodeIDcntr, name, Storage,
     storageLosses = Stor.add_variable(mynsid(idx, k), storNaming + "_1_ZM_" + short + "_StorLossPD", loss)
     storageLosses.set_writable()
     k+=1
-    maxP_out = Stor.add_variable(mynsid(idx, k), storNaming + "_1_ZM_" + short + "_MaxChrgPwr", Pmax_Out)
+    maxP_out = Stor.add_variable(mynsid(idx, k), storNaming + "_1_ZM_" + short + "_MaxPower", Pmax_Out)
     maxP_out.set_writable()
     k+=1
-    maxP_in = Stor.add_variable(mynsid(idx, k), storNaming + "_1_ZM_" + short + "_MaxDisChrgPwr", Pmax_in)
+    maxP_in = Stor.add_variable(mynsid(idx, k), storNaming + "_1_ZM_" + short + "_MaxPowerIn", Pmax_in)
     maxP_in.set_writable()
     k+=1
     storageCap = Stor.add_variable(mynsid(idx, k), storNaming + "_1_ZM_" + short + "_Capacity", Capacity)
     storageCap.set_writable()
     k+=1
+    
+    # static values - costs
+    energyCosts = Stor.add_variable(mynsid(idx, k), storNaming + "_1_ZM_" + short + "_PrimEnCost", 0)
+    energyCosts.set_writable()
+    k+=1
+    CO2Costs = Stor.add_variable(mynsid(idx, k), storNaming + "_1_ZM_" + short + "_CO2PerKWh", 0)
+    CO2Costs.set_writable()
+    k+=1 
     
     # dynamic values
     currentP_in = Stor.add_variable(mynsid(idx, k), storNaming + "_2_ZM_" + short + "_curChrg", 0)

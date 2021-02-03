@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<UANodeSet xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://opcfoundation.org/UA/2011/03/UANodeSet.xsd">
+<UANodeSet xmlns="http://opcfoundation.org/UA/2011/03/UANodeSet.xsd" xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <NamespaceUris>
     <Uri>CoSESEMS01</Uri>
   </NamespaceUris>
@@ -12,30 +12,30 @@
     <Alias Alias="HasProperty">i=46</Alias>
     <Alias Alias="HasComponent">i=47</Alias>
   </Aliases>
-  <UAObject NodeId="ns=1;i=1" BrowseName="1:0_EMS" ParentNodeId="i=85">
+  <UAObject BrowseName="1:0_EMS" NodeId="ns=1;i=1" ParentNodeId="i=85">
     <DisplayName>0_EMS</DisplayName>
     <Description>0_EMS</Description>
     <References>
-      <Reference ReferenceType="Organizes" IsForward="false">i=85</Reference>
+      <Reference IsForward="false" ReferenceType="Organizes">i=85</Reference>
       <Reference ReferenceType="HasTypeDefinition">i=61</Reference>
-      <Reference ReferenceType="HasComponent">ns=1;i=100</Reference>
       <Reference ReferenceType="HasComponent">ns=1;i=101</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=102</Reference>
     </References>
   </UAObject>
-  <UAObject NodeId="ns=1;i=2" BrowseName="1:1_Demand" ParentNodeId="i=85">
+  <UAObject BrowseName="1:1_Demand" NodeId="ns=1;i=2" ParentNodeId="i=85">
     <DisplayName>1_Demand</DisplayName>
     <Description>1_Demand</Description>
     <References>
-      <Reference ReferenceType="Organizes" IsForward="false">i=85</Reference>
+      <Reference IsForward="false" ReferenceType="Organizes">i=85</Reference>
       <Reference ReferenceType="HasTypeDefinition">i=61</Reference>
       <Reference ReferenceType="Organizes">ns=1;i=8</Reference>
     </References>
   </UAObject>
-  <UAObject NodeId="ns=1;i=3" BrowseName="1:2_Devices" ParentNodeId="i=85">
+  <UAObject BrowseName="1:2_Devices" NodeId="ns=1;i=3" ParentNodeId="i=85">
     <DisplayName>2_Devices</DisplayName>
     <Description>2_Devices</Description>
     <References>
-      <Reference ReferenceType="Organizes" IsForward="false">i=85</Reference>
+      <Reference IsForward="false" ReferenceType="Organizes">i=85</Reference>
       <Reference ReferenceType="HasTypeDefinition">i=61</Reference>
       <Reference ReferenceType="Organizes">ns=1;i=4</Reference>
       <Reference ReferenceType="Organizes">ns=1;i=5</Reference>
@@ -43,102 +43,102 @@
       <Reference ReferenceType="Organizes">ns=1;i=7</Reference>
     </References>
   </UAObject>
-  <UAObject NodeId="ns=1;i=4" BrowseName="1:21_Producer" ParentNodeId="ns=1;i=3">
+  <UAObject BrowseName="1:21_Producer" NodeId="ns=1;i=4" ParentNodeId="ns=1;i=3">
     <DisplayName>21_Producer</DisplayName>
     <Description>21_Producer</Description>
     <References>
-      <Reference ReferenceType="Organizes" IsForward="false">ns=1;i=3</Reference>
+      <Reference IsForward="false" ReferenceType="Organizes">ns=1;i=3</Reference>
       <Reference ReferenceType="HasTypeDefinition">i=61</Reference>
       <Reference ReferenceType="Organizes">ns=1;i=9</Reference>
     </References>
   </UAObject>
-  <UAObject NodeId="ns=1;i=5" BrowseName="1:22_VolatileProducer" ParentNodeId="ns=1;i=3">
+  <UAObject BrowseName="1:22_VolatileProducer" NodeId="ns=1;i=5" ParentNodeId="ns=1;i=3">
     <DisplayName>22_VolatileProducer</DisplayName>
     <Description>22_VolatileProducer</Description>
     <References>
-      <Reference ReferenceType="Organizes" IsForward="false">ns=1;i=3</Reference>
+      <Reference IsForward="false" ReferenceType="Organizes">ns=1;i=3</Reference>
       <Reference ReferenceType="HasTypeDefinition">i=61</Reference>
     </References>
   </UAObject>
-  <UAObject NodeId="ns=1;i=6" BrowseName="1:23_Coupler" ParentNodeId="ns=1;i=3">
+  <UAObject BrowseName="1:23_Coupler" NodeId="ns=1;i=6" ParentNodeId="ns=1;i=3">
     <DisplayName>23_Coupler</DisplayName>
     <Description>23_Coupler</Description>
     <References>
-      <Reference ReferenceType="Organizes" IsForward="false">ns=1;i=3</Reference>
+      <Reference IsForward="false" ReferenceType="Organizes">ns=1;i=3</Reference>
       <Reference ReferenceType="HasTypeDefinition">i=61</Reference>
     </References>
   </UAObject>
-  <UAObject NodeId="ns=1;i=7" BrowseName="1:24_Storage" ParentNodeId="ns=1;i=3">
+  <UAObject BrowseName="1:24_Storage" NodeId="ns=1;i=7" ParentNodeId="ns=1;i=3">
     <DisplayName>24_Storage</DisplayName>
     <Description>24_Storage</Description>
     <References>
-      <Reference ReferenceType="Organizes" IsForward="false">ns=1;i=3</Reference>
+      <Reference IsForward="false" ReferenceType="Organizes">ns=1;i=3</Reference>
       <Reference ReferenceType="HasTypeDefinition">i=61</Reference>
       <Reference ReferenceType="Organizes">ns=1;i=10</Reference>
     </References>
   </UAObject>
-  <UAVariable NodeId="ns=1;i=100" BrowseName="0:CoSESEMS01OBJ01_NONE_0_ZM_XX_nameID" ParentNodeId="ns=1;i=1" DataType="String" AccessLevel="3" UserAccessLevel="3">
+  <UAVariable AccessLevel="3" BrowseName="0:CoSESEMS01OBJ01_NONE_0_ZM_XX_nameID" DataType="String" NodeId="ns=1;i=101" ParentNodeId="ns=1;i=1" UserAccessLevel="3">
     <DisplayName>CoSESEMS01OBJ01_NONE_0_ZM_XX_nameID</DisplayName>
     <Description>CoSESEMS01OBJ01_NONE_0_ZM_XX_nameID</Description>
     <References>
-      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=1</Reference>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=1</Reference>
       <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
     </References>
     <Value>
       <uax:String>SFH1</uax:String>
     </Value>
   </UAVariable>
-  <UAVariable NodeId="ns=1;i=101" BrowseName="0:CoSESEMS01OBJ01 Trigger" ParentNodeId="ns=1;i=1" DataType="Int64" AccessLevel="3" UserAccessLevel="3">
-    <DisplayName>CoSESEMS01OBJ01 Trigger</DisplayName>
-    <Description>CoSESEMS01OBJ01 Trigger</Description>
+  <UAVariable AccessLevel="3" BrowseName="0:CoSESEMS01OBJ01_NONE_0_ZM_XX_trigger" DataType="Int64" NodeId="ns=1;i=102" ParentNodeId="ns=1;i=1" UserAccessLevel="3">
+    <DisplayName>CoSESEMS01OBJ01_NONE_0_ZM_XX_trigger</DisplayName>
+    <Description>CoSESEMS01OBJ01_NONE_0_ZM_XX_trigger</Description>
     <References>
-      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=1</Reference>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=1</Reference>
       <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
     </References>
     <Value>
       <uax:Int64>0</uax:Int64>
     </Value>
   </UAVariable>
-  <UAObject NodeId="ns=1;i=8" BrowseName="1:DEMND01" ParentNodeId="ns=1;i=2">
+  <UAObject BrowseName="1:DEMND01" NodeId="ns=1;i=8" ParentNodeId="ns=1;i=2">
     <DisplayName>DEMND01</DisplayName>
     <Description>DEMND01</Description>
     <References>
-      <Reference ReferenceType="Organizes" IsForward="false">ns=1;i=2</Reference>
+      <Reference IsForward="false" ReferenceType="Organizes">ns=1;i=2</Reference>
       <Reference ReferenceType="HasTypeDefinition">i=61</Reference>
-      <Reference ReferenceType="HasComponent">ns=1;i=102</Reference>
       <Reference ReferenceType="HasComponent">ns=1;i=103</Reference>
       <Reference ReferenceType="HasComponent">ns=1;i=104</Reference>
       <Reference ReferenceType="HasComponent">ns=1;i=105</Reference>
       <Reference ReferenceType="HasComponent">ns=1;i=106</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=107</Reference>
     </References>
   </UAObject>
-  <UAVariable NodeId="ns=1;i=102" BrowseName="0:CoSESEMS01OBJ01_DEMND01_1_ZM_XX_nameID" ParentNodeId="ns=1;i=8" DataType="String" AccessLevel="3" UserAccessLevel="3">
+  <UAVariable AccessLevel="3" BrowseName="0:CoSESEMS01OBJ01_DEMND01_1_ZM_XX_nameID" DataType="String" NodeId="ns=1;i=103" ParentNodeId="ns=1;i=8" UserAccessLevel="3">
     <DisplayName>CoSESEMS01OBJ01_DEMND01_1_ZM_XX_nameID</DisplayName>
     <Description>CoSESEMS01OBJ01_DEMND01_1_ZM_XX_nameID</Description>
     <References>
-      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=8</Reference>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=8</Reference>
       <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
     </References>
     <Value>
       <uax:String>Wärmebedarf_Haus1</uax:String>
     </Value>
   </UAVariable>
-  <UAVariable NodeId="ns=1;i=103" BrowseName="0:CoSESEMS01OBJ01_DEMND01_1_ZM_HT_PrimSect" ParentNodeId="ns=1;i=8" DataType="String" AccessLevel="3" UserAccessLevel="3">
+  <UAVariable AccessLevel="3" BrowseName="0:CoSESEMS01OBJ01_DEMND01_1_ZM_HT_PrimSect" DataType="String" NodeId="ns=1;i=104" ParentNodeId="ns=1;i=8" UserAccessLevel="3">
     <DisplayName>CoSESEMS01OBJ01_DEMND01_1_ZM_HT_PrimSect</DisplayName>
     <Description>CoSESEMS01OBJ01_DEMND01_1_ZM_HT_PrimSect</Description>
     <References>
-      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=8</Reference>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=8</Reference>
       <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
     </References>
     <Value>
       <uax:String>heat</uax:String>
     </Value>
   </UAVariable>
-  <UAVariable NodeId="ns=1;i=104" BrowseName="0:CoSESEMS01OBJ01_DEMND01_2_ZM_HT_DemandFC" ParentNodeId="ns=1;i=8" ValueRank="0" DataType="Double" AccessLevel="3" UserAccessLevel="3">
+  <UAVariable AccessLevel="3" BrowseName="0:CoSESEMS01OBJ01_DEMND01_2_ZM_HT_DemandFC" DataType="Double" NodeId="ns=1;i=105" ParentNodeId="ns=1;i=8" UserAccessLevel="3" ValueRank="0">
     <DisplayName>CoSESEMS01OBJ01_DEMND01_2_ZM_HT_DemandFC</DisplayName>
     <Description>CoSESEMS01OBJ01_DEMND01_2_ZM_HT_DemandFC</Description>
     <References>
-      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=8</Reference>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=8</Reference>
       <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
     </References>
     <Value>
@@ -151,35 +151,34 @@
       </uax:ListOfDouble>
     </Value>
   </UAVariable>
-  <UAVariable NodeId="ns=1;i=105" BrowseName="0:CoSESEMS01OBJ01_DEMND01_2_ZM_HT_currentDem" ParentNodeId="ns=1;i=8" DataType="Double" AccessLevel="3" UserAccessLevel="3">
+  <UAVariable AccessLevel="3" BrowseName="0:CoSESEMS01OBJ01_DEMND01_2_ZM_HT_currentDem" DataType="Double" NodeId="ns=1;i=106" ParentNodeId="ns=1;i=8" UserAccessLevel="3">
     <DisplayName>CoSESEMS01OBJ01_DEMND01_2_ZM_HT_currentDem</DisplayName>
     <Description>CoSESEMS01OBJ01_DEMND01_2_ZM_HT_currentDem</Description>
     <References>
-      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=8</Reference>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=8</Reference>
       <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
     </References>
     <Value>
       <uax:Double>0.0</uax:Double>
     </Value>
   </UAVariable>
-  <UAVariable NodeId="ns=1;i=106" BrowseName="0:CoSESEMS01OBJ01_DEMND01_2_ZM_HT_DemndSetPt" ParentNodeId="ns=1;i=8" DataType="Double" AccessLevel="3" UserAccessLevel="3">
+  <UAVariable AccessLevel="3" BrowseName="0:CoSESEMS01OBJ01_DEMND01_2_ZM_HT_DemndSetPt" DataType="Double" NodeId="ns=1;i=107" ParentNodeId="ns=1;i=8" UserAccessLevel="3">
     <DisplayName>CoSESEMS01OBJ01_DEMND01_2_ZM_HT_DemndSetPt</DisplayName>
     <Description>CoSESEMS01OBJ01_DEMND01_2_ZM_HT_DemndSetPt</Description>
     <References>
-      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=8</Reference>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=8</Reference>
       <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
     </References>
     <Value>
       <uax:Double>0.0</uax:Double>
     </Value>
   </UAVariable>
-  <UAObject NodeId="ns=1;i=9" BrowseName="1:CPROD01" ParentNodeId="ns=1;i=4">
+  <UAObject BrowseName="1:CPROD01" NodeId="ns=1;i=9" ParentNodeId="ns=1;i=4">
     <DisplayName>CPROD01</DisplayName>
     <Description>CPROD01</Description>
     <References>
-      <Reference ReferenceType="Organizes" IsForward="false">ns=1;i=4</Reference>
+      <Reference IsForward="false" ReferenceType="Organizes">ns=1;i=4</Reference>
       <Reference ReferenceType="HasTypeDefinition">i=61</Reference>
-      <Reference ReferenceType="HasProperty">ns=1;i=107</Reference>
       <Reference ReferenceType="HasProperty">ns=1;i=108</Reference>
       <Reference ReferenceType="HasComponent">ns=1;i=109</Reference>
       <Reference ReferenceType="HasComponent">ns=1;i=110</Reference>
@@ -189,90 +188,91 @@
       <Reference ReferenceType="HasComponent">ns=1;i=114</Reference>
       <Reference ReferenceType="HasComponent">ns=1;i=115</Reference>
       <Reference ReferenceType="HasComponent">ns=1;i=116</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=117</Reference>
     </References>
   </UAObject>
-  <UAVariable NodeId="ns=1;i=107" BrowseName="0:CoSESEMS01OBJ01_CPROD01_1_ZM_XX_nameID" ParentNodeId="ns=1;i=9" DataType="String" AccessLevel="3" UserAccessLevel="3">
+  <UAVariable AccessLevel="3" BrowseName="0:CoSESEMS01OBJ01_CPROD01_1_ZM_XX_nameID" DataType="String" NodeId="ns=1;i=108" ParentNodeId="ns=1;i=9" UserAccessLevel="3">
     <DisplayName>CoSESEMS01OBJ01_CPROD01_1_ZM_XX_nameID</DisplayName>
     <Description>CoSESEMS01OBJ01_CPROD01_1_ZM_XX_nameID</Description>
     <References>
-      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;i=9</Reference>
+      <Reference IsForward="false" ReferenceType="HasProperty">ns=1;i=9</Reference>
       <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
     </References>
     <Value>
       <uax:String>SFH1_EB1</uax:String>
     </Value>
   </UAVariable>
-  <UAVariable NodeId="ns=1;i=108" BrowseName="0:CoSESEMS01OBJ01_CPROD01_1_ZM_HT_PrimSect" ParentNodeId="ns=1;i=9" DataType="String" AccessLevel="3" UserAccessLevel="3">
+  <UAVariable AccessLevel="3" BrowseName="0:CoSESEMS01OBJ01_CPROD01_1_ZM_HT_PrimSect" DataType="String" NodeId="ns=1;i=109" ParentNodeId="ns=1;i=9" UserAccessLevel="3">
     <DisplayName>CoSESEMS01OBJ01_CPROD01_1_ZM_HT_PrimSect</DisplayName>
     <Description>CoSESEMS01OBJ01_CPROD01_1_ZM_HT_PrimSect</Description>
     <References>
-      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;i=9</Reference>
-      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=9</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
     </References>
     <Value>
       <uax:String>heat</uax:String>
     </Value>
   </UAVariable>
-  <UAVariable NodeId="ns=1;i=109" BrowseName="0:CoSESEMS01OBJ01_CPROD01_1_ZM_HT_MinPower" ParentNodeId="ns=1;i=9" DataType="Int64" AccessLevel="3" UserAccessLevel="3">
+  <UAVariable AccessLevel="3" BrowseName="0:CoSESEMS01OBJ01_CPROD01_1_ZM_HT_MinPower" DataType="Int64" NodeId="ns=1;i=110" ParentNodeId="ns=1;i=9" UserAccessLevel="3">
     <DisplayName>CoSESEMS01OBJ01_CPROD01_1_ZM_HT_MinPower</DisplayName>
     <Description>CoSESEMS01OBJ01_CPROD01_1_ZM_HT_MinPower</Description>
     <References>
-      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=9</Reference>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=9</Reference>
       <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
     </References>
     <Value>
       <uax:Int64>5</uax:Int64>
     </Value>
   </UAVariable>
-  <UAVariable NodeId="ns=1;i=110" BrowseName="0:CoSESEMS01OBJ01_CPROD01_1_ZM_HT_MaxPower" ParentNodeId="ns=1;i=9" DataType="Int64" AccessLevel="3" UserAccessLevel="3">
+  <UAVariable AccessLevel="3" BrowseName="0:CoSESEMS01OBJ01_CPROD01_1_ZM_HT_MaxPower" DataType="Int64" NodeId="ns=1;i=111" ParentNodeId="ns=1;i=9" UserAccessLevel="3">
     <DisplayName>CoSESEMS01OBJ01_CPROD01_1_ZM_HT_MaxPower</DisplayName>
     <Description>CoSESEMS01OBJ01_CPROD01_1_ZM_HT_MaxPower</Description>
     <References>
-      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=9</Reference>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=9</Reference>
       <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
     </References>
     <Value>
       <uax:Int64>14</uax:Int64>
     </Value>
   </UAVariable>
-  <UAVariable NodeId="ns=1;i=111" BrowseName="0:CoSESEMS01OBJ01_CPROD01_1_ZM_HT_EffPrim" ParentNodeId="ns=1;i=9" DataType="Double" AccessLevel="3" UserAccessLevel="3">
+  <UAVariable AccessLevel="3" BrowseName="0:CoSESEMS01OBJ01_CPROD01_1_ZM_HT_EffPrim" DataType="Double" NodeId="ns=1;i=112" ParentNodeId="ns=1;i=9" UserAccessLevel="3">
     <DisplayName>CoSESEMS01OBJ01_CPROD01_1_ZM_HT_EffPrim</DisplayName>
     <Description>CoSESEMS01OBJ01_CPROD01_1_ZM_HT_EffPrim</Description>
     <References>
-      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=9</Reference>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=9</Reference>
       <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
     </References>
     <Value>
       <uax:Double>0.88</uax:Double>
     </Value>
   </UAVariable>
-  <UAVariable NodeId="ns=1;i=112" BrowseName="0:CoSESEMS01OBJ01_CPROD01_1_ZM_HT_PrimEnCost" ParentNodeId="ns=1;i=9" DataType="Double" AccessLevel="3" UserAccessLevel="3">
+  <UAVariable AccessLevel="3" BrowseName="0:CoSESEMS01OBJ01_CPROD01_1_ZM_HT_PrimEnCost" DataType="Double" NodeId="ns=1;i=113" ParentNodeId="ns=1;i=9" UserAccessLevel="3">
     <DisplayName>CoSESEMS01OBJ01_CPROD01_1_ZM_HT_PrimEnCost</DisplayName>
     <Description>CoSESEMS01OBJ01_CPROD01_1_ZM_HT_PrimEnCost</Description>
     <References>
-      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=9</Reference>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=9</Reference>
       <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
     </References>
     <Value>
       <uax:Double>0.07</uax:Double>
     </Value>
   </UAVariable>
-  <UAVariable NodeId="ns=1;i=113" BrowseName="0:CoSESEMS01OBJ01_CPROD01_1_ZM_HT_CO2PerKWh" ParentNodeId="ns=1;i=9" DataType="Double" AccessLevel="3" UserAccessLevel="3">
+  <UAVariable AccessLevel="3" BrowseName="0:CoSESEMS01OBJ01_CPROD01_1_ZM_HT_CO2PerKWh" DataType="Double" NodeId="ns=1;i=114" ParentNodeId="ns=1;i=9" UserAccessLevel="3">
     <DisplayName>CoSESEMS01OBJ01_CPROD01_1_ZM_HT_CO2PerKWh</DisplayName>
     <Description>CoSESEMS01OBJ01_CPROD01_1_ZM_HT_CO2PerKWh</Description>
     <References>
-      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=9</Reference>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=9</Reference>
       <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
     </References>
     <Value>
       <uax:Double>0.202</uax:Double>
     </Value>
   </UAVariable>
-  <UAVariable NodeId="ns=1;i=114" BrowseName="0:CoSESEMS01OBJ01_CPROD01_2_ZM_HT_priceFC" ParentNodeId="ns=1;i=9" ValueRank="0" DataType="Double" AccessLevel="3" UserAccessLevel="3">
+  <UAVariable AccessLevel="3" BrowseName="0:CoSESEMS01OBJ01_CPROD01_2_ZM_HT_priceFC" DataType="Double" NodeId="ns=1;i=115" ParentNodeId="ns=1;i=9" UserAccessLevel="3" ValueRank="0">
     <DisplayName>CoSESEMS01OBJ01_CPROD01_2_ZM_HT_priceFC</DisplayName>
     <Description>CoSESEMS01OBJ01_CPROD01_2_ZM_HT_priceFC</Description>
     <References>
-      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=9</Reference>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=9</Reference>
       <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
     </References>
     <Value>
@@ -285,11 +285,11 @@
       </uax:ListOfDouble>
     </Value>
   </UAVariable>
-  <UAVariable NodeId="ns=1;i=115" BrowseName="0:CoSESEMS01OBJ01_CPROD01_3_VM_HT_SPDevPwr" ParentNodeId="ns=1;i=9" ValueRank="0" DataType="Double" AccessLevel="3" UserAccessLevel="3">
+  <UAVariable AccessLevel="3" BrowseName="0:CoSESEMS01OBJ01_CPROD01_3_VM_HT_SPDevPwr" DataType="Double" NodeId="ns=1;i=116" ParentNodeId="ns=1;i=9" UserAccessLevel="3" ValueRank="0">
     <DisplayName>CoSESEMS01OBJ01_CPROD01_3_VM_HT_SPDevPwr</DisplayName>
     <Description>CoSESEMS01OBJ01_CPROD01_3_VM_HT_SPDevPwr</Description>
     <References>
-      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=9</Reference>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=9</Reference>
       <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
     </References>
     <Value>
@@ -302,24 +302,23 @@
       </uax:ListOfDouble>
     </Value>
   </UAVariable>
-  <UAVariable NodeId="ns=1;i=116" BrowseName="0:CoSESEMS01OBJ01_CPROD01_2_ZM_HT_curPwr" ParentNodeId="ns=1;i=9" DataType="Double" AccessLevel="3" UserAccessLevel="3">
+  <UAVariable AccessLevel="3" BrowseName="0:CoSESEMS01OBJ01_CPROD01_2_ZM_HT_curPwr" DataType="Double" NodeId="ns=1;i=117" ParentNodeId="ns=1;i=9" UserAccessLevel="3">
     <DisplayName>CoSESEMS01OBJ01_CPROD01_2_ZM_HT_curPwr</DisplayName>
     <Description>CoSESEMS01OBJ01_CPROD01_2_ZM_HT_curPwr</Description>
     <References>
-      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=9</Reference>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=9</Reference>
       <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
     </References>
     <Value>
       <uax:Double>0.0</uax:Double>
     </Value>
   </UAVariable>
-  <UAObject NodeId="ns=1;i=10" BrowseName="1:STRGE01" ParentNodeId="ns=1;i=7">
+  <UAObject BrowseName="1:STRGE01" NodeId="ns=1;i=10" ParentNodeId="ns=1;i=7">
     <DisplayName>STRGE01</DisplayName>
     <Description>STRGE01</Description>
     <References>
-      <Reference ReferenceType="Organizes" IsForward="false">ns=1;i=7</Reference>
+      <Reference IsForward="false" ReferenceType="Organizes">ns=1;i=7</Reference>
       <Reference ReferenceType="HasTypeDefinition">i=61</Reference>
-      <Reference ReferenceType="HasProperty">ns=1;i=117</Reference>
       <Reference ReferenceType="HasProperty">ns=1;i=118</Reference>
       <Reference ReferenceType="HasComponent">ns=1;i=119</Reference>
       <Reference ReferenceType="HasComponent">ns=1;i=120</Reference>
@@ -333,145 +332,170 @@
       <Reference ReferenceType="HasComponent">ns=1;i=128</Reference>
       <Reference ReferenceType="HasComponent">ns=1;i=129</Reference>
       <Reference ReferenceType="HasComponent">ns=1;i=130</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=131</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=132</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=133</Reference>
     </References>
   </UAObject>
-  <UAVariable NodeId="ns=1;i=117" BrowseName="0:CoSESEMS01OBJ01_STRGE01_1_ZM_XX_nameID" ParentNodeId="ns=1;i=10" DataType="String" AccessLevel="3" UserAccessLevel="3">
+  <UAVariable AccessLevel="3" BrowseName="0:CoSESEMS01OBJ01_STRGE01_1_ZM_XX_nameID" DataType="String" NodeId="ns=1;i=118" ParentNodeId="ns=1;i=10" UserAccessLevel="3">
     <DisplayName>CoSESEMS01OBJ01_STRGE01_1_ZM_XX_nameID</DisplayName>
     <Description>CoSESEMS01OBJ01_STRGE01_1_ZM_XX_nameID</Description>
     <References>
-      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;i=10</Reference>
+      <Reference IsForward="false" ReferenceType="HasProperty">ns=1;i=10</Reference>
       <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
     </References>
     <Value>
       <uax:String>SFH1_TS1</uax:String>
     </Value>
   </UAVariable>
-  <UAVariable NodeId="ns=1;i=118" BrowseName="0:CoSESEMS01OBJ01_STRGE01_1_ZM_HT_PrimSect" ParentNodeId="ns=1;i=10" DataType="String" AccessLevel="3" UserAccessLevel="3">
+  <UAVariable AccessLevel="3" BrowseName="0:CoSESEMS01OBJ01_STRGE01_1_ZM_HT_PrimSect" DataType="String" NodeId="ns=1;i=119" ParentNodeId="ns=1;i=10" UserAccessLevel="3">
     <DisplayName>CoSESEMS01OBJ01_STRGE01_1_ZM_HT_PrimSect</DisplayName>
     <Description>CoSESEMS01OBJ01_STRGE01_1_ZM_HT_PrimSect</Description>
     <References>
-      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;i=10</Reference>
-      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=10</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
     </References>
     <Value>
       <uax:String>heat</uax:String>
     </Value>
   </UAVariable>
-  <UAVariable NodeId="ns=1;i=119" BrowseName="0:CoSESEMS01OBJ01_STRGE01_1_ZM_HT_EffPrim" ParentNodeId="ns=1;i=10" DataType="Double" AccessLevel="3" UserAccessLevel="3">
+  <UAVariable AccessLevel="3" BrowseName="0:CoSESEMS01OBJ01_STRGE01_1_ZM_HT_EffPrim" DataType="Double" NodeId="ns=1;i=120" ParentNodeId="ns=1;i=10" UserAccessLevel="3">
     <DisplayName>CoSESEMS01OBJ01_STRGE01_1_ZM_HT_EffPrim</DisplayName>
     <Description>CoSESEMS01OBJ01_STRGE01_1_ZM_HT_EffPrim</Description>
     <References>
-      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=10</Reference>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=10</Reference>
       <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
     </References>
     <Value>
       <uax:Double>0.97</uax:Double>
     </Value>
   </UAVariable>
-  <UAVariable NodeId="ns=1;i=120" BrowseName="0:CoSESEMS01OBJ01_STRGE01_1_ZM_HT_DisEffPrim" ParentNodeId="ns=1;i=10" DataType="Double" AccessLevel="3" UserAccessLevel="3">
+  <UAVariable AccessLevel="3" BrowseName="0:CoSESEMS01OBJ01_STRGE01_1_ZM_HT_DisEffPrim" DataType="Double" NodeId="ns=1;i=121" ParentNodeId="ns=1;i=10" UserAccessLevel="3">
     <DisplayName>CoSESEMS01OBJ01_STRGE01_1_ZM_HT_DisEffPrim</DisplayName>
     <Description>CoSESEMS01OBJ01_STRGE01_1_ZM_HT_DisEffPrim</Description>
     <References>
-      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=10</Reference>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=10</Reference>
       <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
     </References>
     <Value>
       <uax:Double>0.97</uax:Double>
     </Value>
   </UAVariable>
-  <UAVariable NodeId="ns=1;i=121" BrowseName="0:CoSESEMS01OBJ01_STRGE01_1_ZM_HT_StorLossPD" ParentNodeId="ns=1;i=10" DataType="Int64" AccessLevel="3" UserAccessLevel="3">
+  <UAVariable AccessLevel="3" BrowseName="0:CoSESEMS01OBJ01_STRGE01_1_ZM_HT_StorLossPD" DataType="Int64" NodeId="ns=1;i=122" ParentNodeId="ns=1;i=10" UserAccessLevel="3">
     <DisplayName>CoSESEMS01OBJ01_STRGE01_1_ZM_HT_StorLossPD</DisplayName>
     <Description>CoSESEMS01OBJ01_STRGE01_1_ZM_HT_StorLossPD</Description>
     <References>
-      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=10</Reference>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=10</Reference>
       <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
     </References>
     <Value>
       <uax:Int64>24</uax:Int64>
     </Value>
   </UAVariable>
-  <UAVariable NodeId="ns=1;i=122" BrowseName="0:CoSESEMS01OBJ01_STRGE01_1_ZM_HT_MaxChrgPwr" ParentNodeId="ns=1;i=10" DataType="Int64" AccessLevel="3" UserAccessLevel="3">
-    <DisplayName>CoSESEMS01OBJ01_STRGE01_1_ZM_HT_MaxChrgPwr</DisplayName>
-    <Description>CoSESEMS01OBJ01_STRGE01_1_ZM_HT_MaxChrgPwr</Description>
+  <UAVariable AccessLevel="3" BrowseName="0:CoSESEMS01OBJ01_STRGE01_1_ZM_HT_MaxPower" DataType="Int64" NodeId="ns=1;i=123" ParentNodeId="ns=1;i=10" UserAccessLevel="3">
+    <DisplayName>CoSESEMS01OBJ01_STRGE01_1_ZM_HT_MaxPower</DisplayName>
+    <Description>CoSESEMS01OBJ01_STRGE01_1_ZM_HT_MaxPower</Description>
     <References>
-      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=10</Reference>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=10</Reference>
       <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
     </References>
     <Value>
       <uax:Int64>56</uax:Int64>
     </Value>
   </UAVariable>
-  <UAVariable NodeId="ns=1;i=123" BrowseName="0:CoSESEMS01OBJ01_STRGE01_1_ZM_HT_MaxDisChrgPwr" ParentNodeId="ns=1;i=10" DataType="Int64" AccessLevel="3" UserAccessLevel="3">
-    <DisplayName>CoSESEMS01OBJ01_STRGE01_1_ZM_HT_MaxDisChrgPwr</DisplayName>
-    <Description>CoSESEMS01OBJ01_STRGE01_1_ZM_HT_MaxDisChrgPwr</Description>
+  <UAVariable AccessLevel="3" BrowseName="0:CoSESEMS01OBJ01_STRGE01_1_ZM_HT_MaxPowerIn" DataType="Int64" NodeId="ns=1;i=124" ParentNodeId="ns=1;i=10" UserAccessLevel="3">
+    <DisplayName>CoSESEMS01OBJ01_STRGE01_1_ZM_HT_MaxPowerIn</DisplayName>
+    <Description>CoSESEMS01OBJ01_STRGE01_1_ZM_HT_MaxPowerIn</Description>
     <References>
-      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=10</Reference>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=10</Reference>
       <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
     </References>
     <Value>
       <uax:Int64>56</uax:Int64>
     </Value>
   </UAVariable>
-  <UAVariable NodeId="ns=1;i=124" BrowseName="0:CoSESEMS01OBJ01_STRGE01_1_ZM_HT_Capacity" ParentNodeId="ns=1;i=10" DataType="Double" AccessLevel="3" UserAccessLevel="3">
+  <UAVariable AccessLevel="3" BrowseName="0:CoSESEMS01OBJ01_STRGE01_1_ZM_HT_Capacity" DataType="Double" NodeId="ns=1;i=125" ParentNodeId="ns=1;i=10" UserAccessLevel="3">
     <DisplayName>CoSESEMS01OBJ01_STRGE01_1_ZM_HT_Capacity</DisplayName>
     <Description>CoSESEMS01OBJ01_STRGE01_1_ZM_HT_Capacity</Description>
     <References>
-      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=10</Reference>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=10</Reference>
       <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
     </References>
     <Value>
       <uax:Double>36.1</uax:Double>
     </Value>
   </UAVariable>
-  <UAVariable NodeId="ns=1;i=125" BrowseName="0:CoSESEMS01OBJ01_STRGE01_2_ZM_HT_curChrg" ParentNodeId="ns=1;i=10" DataType="Int64" AccessLevel="3" UserAccessLevel="3">
+  <UAVariable AccessLevel="3" BrowseName="0:CoSESEMS01OBJ01_STRGE01_1_ZM_HT_PrimEnCost" DataType="Int64" NodeId="ns=1;i=126" ParentNodeId="ns=1;i=10" UserAccessLevel="3">
+    <DisplayName>CoSESEMS01OBJ01_STRGE01_1_ZM_HT_PrimEnCost</DisplayName>
+    <Description>CoSESEMS01OBJ01_STRGE01_1_ZM_HT_PrimEnCost</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=10</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable AccessLevel="3" BrowseName="0:CoSESEMS01OBJ01_STRGE01_1_ZM_HT_CO2PerKWh" DataType="Int64" NodeId="ns=1;i=127" ParentNodeId="ns=1;i=10" UserAccessLevel="3">
+    <DisplayName>CoSESEMS01OBJ01_STRGE01_1_ZM_HT_CO2PerKWh</DisplayName>
+    <Description>CoSESEMS01OBJ01_STRGE01_1_ZM_HT_CO2PerKWh</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=10</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable AccessLevel="3" BrowseName="0:CoSESEMS01OBJ01_STRGE01_2_ZM_HT_curChrg" DataType="Int64" NodeId="ns=1;i=128" ParentNodeId="ns=1;i=10" UserAccessLevel="3">
     <DisplayName>CoSESEMS01OBJ01_STRGE01_2_ZM_HT_curChrg</DisplayName>
     <Description>CoSESEMS01OBJ01_STRGE01_2_ZM_HT_curChrg</Description>
     <References>
-      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=10</Reference>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=10</Reference>
       <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
     </References>
     <Value>
       <uax:Int64>0</uax:Int64>
     </Value>
   </UAVariable>
-  <UAVariable NodeId="ns=1;i=126" BrowseName="0:CoSESEMS01OBJ01_STRGE01_2_ZM_HT_curDeChrg" ParentNodeId="ns=1;i=10" DataType="Int64" AccessLevel="3" UserAccessLevel="3">
+  <UAVariable AccessLevel="3" BrowseName="0:CoSESEMS01OBJ01_STRGE01_2_ZM_HT_curDeChrg" DataType="Int64" NodeId="ns=1;i=129" ParentNodeId="ns=1;i=10" UserAccessLevel="3">
     <DisplayName>CoSESEMS01OBJ01_STRGE01_2_ZM_HT_curDeChrg</DisplayName>
     <Description>CoSESEMS01OBJ01_STRGE01_2_ZM_HT_curDeChrg</Description>
     <References>
-      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=10</Reference>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=10</Reference>
       <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
     </References>
     <Value>
       <uax:Int64>0</uax:Int64>
     </Value>
   </UAVariable>
-  <UAVariable NodeId="ns=1;i=127" BrowseName="0:CoSESEMS01OBJ01_STRGE01_2_ZM_HT_curSOC" ParentNodeId="ns=1;i=10" DataType="Double" AccessLevel="3" UserAccessLevel="3">
+  <UAVariable AccessLevel="3" BrowseName="0:CoSESEMS01OBJ01_STRGE01_2_ZM_HT_curSOC" DataType="Double" NodeId="ns=1;i=130" ParentNodeId="ns=1;i=10" UserAccessLevel="3">
     <DisplayName>CoSESEMS01OBJ01_STRGE01_2_ZM_HT_curSOC</DisplayName>
     <Description>CoSESEMS01OBJ01_STRGE01_2_ZM_HT_curSOC</Description>
     <References>
-      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=10</Reference>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=10</Reference>
       <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
     </References>
     <Value>
-      <uax:Double>18.05</uax:Double>
+      <uax:Double>0.5</uax:Double>
     </Value>
   </UAVariable>
-  <UAVariable NodeId="ns=1;i=128" BrowseName="0:CoSESEMS01OBJ01_STRGE01_4_VM_HT_calcSOC" ParentNodeId="ns=1;i=10" DataType="Double" AccessLevel="3" UserAccessLevel="3">
+  <UAVariable AccessLevel="3" BrowseName="0:CoSESEMS01OBJ01_STRGE01_4_VM_HT_calcSOC" DataType="Double" NodeId="ns=1;i=131" ParentNodeId="ns=1;i=10" UserAccessLevel="3">
     <DisplayName>CoSESEMS01OBJ01_STRGE01_4_VM_HT_calcSOC</DisplayName>
     <Description>CoSESEMS01OBJ01_STRGE01_4_VM_HT_calcSOC</Description>
     <References>
-      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=10</Reference>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=10</Reference>
       <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
     </References>
     <Value>
-      <uax:Double>18.05</uax:Double>
+      <uax:Double>0.5</uax:Double>
     </Value>
   </UAVariable>
-  <UAVariable NodeId="ns=1;i=129" BrowseName="0:CoSESEMS01OBJ01_STRGE01_3_VM_HT_SPCharge" ParentNodeId="ns=1;i=10" ValueRank="0" DataType="Double" AccessLevel="3" UserAccessLevel="3">
+  <UAVariable AccessLevel="3" BrowseName="0:CoSESEMS01OBJ01_STRGE01_3_VM_HT_SPCharge" DataType="Double" NodeId="ns=1;i=132" ParentNodeId="ns=1;i=10" UserAccessLevel="3" ValueRank="0">
     <DisplayName>CoSESEMS01OBJ01_STRGE01_3_VM_HT_SPCharge</DisplayName>
     <Description>CoSESEMS01OBJ01_STRGE01_3_VM_HT_SPCharge</Description>
     <References>
-      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=10</Reference>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=10</Reference>
       <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
     </References>
     <Value>
@@ -484,11 +508,11 @@
       </uax:ListOfDouble>
     </Value>
   </UAVariable>
-  <UAVariable NodeId="ns=1;i=130" BrowseName="0:CoSESEMS01OBJ01_STRGE01_3_VM_HT_SPDisChrg" ParentNodeId="ns=1;i=10" ValueRank="0" DataType="Double" AccessLevel="3" UserAccessLevel="3">
+  <UAVariable AccessLevel="3" BrowseName="0:CoSESEMS01OBJ01_STRGE01_3_VM_HT_SPDisChrg" DataType="Double" NodeId="ns=1;i=133" ParentNodeId="ns=1;i=10" UserAccessLevel="3" ValueRank="0">
     <DisplayName>CoSESEMS01OBJ01_STRGE01_3_VM_HT_SPDisChrg</DisplayName>
     <Description>CoSESEMS01OBJ01_STRGE01_3_VM_HT_SPDisChrg</Description>
     <References>
-      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=10</Reference>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=10</Reference>
       <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
     </References>
     <Value>

@@ -41,7 +41,7 @@ interp_type = "spline" # alternatives: "step", "linear", "spline",
 # Add Counter list/array to count for number of EMS x Device Types and construct display names
 # Entries for DEMND, PROD, VPROD, COUPL, STRGE
 counter = np.zeros([nrOfEms,5])
-myNodeIDcntr = 100
+myNodeIDcntr = 101
 #print(counter)
 
 # ================= Defining the Namespace of the Building =====================
@@ -72,7 +72,7 @@ naming = objectName + EMS + "OBJ01"
 # add_Storage
 (myNodeIDcntr, Stor1_setpointChgFC, Stor1_setpointDisChgFC, Stor1_SOC, Stor1_calcSOC) = add_Storage(counter, naming,
                                                 mpc, idx, myNodeIDcntr,
-                                                "SFH1_TS1", Storage, "heat", 0.97, 0.97, 36.1, 24, 56, 56, 18.05)
+                                                "SFH1_TS1", Storage, "heat", 0.97, 0.97, 36.1, 24, 56, 56, 0.5)
 
 # =========================================================================
 
