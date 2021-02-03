@@ -353,6 +353,8 @@ def add_Storage(counter, naming, FC_step, idx, name, Storage, inMEMAP,
     currentP_out.set_writable()
     SOC = Stor.add_variable(idx, storNaming + "_2_ZM_" + short + "_curSOC", SOC_init)
     SOC.set_writable()
+    SOCcalc = Stor.add_variable(idx, storNaming + "_2_ZM_" + short + "_calcSOC", SOC_init)
+    SOCcalc.set_writable()
     
      # Setpoints
     Setpoint = Stor.add_folder(idx, "Setpoints_STRGE{:02d}".format(int(counter[0,4]+1)))
