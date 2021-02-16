@@ -29,7 +29,7 @@ profile_time_factor = 0.25  # time factor as ratio of hours,
     # for time difference between read values from profile, 0.25 = 15 min
 CoSES_time_factor = 1 / 120  # time factor as ratio of hours,
     # for wished time difference for CoSES-Demand-Values, 1/60 = 1 min
-simulation_time_factor = 30  # 1 s in simulation time equals X seconds in real time
+simulation_time_factor = 60  # 1 s in simulation time equals X seconds in real time
 karenzzeit = max(int(0.02*mpc_time_factor*(1/simulation_time_factor)*3600),5) # sekunden
 
 nrOfEms = 1
