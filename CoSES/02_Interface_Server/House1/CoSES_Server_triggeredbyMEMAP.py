@@ -7,7 +7,8 @@ Modified on Fr May 15 10:50:00 2020
 """
 
 
-from createBuilding import create_Server_Basics, create_Namespace, add_General, add_Demand, add_VolatileProducer, add_Coupler, add_Producer, add_Storage
+from createBuilding import create_Server_Basics, create_Namespace, add_General,\
+    add_Demand, add_VolatileProducer, add_Coupler, add_Producer, add_Storage, add_HeatConnection, add_ElecMarket
 
 import time
 import numpy as np
@@ -40,8 +41,8 @@ interp_type = "spline" # alternatives: "step", "linear", "spline",
 
 
 # Add Counter list/array to count for number of EMS x Device Types and construct display names
-# Entries for DEMND, PROD, VPROD, COUPL, STRGE
-counter = np.zeros([nrOfEms,5])
+# Entries for DEMND, PROD, VPROD, COUPL, STRGE, HTCONN, ELMRKT
+counter = np.zeros([nrOfEms,7])
 myNodeIDcntr = 100
 
 
@@ -50,7 +51,7 @@ myNodeIDcntr = 100
 # ============================== EMS 1 - General ==============================
 EMS = "EMS01"
 (server1, url1, idx, objects) = create_Server_Basics(objectName, EMS, opc_port)
-(General, Demand, Devices, Producer, VolatileProducer, Coupler, Storage) = create_Namespace(idx, objects)
+(General, Demand, Devices, Producer, VolatileProducer, Coupler, Storage, HeatConnection, ElecMarket) = create_Namespace(idx, objects)
 naming = objectName + EMS + "OBJ01"
 
 # add_General
@@ -61,8 +62,11 @@ naming = objectName + EMS + "OBJ01"
 # (Add Demand, Producer, Volatile Producer, Coupler, Storage)
 
 ### add_Demand
-(myNodeIDcntr, heatDemandSP, htDemFCarray) = add_Demand(counter, naming, idx, myNodeIDcntr, Demand,
+(myNodeIDcntr, counter, heatDemandSP, htDemFCarray) = add_Demand(counter, naming, idx, myNodeIDcntr, Demand,
                                                         "heat", "Wärmebedarf_Haus1", mpc)
+
+(myNodeIDcntr, counter, elecDemandSP, elDemFCarray) = add_Demand(counter, naming, idx, myNodeIDcntr, Demand,
+                                                        "elec", "Strombedarf_Haus1", mpc)
 
 ### Devices
 # add_Producer
@@ -74,6 +78,12 @@ naming = objectName + EMS + "OBJ01"
 (myNodeIDcntr, Stor1_setpointChgFC, Stor1_setpointDisChgFC, Stor1_SOC, Stor1_calcSOC) = add_Storage(counter, naming,
                                                 mpc, idx, myNodeIDcntr,
                                                 "SFH1_TS1", Storage, "heat", 0.97, 0.97, 36.1, 24, 56, 56, 18.05)
+
+# add heat connection
+(myNodeIDcntr, counter) = add_HeatConnection(counter, naming, idx, myNodeIDcntr, HeatConnection, "Waermenetz", mpc)
+
+# add electricity market
+(myNodeIDcntr, counter) = add_ElecMarket(counter, naming, idx, myNodeIDcntr, ElecMarket, "Stromnetz", mpc)
 
 # =========================================================================
 

@@ -42,8 +42,10 @@ def create_Namespace(idx, objects):
     VolatileProducer = Devices.add_folder(idx, "22_VolatileProducer")
     Coupler = Devices.add_folder(idx, "23_Coupler")
     Storage = Devices.add_folder(idx, "24_Storage")
+    HeatConnection = Devices.add_folder(idx, "25_HeatConnection")
+    ElecMarket = Devices.add_folder(idx, "26_ElecMarket")
     
-    return (General, Demand, Devices, Producer, VolatileProducer, Coupler, Storage)
+    return (General, Demand, Devices, Producer, VolatileProducer, Coupler, Storage, HeatConnection, ElecMarket)
 
     
 
@@ -67,7 +69,6 @@ def add_General(idx, myNodeIDcntr, naming, General, EMSname):
 
 def add_Demand(counter, naming, idx, myNodeIDcntr, Demand, sector, demName, FC_step):
     k = myNodeIDcntr
-
     Demnd = Demand.add_folder(idx, "DEMND{:02d}".format(int(counter[0,0]+1)))
     demdNaming = naming+"_DEMND{:02d}".format(int(counter[0,0]+1))
     print(demdNaming + " added...")
@@ -110,9 +111,7 @@ def add_Demand(counter, naming, idx, myNodeIDcntr, Demand, sector, demName, FC_s
     myNodeIDcntr = k
     counter[0,0]+=1
 
-    return (myNodeIDcntr, DemandSetPt, demandArray)
-  
-
+    return (myNodeIDcntr, counter, DemandSetPt, demandArray)
 
 
 def add_Producer(counter, naming, FC_step, idx, myNodeIDcntr, name, Producer,
@@ -156,6 +155,10 @@ def add_Producer(counter, naming, FC_step, idx, myNodeIDcntr, name, Producer,
                                 list(np.zeros(FC_step)), datatype=opcua.ua.ObjectIds.Double)
     priceFC.set_writable()
     k+=1
+
+    curPrice = Prod.add_variable(mynsid(idx, k), prodNaming + "_1_ZM_" + short + "_curPrice", 0.0)
+    curPrice.set_writable()
+    k += 1
     
     # dynamic values
     setpointFC = Prod.add_variable(mynsid(idx, k), prodNaming + "_3_VM_" + short + "_SPDevPwr",
@@ -364,6 +367,79 @@ def add_Storage(counter, naming, FC_step, idx, myNodeIDcntr, name, Storage,
     myNodeIDcntr = k
     return(myNodeIDcntr, setpointChgFC, setpointDisChgFC, SOC, calcSOC)
     
+
+def add_HeatConnection(counter, naming, idx, myNodeIDcntr, HeatConnection, ConnName, FC_step):
+    k = myNodeIDcntr
+    HtConn = HeatConnection.add_folder(idx, "HTCONN{:02d}".format(int(counter[0, 5] + 1)))
+    ConnNaming = naming + "_HTCONN{:02d}".format(int(counter[0, 5] + 1))
+    print(ConnNaming + " added...")
+    short = sector_to_short("heat")
+    nameID = HtConn.add_property(mynsid(idx, k),
+                                ConnNaming + "_1_ZM_XX_nameID", ConnName)
+    nameID.set_writable()
+    k += 1
+
+    # static values - device
+    efficiency = HtConn.add_variable(mynsid(idx, k),
+                                      ConnNaming + "_1_ZM_" + short + "_efficiency_receive", 0.0)
+    efficiency.set_writable()
+    k += 1
+
+    SetPtSend = HtConn.add_variable(mynsid(idx, k), ConnNaming + "_2_ZM_" + short + "_SetPtHtSend",
+                                    list(np.zeros(FC_step)), datatype=opcua.ua.ObjectIds.Double)
+    SetPtSend.set_writable()
+    k += 1
+
+    SetPtReceive = HtConn.add_variable(mynsid(idx, k), ConnNaming + "_2_ZM_" + short + "_SetPtHtReceive",
+                                       list(np.zeros(FC_step)), datatype=opcua.ua.ObjectIds.Double)
+    SetPtReceive.set_writable()
+    k += 1
+
+    myNodeIDcntr = k
+    counter[0,5]+=1
+
+    return (myNodeIDcntr, counter)
+
+def add_ElecMarket(counter, naming, idx, myNodeIDcntr, ElecMarket, mrktName, FC_step):
+    k = myNodeIDcntr
+    ElMrkt = ElecMarket.add_folder(idx, "ELMRKT{:02d}".format(int(counter[0, 6] + 1)))
+    MrktNaming = naming + "_ELMRKT{:02d}".format(int(counter[0, 6] + 1))
+    print(MrktNaming + " added...")
+    short = sector_to_short("electricity")
+    nameID = ElMrkt.add_property(mynsid(idx, k),
+                                MrktNaming + "_1_ZM_XX_nameID", mrktName)
+    nameID.set_writable()
+    k += 1
+
+    # static values - device
+
+    # dynamic values
+    ELpriceFC_buy = ElMrkt.add_variable(mynsid(idx, k),
+                                     MrktNaming + "_2_ZM_" + short + "_priceBuyFC",
+                                     list(np.zeros(FC_step)), datatype=opcua.ua.ObjectIds.Double)
+    ELpriceFC_buy.set_writable()
+    k += 1
+
+    ELpriceFC_sell = ElMrkt.add_variable(mynsid(idx, k),
+                                     MrktNaming + "_2_ZM_" + short + "_priceSellFC",
+                                     list(np.zeros(FC_step)), datatype=opcua.ua.ObjectIds.Double)
+    ELpriceFC_sell.set_writable()
+    k += 1
+
+    SetPtSell = ElMrkt.add_variable(mynsid(idx, k), MrktNaming + "_2_VM_" + short + "_SetPtPwrSell",
+                                    list(np.zeros(FC_step)), datatype=opcua.ua.ObjectIds.Double)
+    SetPtSell.set_writable()
+    k += 1
+
+    SetPtBuy = ElMrkt.add_variable(mynsid(idx, k), MrktNaming + "_2_VM_" + short + "_SetPtPwrBuy",
+                                   list(np.zeros(FC_step)), datatype=opcua.ua.ObjectIds.Double)
+    SetPtBuy.set_writable()
+    k += 1
+
+    myNodeIDcntr = k
+    counter[0,6]+=1
+
+    return (myNodeIDcntr, counter)
 
 
 # ======================== Helper Funktions ======================
