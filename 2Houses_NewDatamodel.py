@@ -253,8 +253,8 @@ while True:
         B2_Stor1_Out.set_value(P_B2_Strge[i,0])
 
     # ToDo : Losses berücksichtigen
-    B1_StorChange = (B1_Stor1_In.get_value()-B1_Stor1_Out.get_value())/B1_Cap_Stor1 # Änderung in Prozent der Capazität
-    B2_StorChange = (B2_Stor1_In.get_value() - B2_Stor1_Out.get_value())/B2_Cap_Stor1 # Änderung in Prozent der Capazität
+    B1_StorChange = time_factor * (B1_Stor1_In.get_value() - B1_Stor1_Out.get_value()) / B1_Cap_Stor1 # Änderung in Prozent der Capazität
+    B2_StorChange = time_factor * (B2_Stor1_In.get_value() - B2_Stor1_Out.get_value()) / B2_Cap_Stor1 # Änderung in Prozent der Capazität
     # SOC in Prozent
     B1_Stor1_SOC.set_value(B1_Stor1_SOC.get_value() + B1_StorChange)
     B2_Stor1_SOC.set_value(B2_Stor1_SOC.get_value() + B2_StorChange)
@@ -270,5 +270,5 @@ while True:
     else:
         i = 0
         
-    time.sleep(900)
+    time.sleep(30)
 
