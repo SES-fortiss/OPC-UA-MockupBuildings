@@ -7,8 +7,7 @@ Modified on Fr May 15 10:50:00 2020
 """
 
 
-from createBuilding import create_Server_Basics, create_Namespace, add_General,\
-    add_Demand, add_VolatileProducer, add_Coupler, add_Producer, add_Storage, add_HeatConnection, add_ElecMarket
+from createBuilding import create_Server_Basics, create_Namespace, add_General, add_Demand, add_VolatileProducer, add_Coupler, add_Producer, add_Storage
 
 import time
 import numpy as np
@@ -20,7 +19,7 @@ import matplotlib.pyplot as plt
 
 # General Information:
 objectName = "CoSES"
-opc_port = "4851"
+opc_port = "4850"
 
 # TIMING
 mpc = 5  # number of mpc horizont steps, usually 5-48
@@ -30,8 +29,7 @@ profile_time_factor = 0.25  # time factor as ratio of hours,
     # for time difference between read values from profile, 0.25 = 15 min
 CoSES_time_factor = 1 / 120  # time factor as ratio of hours,
     # for wished time difference for CoSES-Demand-Values, 1/60 = 1 min
-simulation_time_factor = 60  # 1 s in simulation time equals X seconds in real time
-karenzzeit = max(int(0.02*mpc_time_factor*(1/simulation_time_factor)*3600),5) # sekunden
+simulation_time_factor = 30  # 1 s in simulation time equals X seconds in real time
 
 nrOfEms = 1
 
@@ -41,17 +39,17 @@ interp_type = "spline" # alternatives: "step", "linear", "spline",
 
 
 # Add Counter list/array to count for number of EMS x Device Types and construct display names
-# Entries for DEMND, PROD, VPROD, COUPL, STRGE, HTCONN, ELMRKT
-counter = np.zeros([nrOfEms,7])
-myNodeIDcntr = 100
-
+# Entries for DEMND, PROD, VPROD, COUPL, STRGE
+counter = np.zeros([nrOfEms,5])
+myNodeIDcntr = 101
+#print(counter)
 
 # ================= Defining the Namespace of the Building =====================
 
 # ============================== EMS 1 - General ==============================
 EMS = "EMS01"
 (server1, url1, idx, objects) = create_Server_Basics(objectName, EMS, opc_port)
-(General, Demand, Devices, Producer, VolatileProducer, Coupler, Storage, HeatConnection, ElecMarket) = create_Namespace(idx, objects)
+(General, Demand, Devices, Producer, VolatileProducer, Coupler, Storage) = create_Namespace(idx, objects)
 naming = objectName + EMS + "OBJ01"
 
 # add_General
@@ -62,11 +60,8 @@ naming = objectName + EMS + "OBJ01"
 # (Add Demand, Producer, Volatile Producer, Coupler, Storage)
 
 ### add_Demand
-(myNodeIDcntr, counter, heatDemandSP, htDemFCarray) = add_Demand(counter, naming, idx, myNodeIDcntr, Demand,
+(myNodeIDcntr, heatDemandSP, htDemFCarray) = add_Demand(counter, naming, idx, myNodeIDcntr, Demand,
                                                         "heat", "Wärmebedarf_Haus1", mpc)
-
-(myNodeIDcntr, counter, elecDemandSP, elDemFCarray) = add_Demand(counter, naming, idx, myNodeIDcntr, Demand,
-                                                        "elec", "Strombedarf_Haus1", mpc)
 
 ### Devices
 # add_Producer
@@ -77,13 +72,7 @@ naming = objectName + EMS + "OBJ01"
 # add_Storage
 (myNodeIDcntr, Stor1_setpointChgFC, Stor1_setpointDisChgFC, Stor1_SOC, Stor1_calcSOC) = add_Storage(counter, naming,
                                                 mpc, idx, myNodeIDcntr,
-                                                "SFH1_TS1", Storage, "heat", 0.97, 0.97, 36.1, 24, 56, 56, 18.05)
-
-# add heat connection
-(myNodeIDcntr, counter) = add_HeatConnection(counter, naming, idx, myNodeIDcntr, HeatConnection, "Waermenetz", mpc)
-
-# add electricity market
-(myNodeIDcntr, counter) = add_ElecMarket(counter, naming, idx, myNodeIDcntr, ElecMarket, "Stromnetz", mpc)
+                                                "SFH1_TS1", Storage, "heat", 0.97, 0.97, 36.1, 24, 56, 56, 0.5)
 
 # =========================================================================
 
@@ -201,55 +190,30 @@ delta_t_for_setting_CoSES = 60 * delta_t_CoSES / simulation_time_factor  # in se
 print('delta_t_for_setting_CoSES: ', delta_t_for_setting_CoSES)
 delta_t_for_setting_MEMAP = 60 * delta_t_mpc / simulation_time_factor  # in seconds
 print('delta_t_for_setting_MEMAP: ', delta_t_for_setting_MEMAP)
-time_ratio = int(delta_t_for_setting_MEMAP / delta_t_for_setting_CoSES)
-
-## Initialization
-k=0
-Trigger.set_value(0)
-oldTriggerValue = Trigger.get_value()
-lasttriggertime = time.monotonic()
-mytime2 = lasttriggertime - delta_t_for_setting_CoSES
-print('MEMAP alle ', delta_t_for_setting_MEMAP, ' Sekunden =  alle ',
-      delta_t_for_setting_MEMAP * simulation_time_factor, " Sekunden Realzeit")
-print('CoSES alle ', delta_t_for_setting_CoSES, ' Sekunden =  alle ', delta_t_for_setting_CoSES*simulation_time_factor,
-              " Sekunden Realzeit")
-myforecast = [demand1_interp_mpc[x] for x in range(mpc)]
-mypriceforecast = [prices_interp_mpc[x] for x in range(mpc)]
-htDemFCarray.set_value(myforecast)
-Prod1_priceFC.set_value(mypriceforecast)
-print('demand forecast: ', myforecast, ', nr.', k+1, '/', np.shape(demand1_interp_mpc)[0])
-print('price forecast: ', mypriceforecast, ', nr.', k+1,'/', np.shape(demand1_interp_mpc)[0])
-done1 = 1
-i = time_ratio+1
-l = 0
 timing_delta1 = 0
 timing_delta2 = 0
-startup = True
-
-## Loop
-
+i = 0
+k = 0
+l = 0
 while True:
-    newTriggerValue = Trigger.get_value()
+    if i == 0:
+        mytime1 = time.monotonic()-delta_t_for_setting_MEMAP
+        mytime2 = time.monotonic()-delta_t_for_setting_CoSES
+        i += 1
 
-    if newTriggerValue != oldTriggerValue:
-        if startup==True:
-            startup = False
-            oldTriggerValue = newTriggerValue
-        else:
-            lasttriggertime = time.monotonic()
-            done1 = 0
-            k+=1
-            mytime2 = lasttriggertime - delta_t_for_setting_CoSES
-            i=0
-            oldTriggerValue = newTriggerValue
-
-    timing_delta1 = time.monotonic() - lasttriggertime
+    timing_delta1 = time.monotonic() - mytime1
     timing_delta2 = time.monotonic() - mytime2
 
-    # update forecasts
-    if (timing_delta1 >= karenzzeit) & (done1 == 0):
+    if timing_delta1 >= delta_t_for_setting_MEMAP:
+        print('MEMAP alle ', timing_delta1, ' Sekunden =  alle ',
+              timing_delta1*simulation_time_factor, " Sekunden Realzeit")
+        mytime1 = time.monotonic()
+        timing_delta1 = 0
 
-        lastforecastupdate = time.monotonic()
+        ## write MEMAP values
+        # in cycle
+
+        Trigger.set_value(k)
 
         if k%(np.shape(demand1_interp_mpc)[0])<=np.shape(demand1_interp_mpc)[0]-mpc:
             mycntr = k%(np.shape(demand1_interp_mpc)[0])
@@ -287,27 +251,27 @@ while True:
             Stor1_SOC.set_value(Stor1_calcSOC.get_value())
 
         # iterator
-        done1 = 1
+        k += 1
+        Trigger.set_value(k)
 
-    # demand setpoint for CoSES
-    if (timing_delta2 >= delta_t_for_setting_CoSES) & (k>0):
+
+    if timing_delta2 >= delta_t_for_setting_CoSES:
+        print('CoSES alle ', timing_delta2, ' Sekunden =  alle ', timing_delta2*simulation_time_factor,
+              " Sekunden Realzeit")
         mytime2 = time.monotonic()
+        timing_delta2 = 0
 
-        if i < time_ratio:
-            mycntr2 = (k-1)*time_ratio + i   #l%np.shape(demand1_interp_CoSES)[0]
-            mynr = i # (l%np.shape(demand1_interp_CoSES)[0])%(np.shape(demand1_interp_CoSES)[0]/np.shape(demand1_interp_mpc)[0])
-            # write CoSES values in cycles
-            heatDemandSP.set_value(demand1_interp_CoSES[mycntr2])
-            print('demand setpoint: ', demand1_interp_CoSES[mycntr2], ', nr.', k, '+ (', int(mynr+1), '/',
-                  int(np.shape(demand1_interp_CoSES)[0]/np.shape(demand1_interp_mpc)[0]),')')
+        mycntr2 = l%np.shape(demand1_interp_CoSES)[0]
+        mynr = (l%np.shape(demand1_interp_CoSES)[0])%(np.shape(demand1_interp_CoSES)[0]/np.shape(demand1_interp_mpc)[0])
+        # write CoSES values in cycles
+        heatDemandSP.set_value(demand1_interp_CoSES[mycntr2])
+        print('demand setpoint: ', demand1_interp_CoSES[mycntr2], ', nr.', k, '+ (', int(mynr+1), '/',
+              int(np.shape(demand1_interp_CoSES)[0]/np.shape(demand1_interp_mpc)[0]),')')
 
-            i += 1
-            l += 1
+        # just for tests
+        Stor1_SOC.set_value(Stor1_calcSOC.get_value())
 
-            # just for tests
-            # Stor1_SOC.set_value(Stor1_calcSOC.get_value())
-
-
+        l += 1
 
 
 

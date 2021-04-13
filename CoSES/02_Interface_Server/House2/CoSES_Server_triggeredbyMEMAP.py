@@ -20,7 +20,7 @@ import matplotlib.pyplot as plt
 
 # General Information:
 objectName = "CoSES"
-opc_port = "4851"
+opc_port = "4852"
 
 # TIMING
 mpc = 5  # number of mpc horizont steps, usually 5-48
@@ -48,36 +48,36 @@ myNodeIDcntr = 100
 
 # ================= Defining the Namespace of the Building =====================
 
-# ============================== EMS 1 - General ==============================
-EMS = "EMS01"
+# ============================== EMS 2 - General ==============================
+EMS = "EMS02"
 (server1, url1, idx, objects) = create_Server_Basics(objectName, EMS, opc_port)
 (General, Demand, Devices, Producer, VolatileProducer, Coupler, Storage, HeatConnection, ElecMarket) = create_Namespace(idx, objects)
 naming = objectName + EMS + "OBJ01"
 
 # add_General
-(myNodeIDcntr, EMSnameID, Trigger) = add_General(idx, myNodeIDcntr, naming, General, "SFH1")
+(myNodeIDcntr, EMSnameID, Trigger) = add_General(idx, myNodeIDcntr, naming, General, "SFH2")
 
 
-# ============================== EMS 1 - Devices ==============================
+# ============================== EMS 2 - Devices ==============================
 # (Add Demand, Producer, Volatile Producer, Coupler, Storage)
 
 ### add_Demand
 (myNodeIDcntr, counter, heatDemandSP, htDemFCarray) = add_Demand(counter, naming, idx, myNodeIDcntr, Demand,
-                                                        "heat", "Wärmebedarf_Haus1", mpc)
+                                                        "heat", "Wärmebedarf_Haus2", mpc)
 
 (myNodeIDcntr, counter, elecDemandSP, elDemFCarray) = add_Demand(counter, naming, idx, myNodeIDcntr, Demand,
-                                                        "elec", "Strombedarf_Haus1", mpc)
+                                                        "elec", "Strombedarf_Haus2", mpc)
 
 ### Devices
 # add_Producer
 (myNodeIDcntr, Prod1_Power, Prod1_Setpoint, Prod1_priceFC) = add_Producer(counter, naming, mpc, idx,
-                                                            myNodeIDcntr, "SFH1_EB1", Producer, "heat",
+                                                            myNodeIDcntr, "SFH2_EB1", Producer, "heat",
                                                             0.88, 5, 14, 0.07, 0.202)
 
 # add_Storage
 (myNodeIDcntr, Stor1_setpointChgFC, Stor1_setpointDisChgFC, Stor1_SOC, Stor1_calcSOC) = add_Storage(counter, naming,
                                                 mpc, idx, myNodeIDcntr,
-                                                "SFH1_TS1", Storage, "heat", 0.97, 0.97, 36.1, 24, 56, 56, 18.05)
+                                                "SFH2_TS1", Storage, "heat", 0.97, 0.97, 36.1, 24, 56, 56, 18.05)
 
 # add heat connection
 (myNodeIDcntr, counter) = add_HeatConnection(counter, naming, idx, myNodeIDcntr, HeatConnection, "Waermenetz", mpc)
