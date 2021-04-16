@@ -13,7 +13,7 @@
     <References>
       <Reference ReferenceType="Organizes" IsForward="false">ns=1;i=3</Reference>
       <Reference ReferenceType="HasTypeDefinition">i=61</Reference>
-      <Reference ReferenceType="Organizes">ns=1;i=12</Reference>
+      <Reference ReferenceType="Organizes">ns=1;i=10</Reference>
     </References>
   </UAObject>
   <UAObject NodeId="ns=1;i=5" BrowseName="1:22_VolatileProducer" ParentNodeId="ns=1;i=3">
@@ -38,25 +38,7 @@
     <References>
       <Reference ReferenceType="Organizes" IsForward="false">ns=1;i=3</Reference>
       <Reference ReferenceType="HasTypeDefinition">i=61</Reference>
-      <Reference ReferenceType="Organizes">ns=1;i=13</Reference>
-    </References>
-  </UAObject>
-  <UAObject NodeId="ns=1;i=8" BrowseName="1:25_HeatConnection" ParentNodeId="ns=1;i=3">
-    <DisplayName>25_HeatConnection</DisplayName>
-    <Description>25_HeatConnection</Description>
-    <References>
-      <Reference ReferenceType="Organizes" IsForward="false">ns=1;i=3</Reference>
-      <Reference ReferenceType="HasTypeDefinition">i=61</Reference>
-      <Reference ReferenceType="Organizes">ns=1;i=14</Reference>
-    </References>
-  </UAObject>
-  <UAObject NodeId="ns=1;i=9" BrowseName="1:26_ElecMarket" ParentNodeId="ns=1;i=3">
-    <DisplayName>26_ElecMarket</DisplayName>
-    <Description>26_ElecMarket</Description>
-    <References>
-      <Reference ReferenceType="Organizes" IsForward="false">ns=1;i=3</Reference>
-      <Reference ReferenceType="HasTypeDefinition">i=61</Reference>
-      <Reference ReferenceType="Organizes">ns=1;i=15</Reference>
+      <Reference ReferenceType="Organizes">ns=1;i=11</Reference>
     </References>
   </UAObject>
 </UANodeSet>
