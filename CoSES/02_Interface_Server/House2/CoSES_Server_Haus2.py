@@ -70,10 +70,10 @@ naming = objectName + EMS + "OBJ01"
     DMND02_GrdBuyCost, DMND02_GrdSellCost, DMND02_GrdBuy, DMND02_GrdSell) = add_Demand(
     counter, naming, idx, myNodeIDcntr, Demand, "elec", "Strombedarf_Haus2", mpc)
 
-### Devices
-# # add_Producer
-# (myNodeIDcntr, CPROD1_production, CPROD1_GenCosts, CPROD1_CO2PerKWh, CPROD1_SPDevPwr) = add_Producer(counter, naming, mpc, idx,
-                                                            # myNodeIDcntr, "SFH1_EB1", Producer, "heat", 0.88, 5, 14)
+## Devices
+# add_Producer
+(myNodeIDcntr, CPROD1_production, CPROD1_GenCosts, CPROD1_CO2PerKWh, CPROD1_SPDevPwr) = add_Producer(counter, naming, mpc, idx,
+                                                            myNodeIDcntr, "SFH2_EB1", Producer, "heat", 0.88, 8, 20)
 
 # add_Storage 
 (myNodeIDcntr, STOR1_SOC, STOR1_calcSOC, STOR1_setpointChg, STOR1_setpointDisChg) = add_Storage(counter, naming,
@@ -81,8 +81,8 @@ naming = objectName + EMS + "OBJ01"
                                                 "SFH2_TS1", Storage, "heat", 0.97, 0.97, 36.1, 24, 56, 56, 18.05)
 
 # add_coupler
-(myNodeIDcntr, BHKW_Prod1, BHKW_Prod2, BHKW_GenCosts, BHKW_CO2PerKWh, BHKW_SPDevPwr) = add_Coupler(
-    counter, naming, idx, myNodeIDcntr, 'SFH2_BHKW', Coupler, 'heat', 'elec', 0.4, 0.2, 2, 2, mpc)
+# (myNodeIDcntr, BHKW_Prod1, BHKW_Prod2, BHKW_GenCosts, BHKW_CO2PerKWh, BHKW_SPDevPwr) = add_Coupler(
+#    counter, naming, idx, myNodeIDcntr, 'SFH1_BHKW', Coupler, 'heat', 'elec', 0.723, 0.278, 5, 5, mpc)
 
 
 
@@ -220,14 +220,14 @@ DMND01_demandFC.set_value(myforecast)
 DMND02_demandFC.set_value(myforecast)
 DMND02_GrdBuyCost.set_value(list(0.30*np.ones(mpc)))
 DMND02_GrdSellCost.set_value(list(0.10*np.ones(mpc)))
-#CPROD1_GenCosts.set_value(mypriceforecast)
-BHKW_GenCosts.set_value(mypriceforecast)
+CPROD1_GenCosts.set_value(mypriceforecast)
+#BHKW_GenCosts.set_value(mypriceforecast)
 print('demand forecast heat: ', myforecast, ', nr.', k+1, '/', np.shape(demand1_interp_mpc)[0])
 print('demand forecast electricity: ', list(np.zeros(mpc)), ', nr.', k+1, '/', np.shape(demand1_interp_mpc)[0])
 print('price forecast electricity buy: ', list(0.30*np.ones(mpc)), ', nr.', k+1, '/', np.shape(demand1_interp_mpc)[0])
 print('price forecast electricity sell: ', list(0.10*np.ones(mpc)), ', nr.', k+1, '/', np.shape(demand1_interp_mpc)[0])
 print('price forecast producer 1: ', mypriceforecast, ', nr.', k+1,'/', np.shape(demand1_interp_mpc)[0])
-# print('price forecast coupler 1: ', mypriceforecast, ', nr.', k+1,'/', np.shape(demand1_interp_mpc)[0])
+#print('price forecast coupler 1: ', mypriceforecast, ', nr.', k+1,'/', np.shape(demand1_interp_mpc)[0])
 done1 = 1
 i = time_ratio+1
 l = 0
@@ -269,8 +269,8 @@ while True:
             DMND02_demandFC.set_value(myforecast)
             DMND02_GrdBuyCost.set_value(list(0.30*np.ones(mpc)))
             DMND02_GrdSellCost.set_value(list(0.10*np.ones(mpc)))
-            #CPROD1_GenCosts.set_value(mypriceforecast)
-            BHKW_GenCosts.set_value(mypriceforecast)
+            CPROD1_GenCosts.set_value(mypriceforecast)
+            #BHKW_GenCosts.set_value(mypriceforecast)
             print('demand forecast heat: ', myforecast, ', nr.', k+1, '/', np.shape(demand1_interp_mpc)[0])
             print('demand forecast electricity: ', list(np.zeros(mpc)), ', nr.', k+1, '/', np.shape(demand1_interp_mpc)[0])
             print('price forecast electricity buy: ', list(0.30*np.ones(mpc)), ', nr.', k+1, '/', np.shape(demand1_interp_mpc)[0])
@@ -299,8 +299,8 @@ while True:
             DMND02_demandFC.set_value(myforecast)
             DMND02_GrdBuyCost.set_value(list(0.30*np.ones(mpc)))
             DMND02_GrdSellCost.set_value(list(0.10*np.ones(mpc)))
-            #CPROD1_GenCosts.set_value(mypriceforecast)
-            BHKW_GenCosts.set_value(mypriceforecast)
+            CPROD1_GenCosts.set_value(mypriceforecast)
+            # BHKW_GenCosts.set_value(mypriceforecast)
             print('demand forecast heat: ', myforecast, ', nr.', k+1, '/', np.shape(demand1_interp_mpc)[0])
             print('demand forecast electricity: ', list(np.zeros(mpc)), ', nr.', k+1, '/', np.shape(demand1_interp_mpc)[0])
             print('price forecast electricity buy: ', list(0.30*np.ones(mpc)), ', nr.', k+1, '/', np.shape(demand1_interp_mpc)[0])

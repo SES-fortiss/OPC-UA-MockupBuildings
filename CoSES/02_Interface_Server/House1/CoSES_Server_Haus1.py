@@ -31,7 +31,7 @@ profile_time_factor = 0.25  # time factor as ratio of hours,
 CoSES_time_factor = 1 / 120  # time factor as ratio of hours,
     # for wished time difference for CoSES-Demand-Values, 1/60 = 1 min
 simulation_time_factor = 60  # 1 s in simulation time equals X seconds in real time
-karenzzeit = max(int(0.02*mpc_time_factor*(1/simulation_time_factor)*3600),5) # sekunden
+karenzzeit = -2 # max(int(0.02*mpc_time_factor*(1/simulation_time_factor)*3600),5) # sekunden
 
 nrOfEms = 1
 
@@ -63,17 +63,22 @@ naming = objectName + EMS + "OBJ01"
 
 ### add_Demand
 (myNodeIDcntr, counter, DMND01_DemandSetPt, DMND01_demandFC, DMND01_currDemand,
-    DMND01_GrdBuyCost, DMND01_GrdSellCost, DMND01_GrdBuy, DMND01_GrdSell) = add_Demand(
+    DMND01_GrdBuyCost, DMND01_GrdSellCost, DMND01_GrdBuy, DMND01_GrdSell,
+    DMND01_curPriceBuy, DMND01_curPriceSell, DMND01_GrdBuyCO2, DMND01_GrdSellCO2,
+    DMND01_curCO2Buy, DMND01_curCO2Sell) = add_Demand(
     counter, naming, idx, myNodeIDcntr, Demand, "heat", "Wärmebedarf_Haus1", mpc)
 
 (myNodeIDcntr, counter, DMND02_DemandSetPt, DMND02_demandFC, DMND02_currDemand,
-    DMND02_GrdBuyCost, DMND02_GrdSellCost, DMND02_GrdBuy, DMND02_GrdSell) = add_Demand(
+    DMND02_GrdBuyCost, DMND02_GrdSellCost, DMND02_GrdBuy, DMND02_GrdSell,
+    DMND02_curPriceBuy, DMND02_curPriceSell, DMND02_GrdBuyCO2, DMND02_GrdSellCO2,
+    DMND02_curCO2Buy, DMND02_curCO2Sell) = add_Demand(
     counter, naming, idx, myNodeIDcntr, Demand, "elec", "Strombedarf_Haus1", mpc)
 
 ### Devices
 # add_Producer
-(myNodeIDcntr, CPROD1_production, CPROD1_GenCosts, CPROD1_CO2PerKWh, CPROD1_SPDevPwr) = add_Producer(counter, naming, mpc, idx,
-                                                            myNodeIDcntr, "SFH1_EB1", Producer, "heat", 0.88, 5, 14)
+# (myNodeIDcntr, CPROD1_production, CPROD1_GenCosts, CPROD1_CO2PerKWh, CPROD1_SPDevPwr,
+#       CPROD1curPrice, CPROD1curCO2costs) = add_Producer(counter, naming, mpc, idx,
+#                myNodeIDcntr, "SFH1_EB1", Producer, "heat", 0.88, 5, 14)
 
 # add_Storage 
 (myNodeIDcntr, STOR1_SOC, STOR1_calcSOC, STOR1_setpointChg, STOR1_setpointDisChg) = add_Storage(counter, naming,
@@ -81,8 +86,9 @@ naming = objectName + EMS + "OBJ01"
                                                 "SFH1_TS1", Storage, "heat", 0.97, 0.97, 36.1, 24, 56, 56, 18.05)
 
 # add_coupler
-# (myNodeIDcntr, BHKW_Prod1, BHKW_Prod2, BHKW_GenCosts, BHKW_CO2PerKWh, BHKW_SPDevPwr) =
-    # add_Coupler(counter, naming, idx, myNodeIDcntr, 'SF2_BHKW', Coupler, 'heat', 'elec', 0.4, 0.2, 2, 2, mpc)
+(myNodeIDcntr, BHKW_Prod1, BHKW_Prod2, BHKW_GenCosts, BHKW_CO2PerKWh, BHKW_SPDevPwr,
+    BHKWcurPrice, BHKWcurCO2costs) = add_Coupler(
+     counter, naming, idx, myNodeIDcntr, 'SFH1_BHKW', Coupler, 'heat', 'elec', 0.723, 0.278, 4.9, 5.1, mpc)
 
 
 
@@ -128,17 +134,17 @@ else:
 nbr_reps_mpc_plot = int(delta_t_profile/delta_t_CoSES)
 demand1_interp_mpc_plot = np.array([np.repeat(step,nbr_reps_mpc_plot) for step in demand1_interp_mpc]).flatten()
 
-fig1=plt.figure(num='heat demand', figsize=[8.3, 5.8], dpi=300.0)
-plt.plot(timeline_CoSES/60, demand1_interp_CoSES, label="interpolated reality", linestyle="-")
-plt.plot(timeline_CoSES/60, demand1_interp_mpc_plot, label="mpc", linestyle="-", color = 'g')
-plt.plot(timeline_mpc/60, demand1_interp_mpc, label="mpc write", marker="o", linestyle="none", color = 'g')
-plt.plot(timeline_profile/60, demand1_scaled, label="original measurement", marker="x", linestyle="none", color = 'k')
-plt.legend()
-plt.title('heat demand')
-plt.xlabel('time [hours]')
-plt.ylabel('power [kW]')
+#fig1=plt.figure(num='heat demand', figsize=[8.3, 5.8], dpi=300.0)
+#plt.plot(timeline_CoSES/60, demand1_interp_CoSES, label="interpolated reality", linestyle="-")
+#plt.plot(timeline_CoSES/60, demand1_interp_mpc_plot, label="mpc", linestyle="-", color = 'g')
+#plt.plot(timeline_mpc/60, demand1_interp_mpc, label="mpc write", marker="o", linestyle="none", color = 'g')
+#plt.plot(timeline_profile/60, demand1_scaled, label="original measurement", marker="x", linestyle="none", color = 'k')
+#plt.legend()
+#plt.title('heat demand')
+#plt.xlabel('time [hours]')
+#plt.ylabel('power [kW]')
 #plt.show(block=False)
-fig1.savefig('heat_demand.png')
+#fig1.savefig('heat_demand.png')
 
 
 
@@ -155,19 +161,19 @@ prices_interp_mpc = np.array([np.repeat(step, nbr_reps_mpc) for step in dynamic_
 nbr_reps_mpc_plot = int(delta_t_profile / delta_t_CoSES)
 prices_interp_mpc_plot = np.array([np.repeat(step, nbr_reps_mpc_plot) for step in dynamic_prices]).flatten()
 
-fig2 =plt.figure(num='gas price', figsize=[8.3, 5.8], dpi=300.0)
-plt.plot(timeline_CoSES[nbr_reps_mpc_plot:]/60, prices_interp_mpc_plot[nbr_reps_mpc_plot:],
-         label="mpc", linestyle="-", color = 'g')
-plt.plot(timeline_mpc[1:]/60, prices_interp_mpc[1:],
-         label="mpc write", marker="o", linestyle="none", color = 'g')
-plt.plot(timeline_profile[1:]/60, dynamic_prices[1:],
-         label="original measurement", marker="x", linestyle="none", color = 'k')
-plt.legend()
-plt.title('gas price')
-plt.xlabel('time [hours]')
-plt.ylabel('price [€]')
+#fig2 =plt.figure(num='gas price', figsize=[8.3, 5.8], dpi=300.0)
+#plt.plot(timeline_CoSES[nbr_reps_mpc_plot:]/60, prices_interp_mpc_plot[nbr_reps_mpc_plot:],
+        # label="mpc", linestyle="-", color = 'g')
+#plt.plot(timeline_mpc[1:]/60, prices_interp_mpc[1:],
+        # label="mpc write", marker="o", linestyle="none", color = 'g')
+#plt.plot(timeline_profile[1:]/60, dynamic_prices[1:],
+        # label="original measurement", marker="x", linestyle="none", color = 'k')
+#plt.legend()
+#plt.title('gas price')
+#plt.xlabel('time [hours]')
+#plt.ylabel('price [€]')
 #plt.show(block=False)
-fig2.savefig('gas_price.png')
+#fig2.savefig('gas_price.png')
 
 def forecast_to_json(FC_step, timefactor, FC_array):
     Forecast = {}
@@ -220,14 +226,14 @@ DMND01_demandFC.set_value(myforecast)
 DMND02_demandFC.set_value(myforecast)
 DMND02_GrdBuyCost.set_value(list(0.30*np.ones(mpc)))
 DMND02_GrdSellCost.set_value(list(0.10*np.ones(mpc)))
-CPROD1_GenCosts.set_value(mypriceforecast)
-#BHKW_GenCosts.set_value(mypriceforecast)
+#CPROD1_GenCosts.set_value(mypriceforecast)
+BHKW_GenCosts.set_value(mypriceforecast)
 print('demand forecast heat: ', myforecast, ', nr.', k+1, '/', np.shape(demand1_interp_mpc)[0])
 print('demand forecast electricity: ', list(np.zeros(mpc)), ', nr.', k+1, '/', np.shape(demand1_interp_mpc)[0])
 print('price forecast electricity buy: ', list(0.30*np.ones(mpc)), ', nr.', k+1, '/', np.shape(demand1_interp_mpc)[0])
 print('price forecast electricity sell: ', list(0.10*np.ones(mpc)), ', nr.', k+1, '/', np.shape(demand1_interp_mpc)[0])
-print('price forecast producer 1: ', mypriceforecast, ', nr.', k+1,'/', np.shape(demand1_interp_mpc)[0])
-# print('price forecast coupler 1: ', mypriceforecast, ', nr.', k+1,'/', np.shape(demand1_interp_mpc)[0])
+#print('price forecast producer 1: ', mypriceforecast, ', nr.', k+1,'/', np.shape(demand1_interp_mpc)[0])
+print('price forecast coupler 1: ', mypriceforecast, ', nr.', k+1,'/', np.shape(demand1_interp_mpc)[0])
 done1 = 1
 i = time_ratio+1
 l = 0
@@ -269,14 +275,14 @@ while True:
             DMND02_demandFC.set_value(myforecast)
             DMND02_GrdBuyCost.set_value(list(0.30*np.ones(mpc)))
             DMND02_GrdSellCost.set_value(list(0.10*np.ones(mpc)))
-            CPROD1_GenCosts.set_value(mypriceforecast)
-            #BHKW_GenCosts.set_value(mypriceforecast)
+            #CPROD1_GenCosts.set_value(mypriceforecast)
+            BHKW_GenCosts.set_value(mypriceforecast)
             print('demand forecast heat: ', myforecast, ', nr.', k+1, '/', np.shape(demand1_interp_mpc)[0])
             print('demand forecast electricity: ', list(np.zeros(mpc)), ', nr.', k+1, '/', np.shape(demand1_interp_mpc)[0])
             print('price forecast electricity buy: ', list(0.30*np.ones(mpc)), ', nr.', k+1, '/', np.shape(demand1_interp_mpc)[0])
             print('price forecast electricity sell: ', list(0.10*np.ones(mpc)), ', nr.', k+1, '/', np.shape(demand1_interp_mpc)[0])
-            print('price forecast producer 1: ', mypriceforecast, ', nr.', k+1,'/', np.shape(demand1_interp_mpc)[0])
-            # print('price forecast coupler 1: ', mypriceforecast, ', nr.', k+1,'/', np.shape(demand1_interp_mpc)[0])
+            #print('price forecast producer 1: ', mypriceforecast, ', nr.', k+1,'/', np.shape(demand1_interp_mpc)[0])
+            print('price forecast coupler 1: ', mypriceforecast, ', nr.', k+1,'/', np.shape(demand1_interp_mpc)[0])
 
             # just for tests
             # Stor1_calcSOC.set_value(random.randint(0, 100))
@@ -289,7 +295,7 @@ while True:
             x2 = (k%(np.shape(demand1_interp_mpc)[0])) - (np.shape(demand1_interp_mpc)[0]-mpc)
             x1 = mpc - x2
 
-            myforecast = [demand1_interp_mpc[mycntr+x] for x in range(x1)] +\
+            myforecast = [demand1_interp_mpc[mycntr+x +1 ] for x in range(x1)] +\
                          [demand1_interp_mpc[x] for x in range(x2)]
             mypriceforecast = [prices_interp_mpc[mycntr+x] for x in range(x1)] +\
                               [prices_interp_mpc[x] for x in range(x2)]             
@@ -299,14 +305,14 @@ while True:
             DMND02_demandFC.set_value(myforecast)
             DMND02_GrdBuyCost.set_value(list(0.30*np.ones(mpc)))
             DMND02_GrdSellCost.set_value(list(0.10*np.ones(mpc)))
-            CPROD1_GenCosts.set_value(mypriceforecast)
-            #BHKW_GenCosts.set_value(mypriceforecast)
+            #CPROD1_GenCosts.set_value(mypriceforecast)
+            BHKW_GenCosts.set_value(mypriceforecast)
             print('demand forecast heat: ', myforecast, ', nr.', k+1, '/', np.shape(demand1_interp_mpc)[0])
             print('demand forecast electricity: ', list(np.zeros(mpc)), ', nr.', k+1, '/', np.shape(demand1_interp_mpc)[0])
             print('price forecast electricity buy: ', list(0.30*np.ones(mpc)), ', nr.', k+1, '/', np.shape(demand1_interp_mpc)[0])
             print('price forecast electricity sell: ', list(0.10*np.ones(mpc)), ', nr.', k+1, '/', np.shape(demand1_interp_mpc)[0])
-            print('price forecast producer 1: ', mypriceforecast, ', nr.', k+1,'/', np.shape(demand1_interp_mpc)[0])
-            # print('price forecast coupler 1: ', mypriceforecast, ', nr.', k+1,'/', np.shape(demand1_interp_mpc)[0])
+            #print('price forecast producer 1: ', mypriceforecast, ', nr.', k+1,'/', np.shape(demand1_interp_mpc)[0])
+            print('price forecast coupler 1: ', mypriceforecast, ', nr.', k+1,'/', np.shape(demand1_interp_mpc)[0])
 
             # just for tests
             # Stor1_calcSOC.set_value(random.randint(0, 100))
