@@ -94,10 +94,10 @@ def add_Demand(counter, naming, idx, Demand, sector, demName, FC_step, FC_size, 
     gridBuyAr = Demnd.add_variable(idx, demdNaming+"_1_ZM_" + short + "_GrdBuyCostAr", list(buyCostAsArray), datatype=opcua.ua.ObjectIds.Double)
     gridBuyAr.set_writable()
     
-    gridSell = Demnd.add_variable(idx, demdNaming+"_1_ZM_" + short + "_GrdSelCost", sellCost)
+    gridSell = Demnd.add_variable(idx, demdNaming+"_1_ZM_" + short + "_GrdSellCost", sellCost)
     gridSell.set_writable()
     sellCostAsArray = np.full((FC_step, 0), sellCost)
-    gridSellAr = Demnd.add_variable(idx, demdNaming+"_1_ZM_" + short + "_GrdSelCostAr", list(sellCostAsArray), datatype=opcua.ua.ObjectIds.Double)
+    gridSellAr = Demnd.add_variable(idx, demdNaming+"_1_ZM_" + short + "_GrdSellCostAr", list(sellCostAsArray), datatype=opcua.ua.ObjectIds.Double)
     gridSellAr.set_writable()
     
     # static values - forecast
@@ -135,9 +135,13 @@ def add_Demand(counter, naming, idx, Demand, sector, demName, FC_step, FC_size, 
     setpointArray = Setpoint.add_variable(idx, demdNaming +"_3_VM_" + short + "_DemndSetPt", list(np.zeros(FC_step)), datatype=opcua.ua.ObjectIds.Double)
     setpointArray.set_writable()
     
-    SPGrdBuyAr = Setpoint.add_variable(idx, demdNaming + "_3_ZM_" + short + "_SPGrdBuyAr", list(np.zeros(FC_step)), datatype=opcua.ua.ObjectIds.Double)
+    SPGrdBuy = Setpoint.add_variable(idx, demdNaming + "_3_VM_" + short + "_SPGrdBuy", 0.0)
+    SPGrdBuy.set_writable()
+    SPGrdBuyAr = Setpoint.add_variable(idx, demdNaming + "_3_VM_" + short + "_SPGrdBuyAr", list(np.zeros(FC_step)), datatype=opcua.ua.ObjectIds.Double)
     SPGrdBuyAr.set_writable()
-    SPGrdSellAr = Setpoint.add_variable(idx, demdNaming + "_3_ZM_" + short + "_SPGrdSellAr", list(np.zeros(FC_step)), datatype=opcua.ua.ObjectIds.Double)
+    SPGrdSell = Setpoint.add_variable(idx, demdNaming + "_3_VM_" + short + "_SPGrdSell", 0.0)
+    SPGrdSell.set_writable()
+    SPGrdSellAr = Setpoint.add_variable(idx, demdNaming + "_3_VM_" + short + "_SPGrdSellAr", list(np.zeros(FC_step)), datatype=opcua.ua.ObjectIds.Double)
     SPGrdSellAr.set_writable()
 
     counter[0,0]+=1
