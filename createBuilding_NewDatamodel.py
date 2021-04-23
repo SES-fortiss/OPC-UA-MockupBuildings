@@ -88,16 +88,16 @@ def add_Demand(counter, naming, idx, Demand, sector, demName, FC_step, FC_size, 
     maxTempDemand.set_writable()
     
     # static values - costs
-    gridBuy = Demnd.add_variable(idx, demdNaming+"_1_ZM_" + short + "GrdBuyCost", buyCost)
+    gridBuy = Demnd.add_variable(idx, demdNaming+"_1_ZM_" + short + "_GrdBuyCost", buyCost)
     gridBuy.set_writable()
     buyCostAsArray = np.full((FC_step, 0), buyCost)
-    gridBuyAr = Demnd.add_variable(idx, demdNaming+"_1_ZM_" + short + "GrdBuyCostAr", list(buyCostAsArray), datatype=opcua.ua.ObjectIds.Double)
+    gridBuyAr = Demnd.add_variable(idx, demdNaming+"_1_ZM_" + short + "_GrdBuyCostAr", list(buyCostAsArray), datatype=opcua.ua.ObjectIds.Double)
     gridBuyAr.set_writable()
     
-    gridSell = Demnd.add_variable(idx, demdNaming+"_1_ZM_" + short + "GrdSelCost", sellCost)
+    gridSell = Demnd.add_variable(idx, demdNaming+"_1_ZM_" + short + "_GrdSelCost", sellCost)
     gridSell.set_writable()
     sellCostAsArray = np.full((FC_step, 0), sellCost)
-    gridSellAr = Demnd.add_variable(idx, demdNaming+"_1_ZM_" + short + "GrdSelCostAr", list(sellCostAsArray), datatype=opcua.ua.ObjectIds.Double)
+    gridSellAr = Demnd.add_variable(idx, demdNaming+"_1_ZM_" + short + "_GrdSelCostAr", list(sellCostAsArray), datatype=opcua.ua.ObjectIds.Double)
     gridSellAr.set_writable()
     
     # static values - forecast
