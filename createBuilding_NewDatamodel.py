@@ -47,7 +47,7 @@ def create_Namespace(server, idx, objects):
     
 
 
-def add_General(idx, naming, General, url, connectionStat, EMSname, buildCat):
+def add_General(idx, naming, General, MemapActivated, url, connectionStat, EMSname, buildCat):
     
     k = range(100, 150, 2)
     
@@ -59,9 +59,13 @@ def add_General(idx, naming, General, url, connectionStat, EMSname, buildCat):
     EMSnameID.set_writable()
     bCategory = General.add_variable(ua.NodeId.from_string('ns={};i={}'.format(idx, k[4])), naming+"_NONE_1_ZM_XX_BCategory", buildCat)
     bCategory.set_writable()
+    MemapActive = General.add_variable(ua.NodeId.from_string('ns={};i={}'.format(idx, 8013)), naming+"_NONE_1_ZM_XX_MemapAct", MemapActivated)
+    MemapActive.set_writable()
+    trigger = General.add_variable(ua.NodeId.from_string('ns={};i={}'.format(idx, 5000)), naming+"_NONE_0_ZM_XX_trigger", 0)
+    trigger.set_writable()
 
     #return (only writables?)
-    return (endPoint, connStat, EMSnameID, bCategory)
+    return (endPoint, connStat, EMSnameID, trigger)
 
 
 
@@ -86,8 +90,15 @@ def add_Demand(counter, naming, idx, Demand, sector, demName, FC_step, FC_size, 
     # static values - costs
     gridBuy = Demnd.add_variable(idx, demdNaming+"_1_ZM_" + short + "GrdBuyCost", buyCost)
     gridBuy.set_writable()
+    buyCostAsArray = np.full((FC_step, 0), buyCost)
+    gridBuyAr = Demnd.add_variable(idx, demdNaming+"_1_ZM_" + short + "GrdBuyCostAr", list(buyCostAsArray), datatype=opcua.ua.ObjectIds.Double)
+    gridBuyAr.set_writable()
+    
     gridSell = Demnd.add_variable(idx, demdNaming+"_1_ZM_" + short + "GrdSelCost", sellCost)
     gridSell.set_writable()
+    sellCostAsArray = np.full((FC_step, 0), sellCost)
+    gridSellAr = Demnd.add_variable(idx, demdNaming+"_1_ZM_" + short + "GrdSelCostAr", list(sellCostAsArray), datatype=opcua.ua.ObjectIds.Double)
+    gridSellAr.set_writable()
     
     # static values - forecast
     numberDFCSteps = Demnd.add_variable(idx, demdNaming+"_1_ZM_" + short + "_NumDFCstp", FC_step)
@@ -96,7 +107,7 @@ def add_Demand(counter, naming, idx, Demand, sector, demName, FC_step, FC_size, 
     sizeDFCSteps.set_writable()
 
      # dynamic values
-    currDemand = Demnd.add_variable(idx, demdNaming + "_2_ZM_" + short + "_currentDem", 0.0)
+    currDemand = Demnd.add_variable(idx, demdNaming + "_2_ZM_" + short + "_curDem", 0.0)
     currDemand.set_writable()
     
     Forecast = Demnd.add_folder(idx, short+"_Forecast")
@@ -123,11 +134,16 @@ def add_Demand(counter, naming, idx, Demand, sector, demName, FC_step, FC_size, 
     
     setpointArray = Setpoint.add_variable(idx, demdNaming +"_3_VM_" + short + "_DemndSetPt", list(np.zeros(FC_step)), datatype=opcua.ua.ObjectIds.Double)
     setpointArray.set_writable()
+    
+    SPGrdBuyAr = Setpoint.add_variable(idx, demdNaming + "_3_ZM_" + short + "_SPGrdBuyAr", list(np.zeros(FC_step)), datatype=opcua.ua.ObjectIds.Double)
+    SPGrdBuyAr.set_writable()
+    SPGrdSellAr = Setpoint.add_variable(idx, demdNaming + "_3_ZM_" + short + "_SPGrdSellAr", list(np.zeros(FC_step)), datatype=opcua.ua.ObjectIds.Double)
+    SPGrdSellAr.set_writable()
 
     counter[0,0]+=1
 
-    return (setpointArray, demandArray, gridBuy)
-  
+    return (setpointArray, demandArray, currDemand, gridBuy, gridBuyAr, gridSell, gridSellAr)
+
 
 
 
@@ -159,8 +175,12 @@ def add_Producer(counter, naming, FC_step, idx, name, Producer, inMEMAP,
     # static values - costs
     energyCosts = Prod.add_variable(idx, prodNaming + "_1_ZM_" + short + "_PrimEnCost", PrimEnCost)
     energyCosts.set_writable()
-    generationCosts = Prod.add_variable(idx, prodNaming + "_1_ZM_" + short + "_GenCosts", GenCosts)
+    # ==== PRICE FORECAST MÖGLICH ====
+    primEnPriceFC = np.full((FC_step, 0), PrimEnCost)
+    generationCosts = Prod.add_variable(idx, prodNaming + "_1_ZM_" + short + "_GenCosts", list(primEnPriceFC), datatype=opcua.ua.ObjectIds.Double)
     generationCosts.set_writable()
+    #generationCosts = Prod.add_variable(idx, prodNaming + "_1_ZM_" + short + "_GenCosts", GenCosts)
+    #generationCosts.set_writable()
     CO2Costs = Prod.add_variable(idx, prodNaming + "_1_ZM_" + short + "_CO2PerKWh", PrimCO2Cost)
     CO2Costs.set_writable()
     
@@ -171,16 +191,16 @@ def add_Producer(counter, naming, FC_step, idx, name, Producer, inMEMAP,
     production.set_writable()
     
     Setpoint = Prod.add_folder(idx, "Setpoints_CPROD{:02d}".format(int(counter[0,1]+1)))
-    setpointFC = Setpoint.add_variable(idx, prodNaming + "_3_VM_" + short + "_SPDevPwr", list(np.zeros(FC_step)), datatype=opcua.ua.ObjectIds.Double)
-    setpointFC.set_writable()
-    #for i in range(FC_step):
-    #    setpointFC.append(Setpoint.add_variable(idx, prodNaming + "_3_VM_" + short + "_SPDevPwr"+ str(i+1), 0.0) )
-    #    setpointFC[i].set_writable()
+    SPDevPwrAr = Setpoint.add_variable(idx, prodNaming + "_3_VM_" + short + "_SPDevPwrAr", list(np.zeros(FC_step)), datatype=opcua.ua.ObjectIds.Double)
+    SPDevPwrAr.set_writable()
+    
+    SPDevPwr = Setpoint.add_variable(idx, prodNaming + "_3_VM_" + short + "_SPDevPwr", 0.0)
+    SPDevPwr.set_writable()
     
 
     counter[0,1]+=1
     
-    return(production, setpointFC)
+    return(production, SPDevPwrAr)
     
     
  
@@ -224,11 +244,13 @@ def add_VolatileProducer(counter, naming, idx, name, VolatileProducer, inMEMAP,
     MEMAPflag.set_writable()
     production = VProd.add_variable(idx, vProdNaming + "_2_ZM_" + short + "_curPwrPrim", 0.0)
     production.set_writable()
+    productionFC = VProd.add_variable(idx, vProdNaming + "_2_ZM_" + short + "_ProdFC", list(np.zeros(FC_step)), datatype=opcua.ua.ObjectIds.Double)
+    productionFC.set_writable()
     
     
     counter[0,2]+=1
     
-    return(production)
+    return(production, productionFC)
     
    
 def add_Coupler(counter, naming, idx, name, Coupler, inMEMAP, 
@@ -281,8 +303,11 @@ def add_Coupler(counter, naming, idx, name, Coupler, inMEMAP,
 
     # Setpoints
     Setpoint = Coup.add_folder(idx, "Setpoints_COUPL{:02d}".format(int(counter[0,3]+1)))
-    setpointFC = Setpoint.add_variable(idx, coupNaming + "_3_VM_" + short + "_SPDevPwr", list(np.zeros(FC_step)), datatype=opcua.ua.ObjectIds.Double)
-    setpointFC.set_writable()
+    SPDevPwrAr = Setpoint.add_variable(idx, coupNaming + "_3_VM_" + short + "_SPDevPwrAr", list(np.zeros(FC_step)), datatype=opcua.ua.ObjectIds.Double)
+    SPDevPwrAr.set_writable()
+    
+    SPDevPwr = Setpoint.add_variable(idx, coupNaming + "_3_VM_" + short + "_SPDevPwr", 0.0)
+    SPDevPwr.set_writable()
 	
     #for i in range(FC_step):
     #    setpointFC.append(Setpoint.add_variable(idx, coupNaming + "_3_VM_" + short + "_SPDevPwr"+ str(i+1), 0.0) )
@@ -291,7 +316,7 @@ def add_Coupler(counter, naming, idx, name, Coupler, inMEMAP,
     
     counter[0,3]+=1
     
-    return(setpointFC, Prod1, Prod2)
+    return(SPDevPwrAr, Prod1, Prod2)
     
 
     
@@ -347,13 +372,20 @@ def add_Storage(counter, naming, FC_step, idx, name, Storage, inMEMAP,
     currentP_out.set_writable()
     SOC = Stor.add_variable(idx, storNaming + "_2_ZM_" + short + "_curSOC", SOC_init)
     SOC.set_writable()
+    # Temporary!!
+    SOCcalc = Stor.add_variable(idx, storNaming + "_4_VM_" + short + "_calcSOC", SOC_init)
+    SOCcalc.set_writable()
     
      # Setpoints
     Setpoint = Stor.add_folder(idx, "Setpoints_STRGE{:02d}".format(int(counter[0,4]+1)))
-    setpointChgFC = Setpoint.add_variable(idx, storNaming + "_3_VM_" + short + "_SPCharge", list(np.zeros(FC_step)), datatype=opcua.ua.ObjectIds.Double)
-    setpointChgFC.set_writable()
-    setpointDisChgFC = Setpoint.add_variable(idx, storNaming + "_3_VM_" + short + "_SPDisChrg", list(np.zeros(FC_step)), datatype=opcua.ua.ObjectIds.Double)
-    setpointDisChgFC.set_writable()
+    setpointChgAr = Setpoint.add_variable(idx, storNaming + "_3_VM_" + short + "_SPChargeAr", list(np.zeros(FC_step)), datatype=opcua.ua.ObjectIds.Double)
+    setpointChgAr.set_writable()
+    setpointDisChgAr = Setpoint.add_variable(idx, storNaming + "_3_VM_" + short + "_SPDisChrgAr", list(np.zeros(FC_step)), datatype=opcua.ua.ObjectIds.Double)
+    setpointDisChgAr.set_writable()
+    setpointChg = Setpoint.add_variable(idx, storNaming + "_3_VM_" + short + "_SPCharge", 0.0)
+    setpointChg.set_writable()
+    setpointDisChg = Setpoint.add_variable(idx, storNaming + "_3_VM_" + short + "_SPDisChrg", 0.0)
+    setpointDisChg.set_writable()
 	
     #for i in range(FC_step):
     #    setpointChgFC.append(Setpoint.add_variable(idx, storNaming + "_3_VM_" + short + "_SPCharge"+ str(i+1), 0.0) )
@@ -364,7 +396,7 @@ def add_Storage(counter, naming, FC_step, idx, name, Storage, inMEMAP,
     
     counter[0,4]+=1
     
-    return(setpointChgFC, setpointDisChgFC, SOC)
+    return(currentP_in, currentP_out, setpointChgAr, setpointDisChgAr, SOC)
     
 
 
