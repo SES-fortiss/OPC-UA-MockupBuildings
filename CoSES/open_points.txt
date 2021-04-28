@@ -1,1 +1,0 @@
-- Wie wird electricity buy / sellund heat from / to network umgesetzt? Eigener Anlagentyp?

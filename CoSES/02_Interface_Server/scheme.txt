@@ -1,0 +1,27 @@
+# Standby
+# 1.    Server provides forecasts for steps [0,1,2,3,4] for MEMAP, nothing for CoSES
+
+# Initialization
+# 2.    MEMAP triggers, reads forecasts (nothing to write)
+# 3.    Server waits a few seconds (kadenz of 5-20 seconds) to give MEMAP time to read
+# 4.a.  Server updates forecasts for steps [1,2,3,4,5] for MEMAP
+# 4.b.  MEMAP optimizes for [0,1,2,3,4] and waits for next step (e.g. next 15 minutes)
+
+# Step 0
+# 5.a.  MEMAP writes setpoints for devices to Server for steps [0,1,2,3,4],
+#       triggers and reads forecasts from Server for [1,2,3,4,5]
+# 5.b.  Server provides demand setpoints to CoSES for steps [0, 0.01, 0.02, ... 0.98, 0.99],
+#       CoSES executes these demand setpoints and MEMAP setpoint for [0]
+# 6.    Server waits a few seconds (kadenz of 5-20 seconds) to give MEMAP time to read
+# 7.a.  Server updates forecasts for steps [2,3,4,5,6] for MEMAP
+# 7.b.  MEMAP optimizes for [1,2,3,4,5] and waits for next step (e.g. next 15 minutes)
+
+# Step 1
+# 8.a.  MEMAP writes setpoints for devices to Server for steps [1,2,3,4,5],
+#       triggers and reads forecasts from Server for [2,3,4,5,6]
+# 8.b.  Server provides demand setpoints to CoSES for steps [1, 1.01, 1.02, ... 1.98, 1.99],
+#       CoSES executes these demand setpoints and MEMAP setpoint for [1]
+# 9.    Server waits a few seconds (kadenz of 5-20 seconds) to give MEMAP time to read
+# 10.a. Server updates forecasts for steps [3,4,5,6,7] for MEMAP
+# 10.b. MEMAP optimizes for [2,3,4,5,6] and waits for next step (e.g. next 15 minutes)
+# to be repeated for further steps

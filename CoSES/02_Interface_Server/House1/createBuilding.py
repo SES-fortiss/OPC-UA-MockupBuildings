@@ -449,6 +449,9 @@ def add_Storage(counter, naming, FC_step, idx, myNodeIDcntr, name, Storage,
     storageCap = Stor.add_variable(mynsid(idx, k), storNaming + "_1_ZM_" + short + "_Capacity", Capacity)
     storageCap.set_writable()
     k+=1
+    CO2perkWh = Stor.add_variable(mynsid(idx, k), storNaming + "_1_ZM_" + short + "_CO2perkWh", -0.00012)
+    CO2perkWh.set_writable()
+    k += 1
     
     # static values - costs
     # energyCosts = Stor.add_variable(mynsid(idx, k), storNaming + "_1_ZM_" + short + "_PrimEnCost", 0)

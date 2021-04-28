@@ -113,6 +113,39 @@ def add_Demand(counter, naming, idx, myNodeIDcntr, Demand, sector, demName, FC_s
     GrdSellCost.set_writable()
     k += 1
 
+    curPriceBuy = Demnd.add_variable(mynsid(idx, k),
+                                    demdNaming + "_1_VM_" + short + "_curPriceBuy", 0.0)
+    curPriceBuy.set_writable()
+    k += 1
+
+    curPriceSell = Demnd.add_variable(mynsid(idx, k),
+                                     demdNaming + "_1_VM_" + short + "_curPriceSell", 0.0)
+    curPriceSell.set_writable()
+    k += 1
+
+
+    GrdBuyCO2 = Demnd.add_variable(mynsid(idx, k),
+                                    demdNaming + "_1_ZM_" + short + "_GrdBuyCO2",
+                                    list(np.zeros(FC_step)), datatype=opcua.ua.ObjectIds.Double)
+    GrdBuyCO2.set_writable()
+    k += 1
+
+    GrdSellCO2 = Demnd.add_variable(mynsid(idx, k),
+                                     demdNaming + "_1_ZM_" + short + "_GrdSellCO2",
+                                     list(np.zeros(FC_step)), datatype=opcua.ua.ObjectIds.Double)
+    GrdSellCO2.set_writable()
+    k += 1
+
+    curCO2Buy = Demnd.add_variable(mynsid(idx, k),
+                                     demdNaming + "_1_VM_" + short + "_curCO2Buy", 0.0)
+    curCO2Buy.set_writable()
+    k += 1
+
+    curCO2Sell = Demnd.add_variable(mynsid(idx, k),
+                                      demdNaming + "_1_VM_" + short + "_curCO2Sell", 0.0)
+    curCO2Sell.set_writable()
+    k += 1
+
     GrdBuyAr = Demnd.add_variable(mynsid(idx, k), demdNaming + "_1_ZM_" + short + "_SPGrdBuyAr",
                                     list(np.zeros(FC_step)), datatype=opcua.ua.ObjectIds.Double)
     GrdBuyAr.set_writable()
@@ -148,7 +181,8 @@ def add_Demand(counter, naming, idx, myNodeIDcntr, Demand, sector, demName, FC_s
     myNodeIDcntr = k
     counter[0,0]+=1
 
-    return (myNodeIDcntr, counter, DemandSetPt, demandArray, currDemand, GrdBuyCost, GrdSellCost, GrdBuy, GrdSell)
+    return (myNodeIDcntr, counter, DemandSetPt, demandArray, currDemand, GrdBuyCost, GrdSellCost, GrdBuy, GrdSell,
+            curPriceBuy, curPriceSell, GrdBuyCO2, GrdSellCO2, curCO2Buy, curCO2Sell)
 
 
 def add_Producer(counter, naming, FC_step, idx, myNodeIDcntr, name, Producer,
@@ -191,16 +225,16 @@ def add_Producer(counter, naming, FC_step, idx, myNodeIDcntr, name, Producer,
     CO2PerKWh.set_writable()
     k+=1
 
-    # priceFC = Prod.add_variable(mynsid(idx, k), prodNaming +"_2_ZM_" + short + "_priceFC",
-    #                            list(np.zeros(FC_step)), datatype=opcua.ua.ObjectIds.Double)
-    # priceFC.set_writable()
-    # k+=1
-
-    curPrice = Prod.add_variable(mynsid(idx, k), prodNaming + "_1_ZM_" + short + "_curPrice", 0.0)
-    curPrice.set_writable()
-    k += 1
     
     # dynamic values
+    curPrice = Prod.add_variable(mynsid(idx, k), prodNaming + "_1_VM_" + short + "_curPrice", 0.0)
+    curPrice.set_writable()
+    k += 1
+
+    curCO2costs = Prod.add_variable(mynsid(idx, k), prodNaming + "_1_VM_" + short + "_curCO2costs", 0.0)
+    curCO2costs.set_writable()
+    k += 1
+
     SPDevPwrAr = Prod.add_variable(mynsid(idx, k), prodNaming + "_3_VM_" + short + "_SPDevPwrAr",
                                    list(np.zeros(FC_step)), datatype=opcua.ua.ObjectIds.Double)
     SPDevPwrAr.set_writable()
@@ -216,7 +250,7 @@ def add_Producer(counter, naming, FC_step, idx, myNodeIDcntr, name, Producer,
 
     counter[0,1]+=1
     myNodeIDcntr = k
-    return(myNodeIDcntr, production, GenCosts, CO2PerKWh, SPDevPwr)
+    return(myNodeIDcntr, production, GenCosts, CO2PerKWh, SPDevPwr, curPrice, curCO2costs)
     
     
  
@@ -254,6 +288,16 @@ def add_VolatileProducer(counter, naming, idx, myNodeIDcntr, name, VolatileProdu
                                      list(np.zeros(FC_step)), datatype=opcua.ua.ObjectIds.Double)
     CO2PerKWh.set_writable()
     k+=1
+
+    curPrice = VProd.add_variable(mynsid(idx, k),
+                                  vProdNaming + "_1_VM_" + short + "_curPrice", 0.0)
+    curPrice.set_writable()
+    k += 1
+
+    curCO2costs = VProd.add_variable(mynsid(idx, k),
+                                   vProdNaming + "_1_VM_" + short + "_curCO2costs", 0.0)
+    curCO2costs.set_writable()
+    k += 1
     
     
     # dynamic values - forecast
@@ -277,7 +321,7 @@ def add_VolatileProducer(counter, naming, idx, myNodeIDcntr, name, VolatileProdu
 
     counter[0,2]+=1
     myNodeIDcntr = k
-    return(myNodeIDcntr, production, GenCosts, CO2PerKWh, SPDevPwr)
+    return(myNodeIDcntr, production, GenCosts, CO2PerKWh, SPDevPwr, curPrice, curCO2costs)
     
    
 def add_Coupler(counter, naming, idx, myNodeIDcntr, name, Coupler,
@@ -331,8 +375,20 @@ def add_Coupler(counter, naming, idx, myNodeIDcntr, name, Coupler,
                                      list(np.zeros(FC_step)), datatype=opcua.ua.ObjectIds.Double)
     CO2PerKWh.set_writable()
     k+=1
-    
-    
+
+    #
+
+    curPrice = Coup.add_variable(mynsid(idx, k),
+                                 coupNaming + "_1_VM_" + short + "_curPrice", 0.0)
+    curPrice.set_writable()
+    k += 1
+
+    curCO2costs = Coup.add_variable(mynsid(idx, k),
+                                  coupNaming + "_1_VM_" + short + "_curCO2costs", 0.0)
+    curCO2costs.set_writable()
+    k += 1
+
+    #
     
     Prod1 = Coup.add_variable(mynsid(idx, k), coupNaming + "_2_ZM_" + short + "_curPwrPrim", 0)
     Prod1.set_writable()
@@ -353,7 +409,7 @@ def add_Coupler(counter, naming, idx, myNodeIDcntr, name, Coupler,
     
     counter[0,3]+=1
     myNodeIDcntr = k
-    return(myNodeIDcntr, Prod1, Prod2, GenCosts, CO2PerKWh, SPDevPwr)
+    return(myNodeIDcntr, Prod1, Prod2, GenCosts, CO2PerKWh, SPDevPwr, curPrice, curCO2costs)
     
 
     
@@ -393,6 +449,9 @@ def add_Storage(counter, naming, FC_step, idx, myNodeIDcntr, name, Storage,
     storageCap = Stor.add_variable(mynsid(idx, k), storNaming + "_1_ZM_" + short + "_Capacity", Capacity)
     storageCap.set_writable()
     k+=1
+    CO2perkWh = Stor.add_variable(mynsid(idx, k), storNaming + "_1_ZM_" + short + "_CO2perkWh", -0.00012)
+    CO2perkWh.set_writable()
+    k += 1
     
     # static values - costs
     # energyCosts = Stor.add_variable(mynsid(idx, k), storNaming + "_1_ZM_" + short + "_PrimEnCost", 0)
