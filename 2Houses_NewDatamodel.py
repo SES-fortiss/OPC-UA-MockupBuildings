@@ -18,7 +18,7 @@ import numpy as np
 
 mpc = 5
 time_factor = 0.25
-n = 192
+n = 96
 size = n
 #size = 1440
 Value = 0.0
@@ -26,8 +26,8 @@ Value = 0.0
 objectName = "LS02"
 nrOfEms = 2
 
-demandPath1 = "data/ConsumptionGEB1.csv"
-demandPath2 = "data/ConsumptionGEB2.csv"
+demandPath1 = "data/Geb1/Geb1_15min.csv"
+demandPath2 = "data/Geb2/Geb2_15min.csv"
 
 
 # ================= Defining the Namespace of the Building =====================
@@ -47,27 +47,32 @@ counter = np.zeros([nrOfEms,5])
 
 ### General
 # add_General(idx, naming, General, url, connectionStat, EMSname, buildCat)
-(endPoint, connStat, EMSnameID, bCategory) = add_General(idx, naming, General, url1, True, "MFH1_EMS", "Multi-Family-Home")
-
+(B1_MemapActive, B1_endPoint, B1_EMSnameID, B1_trigger) = add_General(idx, naming, General, True, url1, True, "MFH1_EMS", "Electric-Multi-Family-Home")
 ### Demand
-(B1_heatDemandSP, B1_htDemFCarray, B1_elBuyCost) = add_Demand(counter, naming, idx, Demand, "heat", "Wärmebedarf_Haus1", mpc, 60*time_factor, 30, 40, 5.34, 999.0)
-(B1_elecDemandSP, B1_elDemFCarray, B1_htBuyCost) = add_Demand(counter, naming, idx, Demand, "elec", "Strombedarf_Haus1", mpc, 60*time_factor, 0.0, 0.0, B1_elBuyCost, 0.0)
+																								   
+(B1_heatDemandSP, B1_htDemFCarray, B1_currHtDem, B1_htBuyCost, B1_htBuyCostAr, B1_htSellCost, B1_htSellCostAr) = add_Demand(counter, naming, idx, Demand, "heat", "Wärmebedarf_Haus1", mpc, 60*time_factor, 30, 40, 5.34, 999.0)
+(B1_elecDemandSP, B1_elDemFCarray, B1_currElDem, B1_elBuyCost, B1_elBuyCostAr, B1_elSellCost, B1_elSellCostAr) = add_Demand(counter, naming, idx, Demand, "elec", "Strombedarf_Haus1", mpc, 60*time_factor, 0.0, 0.0, 0.3, 0.15)
 
 ### Anlagen
 
-# VolatileProducer
-B1_Eff_VProd1 = 0.18
-(B1_vProd1_Power) = add_VolatileProducer(counter, naming, idx, "MFH1_PV", VolatileProducer, True, "elec", 3.24, 0.0, 0.0,  mpc, 60*time_factor,  0.0, 0.0, 0.0)
+# VolatileProducer - PV-Installation
+B1_Eff_VProd1 = 0.181
+B1_area_VProd1 = 18.23 #m²						   
+(B1_vProd1_CrtPower, B1_vProd1_PowerFC) = add_VolatileProducer(counter, naming, idx, "MFH1_PV", VolatileProducer, True, "elec", B1_Eff_VProd1*B1_area_VProd1, 0.0, 0.0,  mpc, 60*time_factor,  0.0, 0.0, 0.0)
 
-# Coupler 
+# Coupler  - Heatpump
 B1_Eff1_Coup1 = 3.8
 B1_Eff2_Coup1 = -1
-(B1_Prod1_Setpoint, B1_Prod1_Power1, B1_Prod1_Power2) = add_Coupler(counter, naming, idx, "MFH1_HP", Coupler, True, "heat", "elec", B1_Eff1_Coup1 , B1_Eff2_Coup1, 3, 10, 30, 55, mpc, 0.0, 0.0, 0.0)
+B1_P_min_Coup1 = 0
+B1_P_max_Coup1 = 12				  		   
+(B1_Prod1_Setpoint, B1_Prod1_Power1, B1_Prod1_Power2) = add_Coupler(counter, naming, idx, "MFH1_HP", Coupler, True, "heat", "elec", B1_Eff1_Coup1 , B1_Eff2_Coup1, B1_P_min_Coup1, B1_P_max_Coup1, 30, 55, mpc, 0.0, 0.0, 0.0)
     
-# Storage 
-B1_Eff_Stor1 = 0.98
-B1_Cap_Stor1 = 6
-(B1_Stor1_setpointChgFC, B1_Stor1_setpointDisChgFC, B1_Stor1_SOC) = add_Storage(counter, naming, mpc, idx, "MFH1_Bat", Storage, True, "elec", B1_Eff_Stor1, B1_Eff_Stor1 , B1_Cap_Stor1, 0.0, 3.3, 3.3, 0.0, 0.0, 0.0, 0.5, 0.0, 0.0, 0.0)
+# Storage - Battery
+B1_Eff_Stor1 = 0.97
+B1_P_ChDisCh = 3.3				  
+B1_Cap_Stor1 = 10
+B1_StartSOC = 0.5				 
+(B1_Stor1_In, B1_Stor1_Out, B1_Stor1_setpointChgFC, B1_Stor1_setpointDisChgFC, B1_Stor1_SOC) = add_Storage(counter, naming, mpc, idx, "MFH1_Bat", Storage, True, "elec", B1_Eff_Stor1, B1_Eff_Stor1, B1_Cap_Stor1, 0.0, B1_P_ChDisCh, B1_P_ChDisCh, 0.0, 0.0, 0.0, B1_StartSOC, 0.0, 0.0, 0.0)
 
 # Anlagen - Allgemein
 # nicht sehr allgemein gehalten. Hier wäre if (VolatileProducer.get_variables(Med) == "Electricity"): besser 
@@ -105,28 +110,33 @@ counter = np.zeros([nrOfEms,5])
 (General, Demand, Systems, Producer, VolatileProducer, Coupler, Storage) = create_Namespace(server2, idx, objects)
 
 #General = objects.add_object(idx, "General")
-(endPoint, connStat, EMSnameID, bCategory) = add_General(idx, naming, General, url2, True, "MFH2_EMS", "Multi-Family House")
+(B2_MemapActive, B2_endPoint, B2_EMSnameID, B2_trigger) = add_General(idx, naming, General, True, url2, True, "MFH2_EMS", "Gas-Multi-Family House")
 
 ### Demand
-(B2_heatDemandSP, B2_htDemFCarray, B2_elBuyCost) = add_Demand(counter, naming, idx, Demand, "heat", "Wärmebedarf_Haus2", mpc, 60*time_factor, 40, 120, 5.34, 999.0)
-(B2_elecDemandSP, B2_elDemFCarray, B2_htBuyCost) = add_Demand(counter, naming, idx, Demand, "elec", "Strombedarf_Haus2", mpc, 60*time_factor, 0.0, 0.0, B2_elBuyCost, 0.0)
+(B2_heatDemandSP, B2_htDemFCarray, B2_currHtDem, B2_htBuyCost, B2_htBuyCostAr, B2_htSellCost, B2_htSellCostAr) = add_Demand(counter, naming, idx, Demand, "heat", "Wärmebedarf_Haus2", mpc, 60*time_factor, 40, 120, 5.34, 999.0)
+(B2_elecDemandSP, B2_elDemFCarray, B2_currElDem, B2_elBuyCost, B2_elBuyCostAr, B2_elSellCost, B2_elSellCostAr) = add_Demand(counter, naming, idx, Demand, "elec", "Strombedarf_Haus2", mpc, 60*time_factor, 0.0, 0.0, 0.3, 0.15)
 
 
 ### Anlagen
 
 # VolatileProducer
 B2_Eff_VProd1 = 0.5
-(B2_vProd1_Power) = add_VolatileProducer(counter, naming, idx, "MFH2_ST", VolatileProducer, True, "heat", 1.5, 20.0, 110.0,  mpc, 60*time_factor,  0.0, 0.0, 0.0)
+B2_area_VProd1 = 8				  
+(B2_vProd1_CrtPower, B2_vProd1_PowerFC) = add_VolatileProducer(counter, naming, idx, "MFH2_ST", VolatileProducer, True, "heat", B2_Eff_VProd1*B2_area_VProd1, 20.0, 110.0,  mpc, 60*time_factor,  0.0, 0.0, 0.0)
 
 # Coupler
 B2_Eff1_Coup1 = .6
 B2_Eff2_Coup1 = .25
-(B2_Prod1_Setpoint, B2_Prod1_Power1, B2_Prod1_Power2) = add_Coupler(counter, naming, idx, "MFH2_uCHP", Coupler, True, "heat", "elec", B2_Eff1_Coup1, B2_Eff2_Coup1, 1, 3.6, 80, 100, mpc, 0.0, 0.0, 0.0)
+B2_P_min_Coup1 = .5
+B2_P_max_Coup1 = 6.6					
+(B2_Prod1_Setpoint, B2_Prod1_Power1, B2_Prod1_Power2) = add_Coupler(counter, naming, idx, "MFH2_uCHP", Coupler, True, "heat", "elec", B2_Eff1_Coup1, B2_Eff2_Coup1, B2_P_min_Coup1, B2_P_max_Coup1, 80, 100, mpc, 0.059, 0.0, 0.202)
 
 # Storage 
 B2_Eff_Stor1 = 0.98
+B2_P_ChDisCh = 10				 
 B2_Cap_Stor1 = 20
-(B2_Stor1_setpointChgFC, B2_Stor1_setpointDisChgFC, B2_Stor1_SOC) = add_Storage(counter, naming, mpc, idx, "MFH2_TS", Storage, True, "heat", B2_Eff_Stor1, B2_Eff_Stor1 , B2_Cap_Stor1, 0.0, 5, 5, 60, 90, 60, 0.5, 0.0, 0.0, 0.0)
+B2_StartSOC = 0.5				 
+(B2_Stor1_In, B2_Stor1_Out, B2_Stor1_setpointChgFC, B2_Stor1_setpointDisChgFC, B2_Stor1_SOC) = add_Storage(counter, naming, mpc, idx, "MFH2_TS", Storage, True, "heat", B2_Eff_Stor1, B2_Eff_Stor1 , B2_Cap_Stor1, 0.0, B2_P_ChDisCh, B2_P_ChDisCh, 60, 90, 60, B2_StartSOC, 0.0, 0.0, 0.0)
 
 
 # Anlagen - Allgemein
@@ -167,44 +177,110 @@ server2.PublishingEnabled = True
 
 
 # ==================== Load 2 Days from Simulation ========================
-Consumption_B1 = np.genfromtxt("data/ConsumptionGEB1.csv", delimiter=";")
-Consumption_B2 = np.genfromtxt("data/ConsumptionGEB2.csv", delimiter=";")
+Consumption_B1 = np.genfromtxt(demandPath1, delimiter=";")
+Consumption_B2 = np.genfromtxt(demandPath2, delimiter=";")
 
-P_Geb1 = np.genfromtxt("data/XvectorGEB1.csv", delimiter=";")
-P_Geb2 = np.genfromtxt("data/XvectorGEB2.csv", delimiter=";")
+P_B1_Vprod = np.genfromtxt("data/Geb1/PVG1.csv", delimiter=";")
+P_B2_Vprod = np.genfromtxt("data/Geb2/STG2.csv", delimiter=";")
+
+P_B1_Strge = np.genfromtxt("data/Geb1/BATG1.csv", delimiter=";")
+P_B2_Strge = np.genfromtxt("data/Geb2/WSPG2.csv", delimiter=";")
+
+
 E_Price = np.genfromtxt("data/YIpriceOrig.csv", delimiter=";")
-
 
 # ============================= set values =================================
 i = 0
 
 while True:
    
+    # convert from kwh to kw with time_factor, New input is already in kW
+    
+    # ToDo: Methode: Add data to forecast for building 
+    demForecast1 = [Consumption_B1[i+1 + x, 2] for x in range(mpc)]
+    B1_elDemFCarray.set_value(demForecast1)
+    
+    demForecast2 = [Consumption_B2[i+1 + x, 2] for x in range(mpc)]
+    B2_elDemFCarray.set_value(demForecast2)
+    
+    demForecast3 = [Consumption_B1[i+1 + x, 3] for x in range(mpc)]
+    B1_htDemFCarray.set_value(demForecast3)
+    
+    demForecast4 = [Consumption_B2[i+1 + x, 3] for x in range(mpc)]
+    B2_htDemFCarray.set_value(demForecast4)
+   
+    B1_currElDem.set_value(Consumption_B1[i,2])
+    B2_currElDem.set_value(Consumption_B2[i,2])
+    B1_currHtDem.set_value(Consumption_B1[i,3])
+    B2_currHtDem.set_value(Consumption_B2[i,3])
+        
+    
     '''
-    # convert from kwh to kw with time_factor
-    B1_heatDemandSP.set_value(Consumption_B1[i]/time_factor)
-    B2_heatDemandSP.set_value(Consumption_B2[i]/time_factor)
-    B1_elecDemandSP.set_value(Consumption_B1[n+i]/time_factor)
-    B2_elecDemandSP.set_value(Consumption_B2[n+i]/time_factor)
+    for j in range(mpc):
+        B1_elDemFCarray.get_value()[j] = Consumption_B1[n+i+j]/time_factor
+        B2_elDemFCarray.get_value()[j] = Consumption_B2[n+i+j]/time_factor
+        B1_htDemFCarray.get_value()[j] = Consumption_B1[i+j]/time_factor
+        B2_htDemFCarray.get_value()[j] = Consumption_B2[i+j]/time_factor
+    '''
+    
+    # Variable Strompreise
+    # Aber beide Häuser gleich
+    elBuyCosts1 = [-E_Price[i+1 + x] for x in range(mpc)]
+    B1_elBuyCostAr.set_value(elBuyCosts1)
+    elBuyCosts2 = [-E_Price[i+1 + x] for x in range(mpc)]
+    B2_elBuyCostAr.set_value(elBuyCosts2)
+    
+
+    # Solare Produktion
+    vprodForecast1 = [P_B1_Vprod[i+1 + x] for x in range(mpc)]
+    B1_vProd1_PowerFC.set_value(vprodForecast1)
+    B1_vProd1_CrtPower.set_value(P_B1_Vprod[i])
+    
+    vprodForecast2 = [P_B2_Vprod[i+1 + x] for x in range(mpc)]
+    B2_vProd1_PowerFC.set_value(vprodForecast2)
+    B2_vProd1_CrtPower.set_value(P_B2_Vprod[i])
     
     
-    # Forecast in JSON Format
-    Forecast1 = {}
-    Forecast2 = {}
-    Forecast3 = {}
-    Forecast4 = {}
+    # Update SOC
     
-        StrH = 'HeatForecast_t' + str(15*(j+1))
-        StrE = 'ElecForecast_t' + str(15*(j+1))
-        Forecast1[StrH] = str(Consumption_B1[i+(j+1)]/time_factor)
-        Forecast2[StrH] = str(Consumption_B2[i+(j+1)]/time_factor)
-        Forecast3[StrE] = str(Consumption_B1[n+i+j+1]/time_factor)
-        Forecast4[StrE] = str(Consumption_B2[n+i+j+1]/time_factor)
-    B1_HeatFC.set_value(json.dumps(Forecast1))
-    B2_HeatFC.set_value(json.dumps(Forecast2))
-    B1_ElecFC.set_value(json.dumps(Forecast3))
-    B2_ElecFC.set_value(json.dumps(Forecast4))
-    ''' 
+    if (B1_MemapActive.get_value()):
+        B1_Stor1_In.set_value(B1_Stor1_setpointChgFC.get_value()[0])
+        B1_Stor1_Out.set_value(B1_Stor1_setpointDisChgFC.get_value()[0])
+    else:
+        B1_Stor1_In.set_value(P_B1_Strge[i,1])
+        B1_Stor1_Out.set_value(P_B1_Strge[i,0])
+    
+    if (B2_MemapActive.get_value()):    
+        B2_Stor1_In.set_value(B2_Stor1_setpointChgFC.get_value()[0])
+        B2_Stor1_Out.set_value(B2_Stor1_setpointDisChgFC.get_value()[0])
+    else:
+        B2_Stor1_In.set_value(P_B2_Strge[i,1])
+        B2_Stor1_Out.set_value(P_B2_Strge[i,0])
+
+    # ToDo : Losses berücksichtigen
+    B1_StorChange = time_factor * (B1_Stor1_In.get_value() - B1_Stor1_Out.get_value()) / B1_Cap_Stor1 # Änderung in Prozent der Capazität
+    B2_StorChange = time_factor * (B2_Stor1_In.get_value() - B2_Stor1_Out.get_value()) / B2_Cap_Stor1 # Änderung in Prozent der Capazität
+    # SOC in Prozent
+    B1_Stor1_SOC.set_value(B1_Stor1_SOC.get_value() + B1_StorChange)
+    B2_Stor1_SOC.set_value(B2_Stor1_SOC.get_value() + B2_StorChange)
+    
+
+    print(i+1, "B1: ", B1_Stor1_In.get_value(), B1_Stor1_Out.get_value(), B1_Stor1_SOC.get_value(), "B2: " ,B2_Stor1_In.get_value(), B2_Stor1_Out.get_value(), B2_Stor1_SOC.get_value())
+    #print(i, ElecPower_B1.get_value(), HeatPower_B1.get_value(), ElecPower_B2.get_value(), HeatPower_B2.get_value())
+    #print(" ")
+    
+    # We cut away 5 timesteps from the day here for the MPC
+    if i < size-mpc-1:
+        i += 1
+    else:
+        i = 0
+        
+    time.sleep(15)    
+    
+    
+    
+'''
+OLD VERSION
     
    
     for j in range(mpc):
@@ -253,3 +329,4 @@ while True:
         i -= size
         
     time.sleep(10)
+ '''
