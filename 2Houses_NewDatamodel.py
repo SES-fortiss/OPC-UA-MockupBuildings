@@ -50,7 +50,7 @@ counter = np.zeros([nrOfEms,5])
 (B1_MemapActive, B1_endPoint, B1_EMSnameID, B1_trigger) = add_General(idx, naming, General, True, url1, True, "MFH1_EMS", "Electric-Multi-Family-Home")
 ### Demand
 																								   
-(B1_heatDemandSP, B1_htDemFCarray, B1_currHtDem, B1_htBuyCost, B1_htBuyCostAr, B1_htSellCost, B1_htSellCostAr) = add_Demand(counter, naming, idx, Demand, "heat", "Wärmebedarf_Haus1", mpc, 60*time_factor, 30, 40, 5.34, 999.0)
+(B1_heatDemandSP, B1_htDemFCarray, B1_currHtDem, B1_htBuyCost, B1_htBuyCostAr, B1_htSellCost, B1_htSellCostAr) = add_Demand(counter, naming, idx, Demand, "heat", "Wärmebedarf_Haus1", mpc, 60*time_factor, 30, 40, 0.0534, 999.0)
 (B1_elecDemandSP, B1_elDemFCarray, B1_currElDem, B1_elBuyCost, B1_elBuyCostAr, B1_elSellCost, B1_elSellCostAr) = add_Demand(counter, naming, idx, Demand, "elec", "Strombedarf_Haus1", mpc, 60*time_factor, 0.0, 0.0, 0.3, 0.15)
 
 ### Anlagen
@@ -113,7 +113,7 @@ counter = np.zeros([nrOfEms,5])
 (B2_MemapActive, B2_endPoint, B2_EMSnameID, B2_trigger) = add_General(idx, naming, General, True, url2, True, "MFH2_EMS", "Gas-Multi-Family House")
 
 ### Demand
-(B2_heatDemandSP, B2_htDemFCarray, B2_currHtDem, B2_htBuyCost, B2_htBuyCostAr, B2_htSellCost, B2_htSellCostAr) = add_Demand(counter, naming, idx, Demand, "heat", "Wärmebedarf_Haus2", mpc, 60*time_factor, 40, 120, 5.34, 999.0)
+(B2_heatDemandSP, B2_htDemFCarray, B2_currHtDem, B2_htBuyCost, B2_htBuyCostAr, B2_htSellCost, B2_htSellCostAr) = add_Demand(counter, naming, idx, Demand, "heat", "Wärmebedarf_Haus2", mpc, 60*time_factor, 40, 120, 0.0534, 999.0)
 (B2_elecDemandSP, B2_elDemFCarray, B2_currElDem, B2_elBuyCost, B2_elBuyCostAr, B2_elSellCost, B2_elSellCostAr) = add_Demand(counter, naming, idx, Demand, "elec", "Strombedarf_Haus2", mpc, 60*time_factor, 0.0, 0.0, 0.3, 0.15)
 
 
@@ -129,7 +129,7 @@ B2_Eff1_Coup1 = .6
 B2_Eff2_Coup1 = .25
 B2_P_min_Coup1 = .5
 B2_P_max_Coup1 = 6.6					
-(B2_Prod1_Setpoint, B2_Prod1_Power1, B2_Prod1_Power2) = add_Coupler(counter, naming, idx, "MFH2_uCHP", Coupler, True, "heat", "elec", B2_Eff1_Coup1, B2_Eff2_Coup1, B2_P_min_Coup1, B2_P_max_Coup1, 80, 100, mpc, 0.059, 0.0, 0.202)
+(B2_Prod1_Setpoint, B2_Prod1_Power1, B2_Prod1_Power2) = add_Coupler(counter, naming, idx, "MFH2_uCHP", Coupler, True, "heat", "elec", B2_Eff1_Coup1, B2_Eff2_Coup1, B2_P_min_Coup1, B2_P_max_Coup1, 80, 100, mpc, 0.059, 0.059, 0.202)
 
 # Storage 
 B2_Eff_Stor1 = 0.98
@@ -225,9 +225,9 @@ while True:
     
     # Variable Strompreise
     # Aber beide Häuser gleich
-    elBuyCosts1 = [-E_Price[i+1 + x] for x in range(mpc)]
+    elBuyCosts1 = [E_Price[i+1 + x]/100 for x in range(mpc)]
     B1_elBuyCostAr.set_value(elBuyCosts1)
-    elBuyCosts2 = [-E_Price[i+1 + x] for x in range(mpc)]
+    elBuyCosts2 = [E_Price[i+1 + x]/100 for x in range(mpc)]
     B2_elBuyCostAr.set_value(elBuyCosts2)
     
 
@@ -265,9 +265,9 @@ while True:
     B2_Stor1_SOC.set_value(B2_Stor1_SOC.get_value() + B2_StorChange)
     
 
-    print(i+1, "B1: ", B1_Stor1_In.get_value(), B1_Stor1_Out.get_value(), B1_Stor1_SOC.get_value(), "B2: " ,B2_Stor1_In.get_value(), B2_Stor1_Out.get_value(), B2_Stor1_SOC.get_value())
-    #print(i, ElecPower_B1.get_value(), HeatPower_B1.get_value(), ElecPower_B2.get_value(), HeatPower_B2.get_value())
-    #print(" ")
+    print(i+1, "B1 strge: ", B1_Stor1_In.get_value(), B1_Stor1_Out.get_value(), B1_Stor1_SOC.get_value(), " demnd: ", demForecast1[0], demForecast3[0])
+    print(i+1, "B2 strge: " ,B2_Stor1_In.get_value(), B2_Stor1_Out.get_value(), B2_Stor1_SOC.get_value(), " demnd: ", demForecast2[0], demForecast4[0])
+    print(" ")
     
     # We cut away 5 timesteps from the day here for the MPC
     if i < size-mpc-1:
