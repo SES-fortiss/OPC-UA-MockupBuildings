@@ -90,14 +90,12 @@ def add_Demand(counter, naming, idx, Demand, sector, demName, FC_step, FC_size, 
     # static values - costs
     gridBuy = Demnd.add_variable(idx, demdNaming+"_1_ZM_" + short + "_GrdBuyCost", buyCost)
     gridBuy.set_writable()
-    buyCostAsArray = np.full((FC_step, 0), buyCost)
-    gridBuyAr = Demnd.add_variable(idx, demdNaming+"_1_ZM_" + short + "_GrdBuyCostAr", list(buyCostAsArray), datatype=opcua.ua.ObjectIds.Double)
+    gridBuyAr = Demnd.add_variable(idx, demdNaming+"_1_ZM_" + short + "_GrdBuyCostAr", list(buyCost*np.ones(FC_step)), datatype=opcua.ua.ObjectIds.Double)
     gridBuyAr.set_writable()
     
     gridSell = Demnd.add_variable(idx, demdNaming+"_1_ZM_" + short + "_GrdSellCost", sellCost)
     gridSell.set_writable()
-    sellCostAsArray = np.full((FC_step, 0), sellCost)
-    gridSellAr = Demnd.add_variable(idx, demdNaming+"_1_ZM_" + short + "_GrdSellCostAr", list(sellCostAsArray), datatype=opcua.ua.ObjectIds.Double)
+    gridSellAr = Demnd.add_variable(idx, demdNaming+"_1_ZM_" + short + "_GrdSellCostAr", list(sellCost*np.ones(FC_step)), datatype=opcua.ua.ObjectIds.Double)
     gridSellAr.set_writable()
     
     # static values - forecast
@@ -180,8 +178,7 @@ def add_Producer(counter, naming, FC_step, idx, name, Producer, inMEMAP,
     energyCosts = Prod.add_variable(idx, prodNaming + "_1_ZM_" + short + "_PrimEnCost", PrimEnCost)
     energyCosts.set_writable()
     # ==== PRICE FORECAST MÖGLICH ====
-    primEnPriceFC = np.full((FC_step, 0), PrimEnCost)
-    generationCosts = Prod.add_variable(idx, prodNaming + "_1_ZM_" + short + "_GenCosts", list(primEnPriceFC), datatype=opcua.ua.ObjectIds.Double)
+    generationCosts = Prod.add_variable(idx, prodNaming + "_1_ZM_" + short + "_GenCosts", list(PrimEnCost*np.ones(FC_step)), datatype=opcua.ua.ObjectIds.Double)
     generationCosts.set_writable()
     #generationCosts = Prod.add_variable(idx, prodNaming + "_1_ZM_" + short + "_GenCosts", GenCosts)
     #generationCosts.set_writable()
