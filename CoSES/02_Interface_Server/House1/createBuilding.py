@@ -62,6 +62,11 @@ def add_General(idx, myNodeIDcntr, naming, General, EMSname):
     Trigger.set_writable()
     k+=1
 
+    efficiency = General.add_variable(mynsid(idx, k),
+                                      naming + "_1_ZM_HT" + "_EffHtNetReceive", 0.0)
+    efficiency.set_writable()
+    k += 1
+
     myNodeIDcntr = k
     return (myNodeIDcntr, EMSnameID, Trigger)
 
@@ -84,11 +89,6 @@ def add_Demand(counter, naming, idx, myNodeIDcntr, Demand, sector, demName, FC_s
                                       demdNaming+"_1_ZM_" + short + "_PrimSect", sector)
     demandSector.set_writable()
     k+=1
-    
-    efficiency = Demnd.add_variable(mynsid(idx, k),
-                                      demdNaming + "_1_ZM_" + short + "_EffReceive", 0.0)
-    efficiency.set_writable()
-    k += 1
     
     # dynamic values
     demandArray = Demnd.add_variable(mynsid(idx, k),
