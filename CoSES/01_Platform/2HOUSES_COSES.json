@@ -7,7 +7,7 @@
             {
                 "name": "CoSES_EMS1",
                 "description": "",
-                "url": "opc.tcp:\/\/10.10.10.9:4851",
+                "url": "opc.tcp:\/\/0.0.0.0:4851",
                 "opcua_namespaceindex": 2,
                 "config": {
                     "CoSESEMS01OBJ01": {
@@ -209,7 +209,7 @@
             {
                 "name": "CoSES_EMS2",
                 "description": "",
-                "url": "opc.tcp:\/\/10.10.10.9:4852",
+                "url": "opc.tcp:\/\/0.0.0.0:4852",
                 "opcua_namespaceindex": 2,
                 "config": {
                     "CoSESEMS02OBJ01": {
