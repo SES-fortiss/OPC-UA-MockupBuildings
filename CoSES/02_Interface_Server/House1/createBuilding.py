@@ -487,7 +487,7 @@ def add_Storage(counter, naming, FC_step, idx, myNodeIDcntr, name, Storage,
     k+=1
     
     # static values - costs
-    energyCosts = Stor.add_variable(mynsid(idx, k), storNaming + "_1_ZM_" + short + "_PrimEnCost", 0)
+    energyCosts = Stor.add_variable(mynsid(idx, k), storNaming + "_1_ZM_" + short + "_PrimEnCost", 0.0)
     energyCosts.set_writable()
     k+=1
 
