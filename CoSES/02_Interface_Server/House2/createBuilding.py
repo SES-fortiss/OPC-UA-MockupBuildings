@@ -453,14 +453,6 @@ def add_Storage(counter, naming, FC_step, idx, myNodeIDcntr, name, Storage,
     CO2PerKWh.set_writable()
     k += 1
     
-    # static values - costs
-    # energyCosts = Stor.add_variable(mynsid(idx, k), storNaming + "_1_ZM_" + short + "_PrimEnCost", 0)
-    # energyCosts.set_writable()
-    # k+=1
-    # CO2Costs = Stor.add_variable(mynsid(idx, k), storNaming + "_1_ZM_" + short + "_CO2PerKWh", 0)
-    # CO2Costs.set_writable()
-    # k+=1 
-    
     # dynamic values
     currentP_in = Stor.add_variable(mynsid(idx, k), storNaming + "_2_ZM_" + short + "_curChrg", 0)
     currentP_in.set_writable()
@@ -494,6 +486,10 @@ def add_Storage(counter, naming, FC_step, idx, myNodeIDcntr, name, Storage,
     setpointDisChg.set_writable()
     k+=1
     
+    # static values - costs
+    energyCosts = Stor.add_variable(mynsid(idx, k), storNaming + "_1_ZM_" + short + "_PrimEnCost", 0)
+    energyCosts.set_writable()
+    k+=1
     
     counter[0,4]+=1
     myNodeIDcntr = k
