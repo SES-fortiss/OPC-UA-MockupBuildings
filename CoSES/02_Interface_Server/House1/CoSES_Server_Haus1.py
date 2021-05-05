@@ -101,11 +101,11 @@ print("\n")
 # ========= Load forecasts from file ======================================
 
 demand1_profile, demandtime_profile = ImportFromCSV (demandPath, "\n", profile_time_factor)
-demand1_MEMAP, demandtime_MEMAP = InterpolateProfile (demand1_profile, interp_type, profile_time_factor, mpc_time_factor)
-demand1_CoSES, demandtime_CoSES = InterpolateProfile (demand1_profile, interp_type, profile_time_factor, CoSES_time_factor)
+demand1_MEMAP, demandtime_MEMAP = InterpolateProfileMEMAP (demand1_profile, interp_type, profile_time_factor, mpc_time_factor)
+demand1_CoSES, demandtime_CoSES = InterpolateProfileCoSES (demand1_profile, interp_type, profile_time_factor, CoSES_time_factor)
 
 price1_profile, pricetime_profile = ImportFromCSV (pricePath, "\n", profile_time_factor)
-price1_MEMAP, pricetime_MEMAP = InterpolateProfile (price1_profile, interp_type, profile_time_factor, mpc_time_factor)
+price1_MEMAP, pricetime_MEMAP = InterpolateProfileMEMAP (price1_profile, interp_type, profile_time_factor, mpc_time_factor)
 
 
 if plot_forecasts:
@@ -116,6 +116,21 @@ if plot_forecasts:
     PlotProfile(price1_profile, pricetime_profile, "price1", "€/kWh", "figures")
     PlotProfile(price1_MEMAP, pricetime_MEMAP, "price1_MEMAP", "€/kWh", "figures")
 
+    demand1_MEMAP_step, demandtime_MEMAP2 = InterpolateProfileMEMAP(demand1_profile, "step", profile_time_factor,
+                                                              CoSES_time_factor)
+    #demandtime_MEMAP_adj = [x+profile_time_factor*60/2 for x in demandtime_MEMAP]
+    fig1 = plt.figure(num="MEMAP vs CoSES", figsize=[8.3, 5.8], dpi=400.0)
+    plt.plot(demandtime_MEMAP2, demand1_MEMAP_step, linestyle="-", color='g')
+    plt.plot(demandtime_CoSES, demand1_CoSES, linestyle="-", color='k')
+    plt.title("MEMAP vs CoSES")
+    plt.xlabel('')
+    plt.ylabel("")
+    plt.show(block=False)
+    whattimeisit = datetime.now()
+    now_string = whattimeisit.strftime("%Y%m%d_%H%M%S")
+    filename = "figures" + "/" + "MEMAP vs CoSES" + "_" + now_string + ".png"
+    fig1.savefig(filename)
+    print("Plot was saved.")
 
 # =============================== Start ===================================
 # ============================= scheme =================================
