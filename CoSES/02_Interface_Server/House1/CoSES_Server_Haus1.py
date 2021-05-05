@@ -165,7 +165,7 @@ print("### Prepare for STANDBY ###")
 # ## # Iterators / programming stuff
 j = 0 # time step since start of experiment
 horizon = list(range(0, mpc))
-horizon_min_MEMAP = list(np.array(range(j+1, j+1+mpc))*mpc_time_factor*60)
+horizon_min_MEMAP = list(np.array(range(j, j+mpc))*mpc_time_factor*60)
 
 Trigger.set_value(0)
 lasttriggertime = time.monotonic()
@@ -177,7 +177,6 @@ DMND01_demandFC.set_value(demand1_MEMAP_FC)
 # DMND02_demandFC.set_value(demand1_MEMAP_FC)
 # CPROD1_GenCosts.set_value(price1_MEMAP_FC)
 BHKW_GenCosts.set_value(price1_MEMAP_FC)
-print(BHKW_GenCosts.get_value())
 DMND02_GrdBuyCost.set_value(list(0.30 * np.ones(mpc)))
 DMND02_GrdSellCost.set_value(list(0.10 * np.ones(mpc)))
 
@@ -204,7 +203,7 @@ while myinput != '':
 t = time.localtime()
 current_time = time.strftime("%d.%m.%Y, %H:%M:%S", t)
 
-print('############## EXPERIMENT STARTED: ', current_time, ' (= minute 0.0) ##############\n')
+print('############## EXPERIMENT STARTED: ', current_time, '##############\n')
 
 # ============================= RUNNING Experiment =================================
 
@@ -213,6 +212,9 @@ newTriggerValue = oldTriggerValue
 while newTriggerValue == oldTriggerValue:
     newTriggerValue = Trigger.get_value()
 
+t = time.localtime()
+current_time = time.strftime("%d.%m.%Y, %H:%M:%S", t)
+print('############## FIRST TRIGGER RECEIVED: ', current_time, ' (= minute 0.0) ##############\n')
 oldTriggerValue = newTriggerValue
 lasttriggertime = time.monotonic()
 
@@ -222,7 +224,7 @@ print("### INITIALIZATION ###")
 j += 1
 k = 99999
 updatedone = True
-horizon_min_MEMAP = list(np.array(range(j+1, j+1+mpc))*mpc_time_factor*60)
+horizon_min_MEMAP = list(np.array(range(j, j+mpc))*mpc_time_factor*60)
 demand1_MEMAP_FC = Profile2Forecast(demand1_MEMAP, j, mpc)
 price1_MEMAP_FC = Profile2Forecast(price1_MEMAP, j, mpc)
 DMND01_demandFC.set_value(demand1_MEMAP_FC)
@@ -252,7 +254,7 @@ while True:
         j += 1
         k = 0 # number of iteration during timestep
         updatedone = False
-        horizon_min_MEMAP = list(np.array(range(j+1, j+1+mpc))*mpc_time_factor*60)
+        horizon_min_MEMAP = list(np.array(range(j, j+mpc))*mpc_time_factor*60)
 
         print("\n")
 
@@ -324,15 +326,12 @@ while True:
         l = j
 
     if k == 0: # first iteration in timestep
-        print(j)
-        print(k)
-        print(l)
-        print("index ", ((l-2)*time_ratio)+k)
+
         # CoSES demand setpoints
         DMND01_DemandSetPt.set_value(demand1_CoSES[((l-2)*time_ratio)+k])
         #DMND02_DemandSetPt.set_value(0.0)
-        refminute_CoSESset = (((l-1)*time_ratio)+k)*60*CoSES_time_factor
-        refminute_CoSESset2 = (((l-1)*time_ratio)+k+1)*60*CoSES_time_factor
+        refminute_CoSESset = (((l-2)*time_ratio)+k)*60*CoSES_time_factor
+        refminute_CoSESset2 = (((l-2)*time_ratio)+k+1)*60*CoSES_time_factor
 
         # Boundary Conditions
         refmin_bounds = horizon_min_MEMAP[0]-2*(60*mpc_time_factor)
@@ -363,8 +362,8 @@ while True:
         # CoSES demand setpoints
         DMND01_DemandSetPt.set_value(demand1_CoSES[((j-2)*time_ratio)+k])
         #DMND02_DemandSetPt.set_value(0.0)
-        refminute_CoSESset = (((j-1)*time_ratio)+k)*60*CoSES_time_factor
-        refminute_CoSESset2 = (((j-1)*time_ratio)+k+1)*60*CoSES_time_factor
+        refminute_CoSESset = (((j-2)*time_ratio)+k)*60*CoSES_time_factor
+        refminute_CoSESset2 = (((j-2)*time_ratio)+k+1)*60*CoSES_time_factor
 
         # print
         print('demand setpoint CoSES heat: ', demand1_CoSES[((j - 2) * time_ratio) + k], ', for minute ',
@@ -379,141 +378,3 @@ while True:
 
     else:
         pass
-
-
-
-
-
-
-# ## Initialization
-# k=0
-# Trigger.set_value(0)
-# oldTriggerValue = Trigger.get_value()
-# lasttriggertime = time.monotonic()
-# mytime2 = lasttriggertime - delta_t_for_setting_CoSES
-# print('MEMAP alle ', delta_t_for_setting_MEMAP, ' Sekunden =  alle ',
-#       delta_t_for_setting_MEMAP * simulation_time_factor, " Sekunden Realzeit")
-# print('CoSES alle ', delta_t_for_setting_CoSES, ' Sekunden =  alle ', delta_t_for_setting_CoSES*simulation_time_factor,
-#               " Sekunden Realzeit")
-# myforecast = [demand1_interp_mpc[x] for x in range(mpc)]
-# mypriceforecast = [prices_interp_mpc[x] for x in range(mpc)]
-# DMND01_demandFC.set_value(myforecast)
-# # DMND02_demandFC.set_value(myforecast)
-# # DMND02_GrdBuyCost.set_value(list(0.30*np.ones(mpc)))
-# # DMND02_GrdSellCost.set_value(list(0.10*np.ones(mpc)))
-# # #CPROD1_GenCosts.set_value(mypriceforecast)
-# # BHKW_GenCosts.set_value(mypriceforecast)
-# print('demand forecast heat: ', myforecast, ', nr.', k+1, '/', np.shape(demand1_interp_mpc)[0])
-# print('demand forecast electricity: ', list(np.zeros(mpc)), ', nr.', k+1, '/', np.shape(demand1_interp_mpc)[0])
-# print('price forecast electricity buy: ', list(0.30*np.ones(mpc)), ', nr.', k+1, '/', np.shape(demand1_interp_mpc)[0])
-# print('price forecast electricity sell: ', list(0.10*np.ones(mpc)), ', nr.', k+1, '/', np.shape(demand1_interp_mpc)[0])
-# #print('price forecast producer 1: ', mypriceforecast, ', nr.', k+1,'/', np.shape(demand1_interp_mpc)[0])
-# print('price forecast coupler 1: ', mypriceforecast, ', nr.', k+1,'/', np.shape(demand1_interp_mpc)[0])
-# done1 = 1
-# i = time_ratio+1
-# l = 0
-# timing_delta1 = 0
-# timing_delta2 = 0
-# startup = True
-#
-# ## Loop
-#
-# while True:
-#     newTriggerValue = Trigger.get_value()
-#
-#     if newTriggerValue != oldTriggerValue:
-#         if startup==True:
-#             startup = False
-#             oldTriggerValue = newTriggerValue
-#         else:
-#             lasttriggertime = time.monotonic()
-#             done1 = 0
-#             k+=1
-#             mytime2 = lasttriggertime - delta_t_for_setting_CoSES
-#             i=0
-#             oldTriggerValue = newTriggerValue
-#
-#     timing_delta1 = time.monotonic() - lasttriggertime
-#     timing_delta2 = time.monotonic() - mytime2
-#
-#     # update forecasts
-#     if (timing_delta1 >= karenzzeit) & (done1 == 0):
-#
-#         lastforecastupdate = time.monotonic()
-#
-#         if k%(np.shape(demand1_interp_mpc)[0])<=np.shape(demand1_interp_mpc)[0]-mpc:
-#             mycntr = k%(np.shape(demand1_interp_mpc)[0])
-#             myforecast = [demand1_interp_mpc[mycntr + x] for x in range(mpc)]
-#             mypriceforecast = [prices_interp_mpc[mycntr + x] for x in range(mpc)]
-#
-#             DMND01_demandFC.set_value(myforecast)
-#             DMND02_demandFC.set_value(myforecast)
-#             DMND02_GrdBuyCost.set_value(list(0.30*np.ones(mpc)))
-#             DMND02_GrdSellCost.set_value(list(0.10*np.ones(mpc)))
-#             #CPROD1_GenCosts.set_value(mypriceforecast)
-#             BHKW_GenCosts.set_value(mypriceforecast)
-#             print('demand forecast heat: ', myforecast, ', nr.', k+1, '/', np.shape(demand1_interp_mpc)[0])
-#             print('demand forecast electricity: ', list(np.zeros(mpc)), ', nr.', k+1, '/', np.shape(demand1_interp_mpc)[0])
-#             print('price forecast electricity buy: ', list(0.30*np.ones(mpc)), ', nr.', k+1, '/', np.shape(demand1_interp_mpc)[0])
-#             print('price forecast electricity sell: ', list(0.10*np.ones(mpc)), ', nr.', k+1, '/', np.shape(demand1_interp_mpc)[0])
-#             #print('price forecast producer 1: ', mypriceforecast, ', nr.', k+1,'/', np.shape(demand1_interp_mpc)[0])
-#             print('price forecast coupler 1: ', mypriceforecast, ', nr.', k+1,'/', np.shape(demand1_interp_mpc)[0])
-#
-#             # just for tests
-#             # Stor1_calcSOC.set_value(random.randint(0, 100))
-#             # Prod1_Setpoint.set_value(myforecast)
-#             # STOR1_SOC.set_value(STOR1_calcSOC.get_value())
-#             print('measured SOC storage 1: ', STOR1_SOC.get_value(), ', nr.', k+1,'/', np.shape(demand1_interp_mpc)[0])
-#
-#         elif k%(np.shape(demand1_interp_mpc)[0]) > np.shape(demand1_interp_mpc)[0]-mpc:
-#             mycntr = k % (np.shape(demand1_interp_mpc)[0])
-#             x2 = (k%(np.shape(demand1_interp_mpc)[0])) - (np.shape(demand1_interp_mpc)[0]-mpc)
-#             x1 = mpc - x2
-#
-#             myforecast = [demand1_interp_mpc[mycntr+x +1 ] for x in range(x1)] +\
-#                          [demand1_interp_mpc[x] for x in range(x2)]
-#             mypriceforecast = [prices_interp_mpc[mycntr+x] for x in range(x1)] +\
-#                               [prices_interp_mpc[x] for x in range(x2)]
-#
-#
-#             DMND01_demandFC.set_value(myforecast)
-#             DMND02_demandFC.set_value(myforecast)
-#             DMND02_GrdBuyCost.set_value(list(0.30*np.ones(mpc)))
-#             DMND02_GrdSellCost.set_value(list(0.10*np.ones(mpc)))
-#             #CPROD1_GenCosts.set_value(mypriceforecast)
-#             BHKW_GenCosts.set_value(mypriceforecast)
-#             print('demand forecast heat: ', myforecast, ', nr.', k+1, '/', np.shape(demand1_interp_mpc)[0])
-#             print('demand forecast electricity: ', list(np.zeros(mpc)), ', nr.', k+1, '/', np.shape(demand1_interp_mpc)[0])
-#             print('price forecast electricity buy: ', list(0.30*np.ones(mpc)), ', nr.', k+1, '/', np.shape(demand1_interp_mpc)[0])
-#             print('price forecast electricity sell: ', list(0.10*np.ones(mpc)), ', nr.', k+1, '/', np.shape(demand1_interp_mpc)[0])
-#             #print('price forecast producer 1: ', mypriceforecast, ', nr.', k+1,'/', np.shape(demand1_interp_mpc)[0])
-#             print('price forecast coupler 1: ', mypriceforecast, ', nr.', k+1,'/', np.shape(demand1_interp_mpc)[0])
-#
-#             # just for tests
-#             # Stor1_calcSOC.set_value(random.randint(0, 100))
-#             # Prod1_Setpoint.set_value(myforecast)
-#             # STOR1_SOC.set_value(STOR1_calcSOC.get_value())
-#
-#         # iterator
-#         done1 = 1
-#
-#     # demand setpoint for CoSES
-#     if (timing_delta2 >= delta_t_for_setting_CoSES) & (k>0):
-#         mytime2 = time.monotonic()
-#
-#         if i < time_ratio:
-#             mycntr2 = (k-1)*time_ratio + i   #l%np.shape(demand1_interp_CoSES)[0]
-#             mynr = i # (l%np.shape(demand1_interp_CoSES)[0])%(np.shape(demand1_interp_CoSES)[0]/np.shape(demand1_interp_mpc)[0])
-#             # write CoSES values in cycles
-#             DMND01_DemandSetPt.set_value(demand1_interp_CoSES[mycntr2])
-#             DMND02_DemandSetPt.set_value(demand1_interp_CoSES[mycntr2])
-#             print('demand setpoint heat: ', demand1_interp_CoSES[mycntr2], ', nr.', k, '+ (', int(mynr+1), '/',
-#                   int(np.shape(demand1_interp_CoSES)[0]/np.shape(demand1_interp_mpc)[0]),')')
-#             print('demand setpoint electricity: ', demand1_interp_CoSES[mycntr2], ', nr.', k, '+ (', int(mynr+1), '/',
-#                   int(np.shape(demand1_interp_CoSES)[0]/np.shape(demand1_interp_mpc)[0]),')')
-#
-#             i += 1
-#             l += 1
-#
-#             # just for tests
-#             # STOR1_SOC.set_value(STOR1_calcSOC.get_value())

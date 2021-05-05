@@ -165,7 +165,7 @@ print("### Prepare for STANDBY ###")
 # ## # Iterators / programming stuff
 j = 0 # time step since start of experiment
 horizon = list(range(0, mpc))
-horizon_min_MEMAP = list(np.array(range(j+1, j+1+mpc))*mpc_time_factor*60)
+horizon_min_MEMAP = list(np.array(range(j, j+mpc))*mpc_time_factor*60)
 
 Trigger.set_value(0)
 lasttriggertime = time.monotonic()
@@ -203,7 +203,7 @@ while myinput != '':
 t = time.localtime()
 current_time = time.strftime("%d.%m.%Y, %H:%M:%S", t)
 
-print('############## EXPERIMENT STARTED: ', current_time, ' (= minute 0.0) ##############\n')
+print('############## EXPERIMENT STARTED: ', current_time, '##############\n')
 
 # ============================= RUNNING Experiment =================================
 
@@ -212,6 +212,9 @@ newTriggerValue = oldTriggerValue
 while newTriggerValue == oldTriggerValue:
     newTriggerValue = Trigger.get_value()
 
+t = time.localtime()
+current_time = time.strftime("%d.%m.%Y, %H:%M:%S", t)
+print('############## FIRST TRIGGER RECEIVED: ', current_time, ' (= minute 0.0) ##############\n')
 oldTriggerValue = newTriggerValue
 lasttriggertime = time.monotonic()
 
@@ -221,7 +224,7 @@ print("### INITIALIZATION ###")
 j += 1
 k = 99999
 updatedone = True
-horizon_min_MEMAP = list(np.array(range(j+1, j+1+mpc))*mpc_time_factor*60)
+horizon_min_MEMAP = list(np.array(range(j, j+mpc))*mpc_time_factor*60)
 demand1_MEMAP_FC = Profile2Forecast(demand1_MEMAP, j, mpc)
 price1_MEMAP_FC = Profile2Forecast(price1_MEMAP, j, mpc)
 DMND01_demandFC.set_value(demand1_MEMAP_FC)
@@ -251,7 +254,7 @@ while True:
         j += 1
         k = 0 # number of iteration during timestep
         updatedone = False
-        horizon_min_MEMAP = list(np.array(range(j+1, j+1+mpc))*mpc_time_factor*60)
+        horizon_min_MEMAP = list(np.array(range(j, j+mpc))*mpc_time_factor*60)
 
         print("\n")
 
@@ -323,15 +326,12 @@ while True:
         l = j
 
     if k == 0: # first iteration in timestep
-        print(j)
-        print(k)
-        print(l)
-        print("index ", ((l-2)*time_ratio)+k)
+
         # CoSES demand setpoints
         DMND01_DemandSetPt.set_value(demand1_CoSES[((l-2)*time_ratio)+k])
         #DMND02_DemandSetPt.set_value(0.0)
-        refminute_CoSESset = (((l-1)*time_ratio)+k)*60*CoSES_time_factor
-        refminute_CoSESset2 = (((l-1)*time_ratio)+k+1)*60*CoSES_time_factor
+        refminute_CoSESset = (((l-2)*time_ratio)+k)*60*CoSES_time_factor
+        refminute_CoSESset2 = (((l-2)*time_ratio)+k+1)*60*CoSES_time_factor
 
         # Boundary Conditions
         refmin_bounds = horizon_min_MEMAP[0]-2*(60*mpc_time_factor)
@@ -362,8 +362,8 @@ while True:
         # CoSES demand setpoints
         DMND01_DemandSetPt.set_value(demand1_CoSES[((j-2)*time_ratio)+k])
         #DMND02_DemandSetPt.set_value(0.0)
-        refminute_CoSESset = (((j-1)*time_ratio)+k)*60*CoSES_time_factor
-        refminute_CoSESset2 = (((j-1)*time_ratio)+k+1)*60*CoSES_time_factor
+        refminute_CoSESset = (((j-2)*time_ratio)+k)*60*CoSES_time_factor
+        refminute_CoSESset2 = (((j-2)*time_ratio)+k+1)*60*CoSES_time_factor
 
         # print
         print('demand setpoint CoSES heat: ', demand1_CoSES[((j - 2) * time_ratio) + k], ', for minute ',
@@ -378,4 +378,3 @@ while True:
 
     else:
         pass
-
