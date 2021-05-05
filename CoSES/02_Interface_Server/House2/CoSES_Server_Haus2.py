@@ -38,8 +38,11 @@ karenzzeit = max(int(0.02*mpc_time_factor*(1/simulation_time_factor)*3600),3) # 
 
 nrOfEms = 1
 
-demandPath  =   "FC_data_series/Test1_Last.csv"
-pricePath    =   "FC_data_series/Test1_Preise.csv"
+demandPath_heat  =   "FC_data_series/SF2_demand_heat.csv"
+demandPath_elec  =   "FC_data_series/SF2_demand_elec.csv"
+pricePath_gas    =   "FC_data_series/SF2_gas_price.csv"
+pricePath_elec_buy    =   "FC_data_series/SF2_elec_price_buy.csv"
+pricePath_elec_sell    =   "FC_data_series/SF2_elec_price_sell.csv"
 interp_type = "spline" # alternatives: "step", "linear", "spline",
 plot_forecasts = False
 
@@ -100,21 +103,40 @@ add_Producer
 
 # ========= Load forecasts from file ======================================
 
-demand1_profile, demandtime_profile = ImportFromCSV (demandPath, "\n", profile_time_factor)
+demand1_profile, demandtime_profile = ImportFromCSV (demandPath_heat, "\n", profile_time_factor)
 demand1_MEMAP, demandtime_MEMAP = InterpolateProfileMEMAP (demand1_profile, interp_type, profile_time_factor, mpc_time_factor)
 demand1_CoSES, demandtime_CoSES = InterpolateProfileCoSES (demand1_profile, interp_type, profile_time_factor, CoSES_time_factor)
 
-price1_profile, pricetime_profile = ImportFromCSV (pricePath, "\n", profile_time_factor)
-price1_MEMAP, pricetime_MEMAP = InterpolateProfileMEMAP (price1_profile, interp_type, profile_time_factor, mpc_time_factor)
+demand2_profile, demandtime_profile = ImportFromCSV (demandPath_elec, "\n", profile_time_factor)
+demand2_MEMAP, demandtime_MEMAP = InterpolateProfileMEMAP (demand2_profile, interp_type, profile_time_factor, mpc_time_factor)
+
+priceGas_profile, pricetime_profile = ImportFromCSV (pricePath_gas, "\n", profile_time_factor)
+priceGas_MEMAP, pricetime_MEMAP = InterpolateProfileMEMAP (priceGas_profile, interp_type, profile_time_factor, mpc_time_factor)
+
+priceElecbuy_profile, pricetime_profile = ImportFromCSV (pricePath_elec_buy, "\n", profile_time_factor)
+priceElecbuy_MEMAP, pricetime_MEMAP = InterpolateProfileMEMAP (priceElecbuy_profile, interp_type, profile_time_factor, mpc_time_factor)
+
+priceElecsell_profile, pricetime_profile = ImportFromCSV (pricePath_elec_sell, "\n", profile_time_factor)
+priceElecsell_MEMAP, pricetime_MEMAP = InterpolateProfileMEMAP (priceElecsell_profile, interp_type, profile_time_factor, mpc_time_factor)
 
 
 if plot_forecasts:
 
     PlotProfile(demand1_profile, demandtime_profile, "demand1", "kW", "figures")
     PlotProfile(demand1_MEMAP, demandtime_MEMAP, "demand1_MEMAP", "kW", "figures")
+
     PlotProfile(demand1_CoSES, demandtime_CoSES, "demand1_CoSES", "kW", "figures")
-    PlotProfile(price1_profile, pricetime_profile, "price1", "€/kWh", "figures")
-    PlotProfile(price1_MEMAP, pricetime_MEMAP, "price1_MEMAP", "€/kWh", "figures")
+    PlotProfile(demand2_profile, demandtime_profile, "demand2", "kW", "figures")
+    PlotProfile(demand2_MEMAP, demandtime_MEMAP, "demand2_MEMAP", "kW", "figures")
+
+    PlotProfile(priceGas_profile, pricetime_profile, "priceGas", "€/kWh", "figures")
+    PlotProfile(priceGas_MEMAP, pricetime_MEMAP, "priceGas_MEMAP", "€/kWh", "figures")
+
+    PlotProfile(priceElecbuy_profile, pricetime_profile, "priceElecbuy", "€/kWh", "figures")
+    PlotProfile(priceElecbuy_MEMAP, pricetime_MEMAP, "priceElecbuy_MEMAP", "€/kWh", "figures")
+
+    PlotProfile(priceElecsell_profile, pricetime_profile, "priceElecsell", "€/kWh", "figures")
+    PlotProfile(priceElecsell_MEMAP, pricetime_MEMAP, "priceElecsell_MEMAP", "€/kWh", "figures")
 
     demand1_MEMAP_step, demandtime_MEMAP2 = InterpolateProfileMEMAP(demand1_profile, "step", profile_time_factor,
                                                               CoSES_time_factor)
@@ -188,21 +210,25 @@ lasttriggertime = time.monotonic()
 oldTriggerValue = Trigger.get_value()
 
 demand1_MEMAP_FC = Profile2Forecast (demand1_MEMAP, j, mpc)
-price1_MEMAP_FC = Profile2Forecast (price1_MEMAP, j, mpc)
+demand2_MEMAP_FC = Profile2Forecast (demand2_MEMAP, j, mpc)
+priceGas_MEMAP_FC = Profile2Forecast (priceGas_MEMAP, j, mpc)
+priceElecbuy_MEMAP_FC = Profile2Forecast (priceElecbuy_MEMAP, j, mpc)
+priceElecsell_MEMAP_FC = Profile2Forecast (priceElecsell_MEMAP, j, mpc)
+
 DMND01_demandFC.set_value(demand1_MEMAP_FC)
-# DMND02_demandFC.set_value(demand1_MEMAP_FC)
-CPROD1_GenCosts.set_value(price1_MEMAP_FC)
-# BHKW_GenCosts.set_value(price1_MEMAP_FC)
-DMND02_GrdBuyCost.set_value(list(0.30*np.ones(mpc)))
-DMND02_GrdSellCost.set_value(list(0.10*np.ones(mpc)))
+DMND02_demandFC.set_value(demand2_MEMAP_FC)
+CPROD1_GenCosts.set_value(priceGas_MEMAP_FC)
+# BHKW_GenCosts.set_value(priceGas_MEMAP_FC)
+DMND02_GrdBuyCost.set_value(priceElecbuy_MEMAP_FC)
+DMND02_GrdSellCost.set_value(priceElecsell_MEMAP_FC)
 
 # print
 print('demand forecast heat: ', demand1_MEMAP_FC, ', for minutes', horizon_min_MEMAP)
-print('demand forecast electricity: ', list(np.zeros(mpc)), ', for minutes', horizon_min_MEMAP)
-print('price forecast gas boiler: ', list(price1_MEMAP_FC), ', for minutes', horizon_min_MEMAP)
+print('demand forecast electricity: ', demand2_MEMAP_FC, ', for minutes', horizon_min_MEMAP)
+print('price forecast gas boiler: ', priceGas_MEMAP_FC, ', for minutes', horizon_min_MEMAP)
 # print('price forecast BHKW: ', list(np.zeros(mpc)), ', for minutes', horizon_min_MEMAP)
-print('price forecast electricity buy: ', list(0.30*np.ones(mpc)), ', for minutes', horizon_min_MEMAP)
-print('price forecast electricity sell: ', list(0.10 * np.ones(mpc)), ', for minutes', horizon_min_MEMAP)
+print('price forecast electricity buy: ', priceElecbuy_MEMAP_FC, ', for minutes', horizon_min_MEMAP)
+print('price forecast electricity sell: ', priceElecsell_MEMAP_FC, ', for minutes', horizon_min_MEMAP)
 
 print("### Server in STANDBY ###\n")
 
@@ -241,22 +267,27 @@ j += 1
 k = 99999
 updatedone = True
 horizon_min_MEMAP = list(np.array(range(j, j+mpc))*mpc_time_factor*60)
-demand1_MEMAP_FC = Profile2Forecast(demand1_MEMAP, j, mpc)
-price1_MEMAP_FC = Profile2Forecast(price1_MEMAP, j, mpc)
+
+demand1_MEMAP_FC = Profile2Forecast (demand1_MEMAP, j, mpc)
+demand2_MEMAP_FC = Profile2Forecast (demand2_MEMAP, j, mpc)
+priceGas_MEMAP_FC = Profile2Forecast (priceGas_MEMAP, j, mpc)
+priceElecbuy_MEMAP_FC = Profile2Forecast (priceElecbuy_MEMAP, j, mpc)
+priceElecsell_MEMAP_FC = Profile2Forecast (priceElecsell_MEMAP, j, mpc)
+
 DMND01_demandFC.set_value(demand1_MEMAP_FC)
-# DMND02_demandFC.set_value(demand1_MEMAP_FC)
-CPROD1_GenCosts.set_value(price1_MEMAP_FC)
-# BHKW_GenCosts.set_value(price1_MEMAP_FC)
-DMND02_GrdBuyCost.set_value(list(0.30*np.ones(mpc)))
-DMND02_GrdSellCost.set_value(list(0.10*np.ones(mpc)))
+DMND02_demandFC.set_value(demand2_MEMAP_FC)
+CPROD1_GenCosts.set_value(priceGas_MEMAP_FC)
+# BHKW_GenCosts.set_value(priceGas_MEMAP_FC)
+DMND02_GrdBuyCost.set_value(priceElecbuy_MEMAP_FC)
+DMND02_GrdSellCost.set_value(priceElecsell_MEMAP_FC)
 
 # print
 print('demand forecast heat: ', demand1_MEMAP_FC, ', for minutes', horizon_min_MEMAP)
-print('demand forecast electricity: ', list(np.zeros(mpc)), ', for minutes', horizon_min_MEMAP)
-print('price forecast gas boiler: ', list(price1_MEMAP_FC), ', for minutes', horizon_min_MEMAP)
+print('demand forecast electricity: ', demand2_MEMAP_FC, ', for minutes', horizon_min_MEMAP)
+print('price forecast gas boiler: ', priceGas_MEMAP_FC, ', for minutes', horizon_min_MEMAP)
 # print('price forecast BHKW: ', list(np.zeros(mpc)), ', for minutes', horizon_min_MEMAP)
-print('price forecast electricity buy: ', list(0.30*np.ones(mpc)), ', for minutes', horizon_min_MEMAP)
-print('price forecast electricity sell: ', list(0.10 * np.ones(mpc)), ', for minutes', horizon_min_MEMAP)
+print('price forecast electricity buy: ', priceElecbuy_MEMAP_FC, ', for minutes', horizon_min_MEMAP)
+print('price forecast electricity sell: ', priceElecsell_MEMAP_FC, ', for minutes', horizon_min_MEMAP)
 print("### INITIALIZATION DONE ###\n")
 
 # ## Loop ---------------------------------------------------------------------------
@@ -282,24 +313,28 @@ while True:
         if (time.monotonic() > lasttriggertime + karenzzeit) and not updatedone:
             # update forecasts
             demand1_MEMAP_FC = Profile2Forecast(demand1_MEMAP, j, mpc)
-            price1_MEMAP_FC = Profile2Forecast(price1_MEMAP, j, mpc)
+            demand2_MEMAP_FC = Profile2Forecast(demand2_MEMAP, j, mpc)
+            priceGas_MEMAP_FC = Profile2Forecast(priceGas_MEMAP, j, mpc)
+            priceElecbuy_MEMAP_FC = Profile2Forecast(priceElecbuy_MEMAP, j, mpc)
+            priceElecsell_MEMAP_FC = Profile2Forecast(priceElecsell_MEMAP, j, mpc)
+
             DMND01_demandFC.set_value(demand1_MEMAP_FC)
-            # DMND02_demandFC.set_value(demand1_MEMAP_FC)
-            CPROD1_GenCosts.set_value(price1_MEMAP_FC)
-            # BHKW_GenCosts.set_value(price1_MEMAP_FC)
-            DMND02_GrdBuyCost.set_value(list(0.30*np.ones(mpc)))
-            DMND02_GrdSellCost.set_value(list(0.10*np.ones(mpc)))
+            DMND02_demandFC.set_value(demand2_MEMAP_FC)
+            CPROD1_GenCosts.set_value(priceGas_MEMAP_FC)
+            # BHKW_GenCosts.set_value(priceGas_MEMAP_FC)
+            DMND02_GrdBuyCost.set_value(priceElecbuy_MEMAP_FC)
+            DMND02_GrdSellCost.set_value(priceElecsell_MEMAP_FC)
 
             # only for debugging tests!!!
             STOR1_SOC.set_value(STOR1_calcSOC.get_value())
 
             # print
             print('demand forecast heat: ', demand1_MEMAP_FC, ', for minutes', horizon_min_MEMAP)
-            print('demand forecast electricity: ', list(np.zeros(mpc)), ', for minutes', horizon_min_MEMAP)
-            print('price forecast gas boiler: ', list(price1_MEMAP_FC), ', for minutes', horizon_min_MEMAP)
+            print('demand forecast electricity: ', demand2_MEMAP_FC, ', for minutes', horizon_min_MEMAP)
+            print('price forecast gas boiler: ', priceGas_MEMAP_FC, ', for minutes', horizon_min_MEMAP)
             # print('price forecast BHKW: ', list(np.zeros(mpc)), ', for minutes', horizon_min_MEMAP)
-            print('price forecast electricity buy: ', list(0.30*np.ones(mpc)), ', for minutes', horizon_min_MEMAP)
-            print('price forecast electricity sell: ', list(0.10 * np.ones(mpc)), ', for minutes', horizon_min_MEMAP)
+            print('price forecast electricity buy: ', priceElecbuy_MEMAP_FC, ', for minutes', horizon_min_MEMAP)
+            print('price forecast electricity sell: ', priceElecsell_MEMAP_FC, ', for minutes', horizon_min_MEMAP)
 
             updatedone = True
 
@@ -313,24 +348,28 @@ while True:
         if (time.monotonic() > lasttriggertime + karenzzeit) and not updatedone:
             # update forecasts
             demand1_MEMAP_FC = Profile2Forecast(demand1_MEMAP, j, x1)+Profile2Forecast(demand1_MEMAP, 0, x2)
-            price1_MEMAP_FC = Profile2Forecast(price1_MEMAP, j, x1)+Profile2Forecast(price1_MEMAP, 0, x2)
+            demand2_MEMAP_FC = Profile2Forecast(demand2_MEMAP, j, x1)+Profile2Forecast(demand2_MEMAP, 0, x2)
+            priceGas_MEMAP_FC = Profile2Forecast(priceGas_MEMAP, j, x1) + Profile2Forecast(priceGas_MEMAP, j, x2)
+            priceElecbuy_MEMAP_FC = Profile2Forecast(priceElecbuy_MEMAP, j, x1) + Profile2Forecast(priceElecbuy_MEMAP, j, x2)
+            priceElecsell_MEMAP_FC = Profile2Forecast(priceElecsell_MEMAP, j, x1) + Profile2Forecast(priceElecsell_MEMAP, j, x2)
+
             DMND01_demandFC.set_value(demand1_MEMAP_FC)
-            # DMND02_demandFC.set_value(demand1_MEMAP_FC)
-            CPROD1_GenCosts.set_value(price1_MEMAP_FC)
-            # BHKW_GenCosts.set_value(price1_MEMAP_FC)
-            DMND02_GrdBuyCost.set_value(list(0.30 * np.ones(mpc)))
-            DMND02_GrdSellCost.set_value(list(0.10 * np.ones(mpc)))
+            DMND02_demandFC.set_value(demand2_MEMAP_FC)
+            CPROD1_GenCosts.set_value(priceGas_MEMAP_FC)
+            # BHKW_GenCosts.set_value(priceGas_MEMAP_FC)
+            DMND02_GrdBuyCost.set_value(priceElecbuy_MEMAP_FC)
+            DMND02_GrdSellCost.set_value(priceElecsell_MEMAP_FC)
 
             # only for debugging tests!!!
             STOR1_SOC.set_value(STOR1_calcSOC.get_value())
 
             # print
             print('demand forecast heat: ', demand1_MEMAP_FC, ', for minutes', horizon_min_MEMAP)
-            print('demand forecast electricity: ', list(np.zeros(mpc)), ', for minutes', horizon_min_MEMAP)
-            print('price forecast gas boiler: ', list(price1_MEMAP_FC), ', for minutes', horizon_min_MEMAP)
+            print('demand forecast electricity: ', demand2_MEMAP_FC, ', for minutes', horizon_min_MEMAP)
+            print('price forecast gas boiler: ', priceGas_MEMAP_FC, ', for minutes', horizon_min_MEMAP)
             # print('price forecast BHKW: ', list(np.zeros(mpc)), ', for minutes', horizon_min_MEMAP)
-            print('price forecast electricity buy: ', list(0.30 * np.ones(mpc)), ', for minutes', horizon_min_MEMAP)
-            print('price forecast electricity sell: ', list(0.10 * np.ones(mpc)), ', for minutes', horizon_min_MEMAP)
+            print('price forecast electricity buy: ', priceElecbuy_MEMAP_FC, ', for minutes', horizon_min_MEMAP)
+            print('price forecast electricity sell: ', priceElecsell_MEMAP_FC, ', for minutes', horizon_min_MEMAP)
 
             updatedone = True
 
@@ -345,26 +384,26 @@ while True:
 
         # CoSES demand setpoints
         DMND01_DemandSetPt.set_value(demand1_CoSES[((l-2)*time_ratio)+k])
-        #DMND02_DemandSetPt.set_value(0.0)
+        DMND02_DemandSetPt.set_value(demand2_MEMAP[j-2])
         refminute_CoSESset = (((l-2)*time_ratio)+k)*60*CoSES_time_factor
         refminute_CoSESset2 = (((l-2)*time_ratio)+k+1)*60*CoSES_time_factor
 
         # Boundary Conditions
         refmin_bounds = horizon_min_MEMAP[0]-2*(60*mpc_time_factor)
         refmin_bounds2 = horizon_min_MEMAP[0]-1*(60*mpc_time_factor)
-        # BHKWcurPrice.set_value(price1_MEMAP[l-1])
+        # BHKWcurPrice.set_value(priceGas_MEMAP[l-1])
         DMND02_curPriceBuy.set_value(30.0)
         DMND02_curPriceSell.set_value(10.0)
-        CPROD1curPrice.set_value(price1_MEMAP[l-1])
+        CPROD1curPrice.set_value(priceGas_MEMAP[l-1])
 
         # print
         print('demand setpoint CoSES heat: ', demand1_CoSES[((j-2)*time_ratio)+k], ', for minute ', refminute_CoSESset, 'to ', refminute_CoSESset2)
-        print('demand setpoint CoSES electricity: ', 0.0, ', for minute ', refminute_CoSESset, 'to ', refminute_CoSESset2)
+        print('demand setpoint CoSES electricity: ', demand2_MEMAP[j-2], ', for minute ', refminute_CoSESset, 'to ', refminute_CoSESset2)
         print("\n")
-        # print('current price gas BHKW: ', price1_MEMAP[j-2], ', for minute ', refmin_bounds, 'to ', refmin_bounds2)
-        print('current price electricity buy: ', 30.0, ', for minute ', refmin_bounds, 'to ', refmin_bounds2)
-        print('current price electricity sell: ', 10.0, ', for minute ', refmin_bounds, 'to ', refmin_bounds2)
-        print('current price gas boiler: ', price1_MEMAP[j-2], ', for minute ', refmin_bounds, 'to ', refmin_bounds2)
+        # print('current price gas BHKW: ', priceGas_MEMAP[j-2], ', for minute ', refmin_bounds, 'to ', refmin_bounds2)
+        print('current price electricity buy: ', priceElecbuy_MEMAP[j-2], ', for minute ', refmin_bounds, 'to ', refmin_bounds2)
+        print('current price electricity sell: ', priceElecsell_MEMAP[j-2], ', for minute ', refmin_bounds, 'to ', refmin_bounds2)
+        print('current price gas boiler: ', priceGas_MEMAP[j-2], ', for minute ', refmin_bounds, 'to ', refmin_bounds2)
 
         #iterator
         k+=1
@@ -377,14 +416,14 @@ while True:
         # CoSES demand setpoints
         # CoSES demand setpoints
         DMND01_DemandSetPt.set_value(demand1_CoSES[((j-2)*time_ratio)+k])
-        #DMND02_DemandSetPt.set_value(0.0)
+        DMND02_DemandSetPt.set_value(demand2_MEMAP[j-2])
         refminute_CoSESset = (((j-2)*time_ratio)+k)*60*CoSES_time_factor
         refminute_CoSESset2 = (((j-2)*time_ratio)+k+1)*60*CoSES_time_factor
 
         # print
         print('demand setpoint CoSES heat: ', demand1_CoSES[((j - 2) * time_ratio) + k], ', for minute ',
               refminute_CoSESset, 'to ', refminute_CoSESset2)
-        print('demand setpoint CoSES electricity: ', 0.0, ', for minute ', refminute_CoSESset, 'to ',
+        print('demand setpoint CoSES electricity: ', demand2_MEMAP[j-2], ', for minute ', refminute_CoSESset, 'to ',
               refminute_CoSESset2)
 
         # iterator

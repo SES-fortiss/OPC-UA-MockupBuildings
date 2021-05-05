@@ -63,7 +63,7 @@ def add_General(idx, myNodeIDcntr, naming, General, EMSname):
     k+=1
 
     efficiency = General.add_variable(mynsid(idx, k),
-                                      naming + "_NONE_1_ZM_HT" + "_EffHtNetReceive", 1.0)
+                                      naming + "_NONE_1_ZM_HT" + "_EffHtNetReceive", 0.0)
     efficiency.set_writable()
     k += 1
 
