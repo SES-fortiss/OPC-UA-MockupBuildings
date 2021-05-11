@@ -46,7 +46,7 @@ def InterpolateProfileCoSES (profile, interp_type, time_factor_profile, time_fac
     else:
         raise ValueError('wrong value for interp_type')
 
-    profile_interp = [x if x >= 0 else 0 for x in profile_interp]
+    profile_interp = [x if x >= 0 else np.float64(0.0) for x in profile_interp]
 
     return profile_interp, timeline_interp
 
@@ -76,7 +76,8 @@ def InterpolateProfileMEMAP (profile, interp_type, time_factor_profile, time_fac
     else:
         raise ValueError('wrong value for interp_type')
 
-    profile_interp = [x if x >= 0 else 0 for x in profile_interp]
+    profile_interp = [x if x >= 0 else np.float64(0.0) for x in profile_interp]
+
 
     return profile_interp, timeline_interp
 
