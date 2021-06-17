@@ -31,7 +31,7 @@ mpc_time_factor = 0.25  # time factor as ratio of hours,
     # determining the time different between steps, 0.25 = 15 min
 profile_time_factor = 0.25  # time factor as ratio of hours,
     # for time difference between read values from profile, 0.25 = 15 min
-CoSES_time_factor = 0.25 #  1 / 60  # time factor as ratio of hours,
+CoSES_time_factor = 1/60 #  1 / 60  # time factor as ratio of hours,
     # for wished time difference for CoSES-Demand-Values, 1/60 = 1 min
 simulation_time_factor = 60  # 1 s in simulation time equals X seconds in real time
 karenzzeit = max(int(0.02*mpc_time_factor*(1/simulation_time_factor)*3600),3) # sekunden
@@ -43,8 +43,8 @@ demandPath_elec  =   "FC_data_series/SF2_demand_elec.csv"
 pricePath_gas    =   "FC_data_series/SF2_gas_price.csv"
 pricePath_elec_buy    =   "FC_data_series/SF2_elec_price_buy.csv"
 pricePath_elec_sell    =   "FC_data_series/SF2_elec_price_sell.csv"
-interp_type = "spline" # alternatives: "step", "linear", "spline",
-plot_forecasts = False
+interp_type = "step" # alternatives: "step", "linear", "spline",
+plot_forecasts = True
 
 
 # Add Counter list/array to count for number of EMS x Device Types and construct display names

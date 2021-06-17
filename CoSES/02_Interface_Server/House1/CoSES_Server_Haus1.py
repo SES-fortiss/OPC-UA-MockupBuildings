@@ -43,8 +43,8 @@ demandPath_elec  =   "FC_data_series/SF1_demand_elec.csv"
 pricePath_gas    =   "FC_data_series/SF1_gas_price.csv"
 pricePath_elec_buy    =   "FC_data_series/SF1_elec_price_buy.csv"
 pricePath_elec_sell    =   "FC_data_series/SF1_elec_price_sell.csv"
-interp_type = "spline" # alternatives: "step", "linear", "spline",
-plot_forecasts = True
+interp_type = "step" # alternatives: "step", "linear", "spline",
+plot_forecasts = False
 
 
 # Add Counter list/array to count for number of EMS x Device Types and construct display names
