@@ -14,7 +14,7 @@ import numpy as np
 import json
 import random
 
-from scipy.interpolate import splrep, splev
+from scipy.interpolate import splrep, splev, spalde
 import matplotlib.pyplot as plt
 
 from importForecastsCSV import *
@@ -31,7 +31,7 @@ mpc_time_factor = 0.25  # time factor as ratio of hours,
     # determining the time different between steps, 0.25 = 15 min
 profile_time_factor = 0.25  # time factor as ratio of hours,
     # for time difference between read values from profile, 0.25 = 15 min
-CoSES_time_factor = 0.25 # 1 / 60  # time factor as ratio of hours,
+CoSES_time_factor = 1/60 # 1 / 60  # time factor as ratio of hours,
     # for wished time difference for CoSES-Demand-Values, 1/60 = 1 min
 simulation_time_factor = 60  # 1 s in simulation time equals X seconds in real time
 karenzzeit = max(int(0.02*mpc_time_factor*(1/simulation_time_factor)*3600),3) # sekunden
@@ -44,7 +44,7 @@ pricePath_gas    =   "FC_data_series/SF1_gas_price.csv"
 pricePath_elec_buy    =   "FC_data_series/SF1_elec_price_buy.csv"
 pricePath_elec_sell    =   "FC_data_series/SF1_elec_price_sell.csv"
 interp_type = "spline" # alternatives: "step", "linear", "spline",
-plot_forecasts = False
+plot_forecasts = True
 
 
 # Add Counter list/array to count for number of EMS x Device Types and construct display names
@@ -109,6 +109,7 @@ demand1_CoSES, demandtime_CoSES = InterpolateProfileCoSES (demand1_profile, inte
 
 demand2_profile, demandtime_profile = ImportFromCSV (demandPath_elec, "\n", profile_time_factor)
 demand2_MEMAP, demandtime_MEMAP = InterpolateProfileMEMAP (demand2_profile, interp_type, profile_time_factor, mpc_time_factor)
+demand2_CoSES, demandtime_CoSES = InterpolateProfileCoSES (demand2_profile, interp_type, profile_time_factor, CoSES_time_factor)
 
 priceGas_profile, pricetime_profile = ImportFromCSV (pricePath_gas, "\n", profile_time_factor)
 priceGas_MEMAP, pricetime_MEMAP = InterpolateProfileMEMAP (priceGas_profile, interp_type, profile_time_factor, mpc_time_factor)
@@ -124,10 +125,11 @@ if plot_forecasts:
 
     PlotProfile(demand1_profile, demandtime_profile, "demand1", "kW", "figures")
     PlotProfile(demand1_MEMAP, demandtime_MEMAP, "demand1_MEMAP", "kW", "figures")
-
     PlotProfile(demand1_CoSES, demandtime_CoSES, "demand1_CoSES", "kW", "figures")
+
     PlotProfile(demand2_profile, demandtime_profile, "demand2", "kW", "figures")
     PlotProfile(demand2_MEMAP, demandtime_MEMAP, "demand2_MEMAP", "kW", "figures")
+    PlotProfile(demand2_CoSES, demandtime_CoSES, "demand2_CoSES", "kW", "figures")
 
     PlotProfile(priceGas_profile, pricetime_profile, "priceGas", "€/kWh", "figures")
     PlotProfile(priceGas_MEMAP, pricetime_MEMAP, "priceGas_MEMAP", "€/kWh", "figures")
@@ -140,10 +142,15 @@ if plot_forecasts:
 
     demand1_MEMAP_step, demandtime_MEMAP2 = InterpolateProfileMEMAP(demand1_profile, "step", profile_time_factor,
                                                               CoSES_time_factor)
+    demand2_MEMAP_step, demandtime_MEMAP2 = InterpolateProfileMEMAP(demand2_profile, "step", profile_time_factor,
+                                                                    CoSES_time_factor)
+
     #demandtime_MEMAP_adj = [x+profile_time_factor*60/2 for x in demandtime_MEMAP]
     fig1 = plt.figure(num="MEMAP vs CoSES", figsize=[8.3, 5.8], dpi=400.0)
     plt.plot(demandtime_MEMAP2, demand1_MEMAP_step, linestyle="-", color='g')
     plt.plot(demandtime_CoSES, demand1_CoSES, linestyle="-", color='k')
+    plt.plot(demandtime_MEMAP2, demand2_MEMAP_step, linestyle="-", color='y')
+    plt.plot(demandtime_CoSES, demand2_CoSES, linestyle="-", color='b')
     plt.title("MEMAP vs CoSES")
     plt.xlabel('')
     plt.ylabel("")
@@ -384,7 +391,7 @@ while True:
 
         # CoSES demand setpoints
         DMND01_DemandSetPt.set_value(demand1_CoSES[((l-2)*time_ratio)+k])
-        DMND02_DemandSetPt.set_value(demand2_MEMAP[l-2])
+        DMND02_DemandSetPt.set_value(demand2_CoSES[((l-2)*time_ratio)+k])
         refminute_CoSESset = (((l-2)*time_ratio)+k)*60*CoSES_time_factor
         refminute_CoSESset2 = (((l-2)*time_ratio)+k+1)*60*CoSES_time_factor
 
@@ -416,7 +423,7 @@ while True:
         # CoSES demand setpoints
         # CoSES demand setpoints
         DMND01_DemandSetPt.set_value(demand1_CoSES[((l-2)*time_ratio)+k])
-        DMND02_DemandSetPt.set_value(demand2_MEMAP[l-2])
+        DMND02_DemandSetPt.set_value(demand2_CoSES[((l-2)*time_ratio)+k])
         refminute_CoSESset = (((j-2)*time_ratio)+k)*60*CoSES_time_factor
         refminute_CoSESset2 = (((j-2)*time_ratio)+k+1)*60*CoSES_time_factor
 

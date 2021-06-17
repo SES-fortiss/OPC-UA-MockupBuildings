@@ -4,7 +4,7 @@ Created on Wed April  28 09:43 2020
 
 @author: thomas licklederer (TUM)
 """
-from scipy.interpolate import splrep, splev
+from scipy.interpolate import splrep, splev, spalde
 import matplotlib.pyplot as plt
 import numpy as np
 from datetime import datetime
@@ -24,17 +24,26 @@ def InterpolateProfileCoSES (profile, interp_type, time_factor_profile, time_fac
     size = np.shape(profile)[0]
     delta_t_profile = time_factor_profile * 60 # in min
     delta_t_interp= time_factor_interp * 60 # in min
-    timeline_profile = np.arange(0+(delta_t_profile/2), delta_t_profile * (size)+(delta_t_profile/2), delta_t_profile)
+    #timeline_profile = np.arange(0+(delta_t_profile/2), delta_t_profile * (size)+(delta_t_profile/2), delta_t_profile)
     #timeline_profile = np.arange(0, delta_t_profile * (size), delta_t_profile)
     timeline_interp = np.arange(0, delta_t_profile * (size), delta_t_interp)
 
 
     if interp_type == "spline":
         mydegree = 5
-        tck = splrep(timeline_profile, profile, k=mydegree, s=0)
-        profile_interp = splev(timeline_interp, tck, ext=3)
+        #tck = splrep(timeline_profile, profile, k=mydegree, s=0)
+        #profile_interp = splev(timeline_interp, tck, ext=3)
+        X = np.arange(0, delta_t_profile * 3*(size), delta_t_profile)
+        timeline_interp2 = np.arange(0, delta_t_profile *3 * (size), delta_t_interp)
+        avg = np.concatenate((profile, profile, profile))
+        tck = mean_pres_spline(X, avg, mydegree)
+        interpolated = splev(timeline_interp2, tck, der=1, ext=0)
+        profile_interp = interpolated[int(delta_t_profile/delta_t_interp)*size:(2*int(delta_t_profile/delta_t_interp)*size)]
+
 
     elif interp_type == "linear":
+        timeline_profile = np.arange(0 + (delta_t_profile / 2), delta_t_profile * (size) + (delta_t_profile / 2),
+                                     delta_t_profile)
         mydegree = 1
         tck = splrep(timeline_profile, profile, k=mydegree, s=0)
         profile_interp = splev(timeline_interp, tck, ext=3)
@@ -106,3 +115,15 @@ def Profile2Forecast (profile, startindex, horizon):
 
     return Forecast
 
+def mean_pres_spline (X, avg, mydegree): # according to https://kluge.in-chemnitz.de/opensource/spline/
+
+    Y = np.zeros(len(X))
+
+    for i in range(len(X)):
+        Y[i] = Y[i-1] + avg[i-1] * (X[i]-X[i-1])
+
+    tck = splrep(X, Y, k=mydegree, s=1)
+    #integral_interp = splev(X, tck, ext=3)
+    # interpolated = spalde(X, tck)
+
+    return tck
