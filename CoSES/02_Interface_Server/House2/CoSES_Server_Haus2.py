@@ -95,7 +95,7 @@ add_Producer
 # add_Storage 
 (myNodeIDcntr, STOR1_SOC, STOR1_calcSOC, STOR1_setpointChg, STOR1_setpointDisChg) = add_Storage(counter, naming,
                                                 mpc, idx, myNodeIDcntr,
-                                                "SFH2_TS1", Storage, "heat", 0.97, 0.97, 36.1, 0.0278, 56, 56, 0.5)
+                                                "SFH2_TS1", Storage, "heat", 0.97, 0.97, 36.1, 0.0278, 5, 5, 0.5)
 
 
 
@@ -309,14 +309,14 @@ while True:
         pass
 
     if j%maxsteps <= maxsteps - mpc: # normal experiment, no repetition so far
-        j = j % maxsteps
+        m = j % maxsteps
         if (time.monotonic() > lasttriggertime + karenzzeit) and not updatedone:
             # update forecasts
-            demand1_MEMAP_FC = Profile2Forecast(demand1_MEMAP, j, mpc)
-            demand2_MEMAP_FC = Profile2Forecast(demand2_MEMAP, j, mpc)
-            priceGas_MEMAP_FC = Profile2Forecast(priceGas_MEMAP, j, mpc)
-            priceElecbuy_MEMAP_FC = Profile2Forecast(priceElecbuy_MEMAP, j, mpc)
-            priceElecsell_MEMAP_FC = Profile2Forecast(priceElecsell_MEMAP, j, mpc)
+            demand1_MEMAP_FC = Profile2Forecast(demand1_MEMAP, m, mpc)
+            demand2_MEMAP_FC = Profile2Forecast(demand2_MEMAP, m, mpc)
+            priceGas_MEMAP_FC = Profile2Forecast(priceGas_MEMAP, m, mpc)
+            priceElecbuy_MEMAP_FC = Profile2Forecast(priceElecbuy_MEMAP, m, mpc)
+            priceElecsell_MEMAP_FC = Profile2Forecast(priceElecsell_MEMAP, m, mpc)
 
             DMND01_demandFC.set_value(demand1_MEMAP_FC)
             DMND02_demandFC.set_value(demand2_MEMAP_FC)
@@ -341,17 +341,17 @@ while True:
             print("\n")
 
     elif j%maxsteps > maxsteps - mpc:   # run experiment in cycles, repeat the profiles from beginning
-        j = j%maxsteps
-        x2 = j - (maxsteps-mpc)
+        m = j%maxsteps
+        x2 = m - (maxsteps-mpc)
         x1 = mpc - x2
         # print('!!!!!!!!!!!!!!!!!!!!!!!!!!!noW!!!!!!!!!!!!!!!!!')
         if (time.monotonic() > lasttriggertime + karenzzeit) and not updatedone:
             # update forecasts
-            demand1_MEMAP_FC = Profile2Forecast(demand1_MEMAP, j, x1)+Profile2Forecast(demand1_MEMAP, 0, x2)
-            demand2_MEMAP_FC = Profile2Forecast(demand2_MEMAP, j, x1)+Profile2Forecast(demand2_MEMAP, 0, x2)
-            priceGas_MEMAP_FC = Profile2Forecast(priceGas_MEMAP, j, x1) + Profile2Forecast(priceGas_MEMAP, j, x2)
-            priceElecbuy_MEMAP_FC = Profile2Forecast(priceElecbuy_MEMAP, j, x1) + Profile2Forecast(priceElecbuy_MEMAP, j, x2)
-            priceElecsell_MEMAP_FC = Profile2Forecast(priceElecsell_MEMAP, j, x1) + Profile2Forecast(priceElecsell_MEMAP, j, x2)
+            demand1_MEMAP_FC = Profile2Forecast(demand1_MEMAP, m, x1)+Profile2Forecast(demand1_MEMAP, 0, x2)
+            demand2_MEMAP_FC = Profile2Forecast(demand2_MEMAP, m, x1)+Profile2Forecast(demand2_MEMAP, 0, x2)
+            priceGas_MEMAP_FC = Profile2Forecast(priceGas_MEMAP, m, x1) + Profile2Forecast(priceGas_MEMAP, 0, x2)
+            priceElecbuy_MEMAP_FC = Profile2Forecast(priceElecbuy_MEMAP, m, x1) + Profile2Forecast(priceElecbuy_MEMAP, 0, x2)
+            priceElecsell_MEMAP_FC = Profile2Forecast(priceElecsell_MEMAP, m, x1) + Profile2Forecast(priceElecsell_MEMAP, 0, x2)
 
             DMND01_demandFC.set_value(demand1_MEMAP_FC)
             DMND02_demandFC.set_value(demand2_MEMAP_FC)
@@ -375,16 +375,16 @@ while True:
 
             print("\n")
 
-    if j < 2:
-        l = maxsteps + (j-2)
+    if m < 2:
+        l = maxsteps + m
     else:
-        l = j
+        l = m
 
     if k == 0: # first iteration in timestep
 
         # CoSES demand setpoints
         DMND01_DemandSetPt.set_value(demand1_CoSES[((l-2)*time_ratio)+k])
-        DMND02_DemandSetPt.set_value(demand2_MEMAP[j-2])
+        DMND02_DemandSetPt.set_value(demand2_MEMAP[l-2])
         refminute_CoSESset = (((l-2)*time_ratio)+k)*60*CoSES_time_factor
         refminute_CoSESset2 = (((l-2)*time_ratio)+k+1)*60*CoSES_time_factor
 
@@ -392,18 +392,18 @@ while True:
         refmin_bounds = horizon_min_MEMAP[0]-2*(60*mpc_time_factor)
         refmin_bounds2 = horizon_min_MEMAP[0]-1*(60*mpc_time_factor)
         # BHKWcurPrice.set_value(priceGas_MEMAP[l-1])
-        DMND02_curPriceBuy.set_value(30.0)
-        DMND02_curPriceSell.set_value(10.0)
-        CPROD1curPrice.set_value(priceGas_MEMAP[l-1])
+        DMND02_curPriceBuy.set_value(priceElecbuy_MEMAP[l-2])
+        DMND02_curPriceSell.set_value(priceElecsell_MEMAP[l-2])
+        CPROD1curPrice.set_value(priceGas_MEMAP[l-2])
 
         # print
-        print('demand setpoint CoSES heat: ', demand1_CoSES[((j-2)*time_ratio)+k], ', for minute ', refminute_CoSESset, 'to ', refminute_CoSESset2)
-        print('demand setpoint CoSES electricity: ', demand2_MEMAP[j-2], ', for minute ', refminute_CoSESset, 'to ', refminute_CoSESset2)
+        print('demand setpoint CoSES heat: ', demand1_CoSES[((l-2)*time_ratio)+k], ', for minute ', refminute_CoSESset, 'to ', refminute_CoSESset2)
+        print('demand setpoint CoSES electricity: ', demand2_MEMAP[l-2], ', for minute ', refminute_CoSESset, 'to ', refminute_CoSESset2)
         print("\n")
         # print('current price gas BHKW: ', priceGas_MEMAP[j-2], ', for minute ', refmin_bounds, 'to ', refmin_bounds2)
-        print('current price electricity buy: ', priceElecbuy_MEMAP[j-2], ', for minute ', refmin_bounds, 'to ', refmin_bounds2)
-        print('current price electricity sell: ', priceElecsell_MEMAP[j-2], ', for minute ', refmin_bounds, 'to ', refmin_bounds2)
-        print('current price gas boiler: ', priceGas_MEMAP[j-2], ', for minute ', refmin_bounds, 'to ', refmin_bounds2)
+        print('current price electricity buy: ', priceElecbuy_MEMAP[l-2], ', for minute ', refmin_bounds, 'to ', refmin_bounds2)
+        print('current price electricity sell: ', priceElecsell_MEMAP[l-2], ', for minute ', refmin_bounds, 'to ', refmin_bounds2)
+        print('current price gas boiler: ', priceGas_MEMAP[l-2], ', for minute ', refmin_bounds, 'to ', refmin_bounds2)
 
         #iterator
         k+=1
@@ -415,15 +415,15 @@ while True:
 
         # CoSES demand setpoints
         # CoSES demand setpoints
-        DMND01_DemandSetPt.set_value(demand1_CoSES[((j-2)*time_ratio)+k])
-        DMND02_DemandSetPt.set_value(demand2_MEMAP[j-2])
+        DMND01_DemandSetPt.set_value(demand1_CoSES[((l-2)*time_ratio)+k])
+        DMND02_DemandSetPt.set_value(demand2_MEMAP[l-2])
         refminute_CoSESset = (((j-2)*time_ratio)+k)*60*CoSES_time_factor
         refminute_CoSESset2 = (((j-2)*time_ratio)+k+1)*60*CoSES_time_factor
 
         # print
-        print('demand setpoint CoSES heat: ', demand1_CoSES[((j - 2) * time_ratio) + k], ', for minute ',
+        print('demand setpoint CoSES heat: ', demand1_CoSES[((l - 2) * time_ratio) + k], ', for minute ',
               refminute_CoSESset, 'to ', refminute_CoSESset2)
-        print('demand setpoint CoSES electricity: ', demand2_MEMAP[j-2], ', for minute ', refminute_CoSESset, 'to ',
+        print('demand setpoint CoSES electricity: ', demand2_MEMAP[l-2], ', for minute ', refminute_CoSESset, 'to ',
               refminute_CoSESset2)
 
         # iterator
