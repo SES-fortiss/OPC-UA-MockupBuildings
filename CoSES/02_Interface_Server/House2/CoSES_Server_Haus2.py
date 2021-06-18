@@ -43,8 +43,8 @@ demandPath_elec  =   "FC_data_series/SF2_demand_elec.csv"
 pricePath_gas    =   "FC_data_series/SF2_gas_price.csv"
 pricePath_elec_buy    =   "FC_data_series/SF2_elec_price_buy.csv"
 pricePath_elec_sell    =   "FC_data_series/SF2_elec_price_sell.csv"
-interp_type = "step" # alternatives: "step", "linear", "spline",
-plot_forecasts = True
+interp_type = "spline" # alternatives: "step", "linear", "spline",
+plot_forecasts = False
 
 
 # Add Counter list/array to count for number of EMS x Device Types and construct display names
@@ -95,7 +95,7 @@ add_Producer
 # add_Storage 
 (myNodeIDcntr, STOR1_SOC, STOR1_calcSOC, STOR1_setpointChg, STOR1_setpointDisChg) = add_Storage(counter, naming,
                                                 mpc, idx, myNodeIDcntr,
-                                                "SFH2_TS1", Storage, "heat", 0.97, 0.97, 36.1, 0.0278, 5, 5, 0.5)
+                                                "SFH2_TS1", Storage, "heat", 0.97, 0.97, 36.1, 0.0278, 10, 10, 0.5)
 
 
 
