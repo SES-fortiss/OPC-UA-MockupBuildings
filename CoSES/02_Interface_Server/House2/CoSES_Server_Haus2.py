@@ -95,7 +95,7 @@ add_Producer
 # add_Storage 
 (myNodeIDcntr, STOR1_SOC, STOR1_calcSOC, STOR1_setpointChg, STOR1_setpointDisChg) = add_Storage(counter, naming,
                                                 mpc, idx, myNodeIDcntr,
-                                                "SFH2_TS1", Storage, "heat", 0.97, 0.97, 36.1, 0.0278, 10, 10, 0.5)
+                                                "SFH2_TS1", Storage, "heat", 0.97, 0.97, 36.1, 0.0278, 10, 10, 1.0)
 
 
 
