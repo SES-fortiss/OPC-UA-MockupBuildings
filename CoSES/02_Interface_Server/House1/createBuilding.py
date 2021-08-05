@@ -50,7 +50,7 @@ def create_Namespace(idx, objects):
     
 
 
-def add_General(idx, myNodeIDcntr, mpc, naming, General, EMSname):
+def add_General(idx, myNodeIDcntr, naming, General, EMSname):
 
     k=myNodeIDcntr
 
@@ -67,14 +67,14 @@ def add_General(idx, myNodeIDcntr, mpc, naming, General, EMSname):
     efficiency.set_writable()
     k += 1
     
-    SPFwrdPwrAr = General.add_variable(mynsid(idx, k), naming + "NONE_3_VM_HT_SPHeatFrwd",
-                                    list(np.zeros(mpc)), datatype=opcua.ua.ObjectIds.Double)
-    SPFwrdPwrAr.set_writable()
+    SPFwrdPwr = General.add_variable(mynsid(idx, k),
+                                     naming + "NONE_3_VM_HT_SPHeatFrwd",0.0)
+    SPFwrdPwr.set_writable()
     k+=1
     
-    SPBackPwrAr = General.add_variable(mynsid(idx, k), naming + "NONE_3_VM_HT_SPHeatBack",
-                                    list(np.zeros(mpc)), datatype=opcua.ua.ObjectIds.Double)
-    SPBackPwrAr.set_writable()
+    SPBackPwr = General.add_variable(mynsid(idx, k),
+                                     naming + "NONE_3_VM_HT_SPHeatBack", 0.0)
+    SPBackPwr.set_writable()
     k+=1
 
     myNodeIDcntr = k

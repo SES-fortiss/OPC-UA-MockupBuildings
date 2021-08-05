@@ -62,7 +62,7 @@ EMS = "EMS01"
 naming = objectName + EMS + "OBJ01"
 
 # add_General
-(myNodeIDcntr, EMSnameID, Trigger) = add_General(idx, myNodeIDcntr, mpc, naming, General, "SFH1")
+(myNodeIDcntr, EMSnameID, Trigger) = add_General(idx, myNodeIDcntr, naming, General, "SFH1")
 
 
 # ============================== EMS 1 - Devices ==============================
