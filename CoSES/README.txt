@@ -3,7 +3,7 @@
 2. Start VeriStand via VI using API
 3. Start MEMAP-platform jar via command line
 	3.1. cd <working directory>
-	3.2 java java -jar MEMAP_CoSES.jar jetty <horizont steps> <time step length in seconds>
+	3.2 java -jar MEMAP_CoSES.jar jetty <horizont steps> <time step length in seconds>
 4. Start Data logging via API
 5. Start Experiment in Python Interface Servers for House 1 and House 2
 6. Use postman to send .json file with configuration to the running MEMAP platform
