@@ -500,10 +500,13 @@ def add_Storage(counter, naming, FC_step, idx, myNodeIDcntr, name, Storage,
     energyCosts = Stor.add_variable(mynsid(idx, k), storNaming + "_1_ZM_" + short + "_PrimEnCost", 0.0)
     energyCosts.set_writable()
     k+=1
+
+    SOCminHOR = Stor.add_variable(mynsid(idx, 321), storNaming + "_1_ZM_" + short + "_SOCminHOR", 0.0)
+    energyCosts.set_writable()
     
     counter[0,4]+=1
     myNodeIDcntr = k
-    return(myNodeIDcntr, SOC, calcSOC, setpointChg, setpointDisChg)
+    return(myNodeIDcntr, SOC, calcSOC, setpointChg, setpointDisChg, SOCminHOR)
     
 
 

@@ -34,6 +34,7 @@ profile_time_factor = 0.25  # time factor as ratio of hours,
 CoSES_time_factor = 1/60 #  1 / 60  # time factor as ratio of hours,
     # for wished time difference for CoSES-Demand-Values, 1/60 = 1 min
 simulation_time_factor = 60  # 1 s in simulation time equals X seconds in real time
+SOCsetHOR = 0.7
 karenzzeit = max(int(0.02*mpc_time_factor*(1/simulation_time_factor)*3600),3) # sekunden
 
 nrOfEms = 1
@@ -93,7 +94,7 @@ add_Producer
 #      counter, naming, idx, myNodeIDcntr, 'SFH1_BHKW', Coupler, 'heat', 'elec', 0.723, 0.278, 4.9, 5.1, mpc)
 
 # add_Storage 
-(myNodeIDcntr, STOR1_SOC, STOR1_calcSOC, STOR1_setpointChg, STOR1_setpointDisChg) = add_Storage(counter, naming,
+(myNodeIDcntr, STOR1_SOC, STOR1_calcSOC, STOR1_setpointChg, STOR1_setpointDisChg, SOCminHOR) = add_Storage(counter, naming,
                                                 mpc, idx, myNodeIDcntr,
                                                 "SFH2_TS1", Storage, "heat", 0.97, 0.97, 36.1, 0.0278, 10, 10, 1.0)
 
@@ -227,6 +228,7 @@ CPROD1_GenCosts.set_value(priceGas_MEMAP_FC)
 # BHKW_GenCosts.set_value(priceGas_MEMAP_FC)
 DMND02_GrdBuyCost.set_value(priceElecbuy_MEMAP_FC)
 DMND02_GrdSellCost.set_value(priceElecsell_MEMAP_FC)
+SOCminHOR.set_value(SOCsetHOR)
 
 # print
 print('demand forecast heat: ', demand1_MEMAP_FC, ', for minutes', horizon_min_MEMAP)
