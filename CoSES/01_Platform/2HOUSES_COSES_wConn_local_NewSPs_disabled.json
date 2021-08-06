@@ -172,7 +172,8 @@
                                             "MaxPower": "ns=2;i=159",
                                             "MaxPowerIn": "ns=2;i=160",
                                             "PrimSect": "ns=2;i=155",
-                                            "StorLossPD": "ns=2;i=158"
+                                            "StorLossPD": "ns=2;i=158",
+											"SOCminHOR" : "ns=2;i=321"
                                         },
                                         "XX": {
                                             "nameID": "ns=2;i=154"
@@ -375,7 +376,8 @@
                                             "MaxPower": "ns=2;i=156",
                                             "MaxPowerIn": "ns=2;i=157",
                                             "PrimSect": "ns=2;i=152",
-                                            "StorLossPD": "ns=2;i=155"
+                                            "StorLossPD": "ns=2;i=155",
+											"SOCminHOR" : "ns=2;i=321"
                                         },
                                         "XX": {
                                             "nameID": "ns=2;i=151"
