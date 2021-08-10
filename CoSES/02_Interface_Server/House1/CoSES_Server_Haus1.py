@@ -92,12 +92,12 @@ print("\n")
 # add_coupler
 (myNodeIDcntr, BHKW_Prod1, BHKW_Prod2, BHKW_GenCosts, BHKW_CO2PerKWh, BHKW_SPDevPwr,
     BHKWcurPrice, BHKWcurCO2costs) = add_Coupler(
-     counter, naming, idx, myNodeIDcntr, 'SFH1_BHKW', Coupler, 'heat', 'elec', 0.723, 0.278, 4.9, 5.1, mpc)
+     counter, naming, idx, myNodeIDcntr, 'SFH1_BHKW', Coupler, 'heat', 'elec', 0.723, 0.278, 5.0, 5.0, mpc)
 
 # add_Storage 
 (myNodeIDcntr, STOR1_SOC, STOR1_calcSOC, STOR1_setpointChg, STOR1_setpointDisChg, SOCminHOR) = add_Storage(counter, naming,
                                                 mpc, idx, myNodeIDcntr,
-                                                "SFH1_TS1", Storage, "heat", 0.97, 0.97, 36.1, 0.0278, 10, 10, 1.0)
+                                                "SFH1_TS1", Storage, "heat", 0.97, 0.97, 62.94, 0.0278, 5.0, 5.0, 0.5)
 
 
 
