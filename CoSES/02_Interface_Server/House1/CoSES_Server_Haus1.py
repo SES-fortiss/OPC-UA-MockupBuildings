@@ -26,7 +26,7 @@ objectName = "CoSES"
 opc_port = "4851"
 
 # TIMING
-mpc = 5  # number of mpc horizont steps, usually 5-48
+mpc = 8  # number of mpc horizont steps, usually 5-48
 mpc_time_factor = 0.25  # time factor as ratio of hours,
     # determining the time different between steps, 0.25 = 15 min
 profile_time_factor = 0.25  # time factor as ratio of hours,
@@ -34,7 +34,7 @@ profile_time_factor = 0.25  # time factor as ratio of hours,
 CoSES_time_factor = 1/60 # 1 / 60  # time factor as ratio of hours,
     # for wished time difference for CoSES-Demand-Values, 1/60 = 1 min
 simulation_time_factor = 60  # 1 s in simulation time equals X seconds in real time
-SOCsetHOR = 0.7
+SOCsetHOR = 0.5
 karenzzeit = max(int(0.02*mpc_time_factor*(1/simulation_time_factor)*3600),3) # sekunden
 
 nrOfEms = 1
@@ -97,7 +97,7 @@ print("\n")
 # add_Storage 
 (myNodeIDcntr, STOR1_SOC, STOR1_calcSOC, STOR1_setpointChg, STOR1_setpointDisChg, SOCminHOR) = add_Storage(counter, naming,
                                                 mpc, idx, myNodeIDcntr,
-                                                "SFH1_TS1", Storage, "heat", 0.97, 0.97, 62.94, 0.0278, 5.0, 5.0, 0.5)
+                                                "SFH1_TS1", Storage, "heat", 0.97, 0.97, 62.94, 0.021, 14, 14, 0.5)
 
 
 
