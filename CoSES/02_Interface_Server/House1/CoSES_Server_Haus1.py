@@ -44,7 +44,7 @@ demandPath_elec  =   "FC_data_series/SF1_demand_elec.csv"
 pricePath_gas    =   "FC_data_series/SF1_gas_price.csv"
 pricePath_elec_buy    =   "FC_data_series/SF1_elec_price_buy.csv"
 pricePath_elec_sell    =   "FC_data_series/SF1_elec_price_sell.csv"
-interp_type = "spline" # alternatives: "step", "linear", "spline",
+interp_type = "step" # alternatives: "step", "linear", "spline",
 plot_forecasts = False
 
 
@@ -67,6 +67,8 @@ naming = objectName + EMS + "OBJ01"
 
 
 # ============================== EMS 1 - Devices ==============================
+
+
 # (Add Demand, Producer, Volatile Producer, Coupler, Storage)
 print("\n")
 ### add_Demand
@@ -97,7 +99,7 @@ print("\n")
 # add_Storage 
 (myNodeIDcntr, STOR1_SOC, STOR1_calcSOC, STOR1_setpointChg, STOR1_setpointDisChg, SOCminHOR) = add_Storage(counter, naming,
                                                 mpc, idx, myNodeIDcntr,
-                                                "SFH1_TS1", Storage, "heat", 0.97, 0.97, 62.94, 0.021, 14, 14, 0.5)
+                                                "SFH1_TS1", Storage, "heat", 0.97, 0.97, 62.94, 0.021, 10, 10, 0.5)
 
 
 
