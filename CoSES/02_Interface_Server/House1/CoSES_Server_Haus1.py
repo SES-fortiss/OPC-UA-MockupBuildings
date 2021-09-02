@@ -26,7 +26,7 @@ objectName = "CoSES"
 opc_port = "4851"
 
 # TIMING
-mpc = 5  # number of mpc horizont steps, usually 5-48
+mpc = 8  # number of mpc horizont steps, usually 5-48
 mpc_time_factor = 0.25  # time factor as ratio of hours,
     # determining the time different between steps, 0.25 = 15 min
 profile_time_factor = 0.25  # time factor as ratio of hours,
@@ -34,7 +34,7 @@ profile_time_factor = 0.25  # time factor as ratio of hours,
 CoSES_time_factor = 1/60 # 1 / 60  # time factor as ratio of hours,
     # for wished time difference for CoSES-Demand-Values, 1/60 = 1 min
 simulation_time_factor = 60  # 1 s in simulation time equals X seconds in real time
-SOCsetHOR = 0.7
+SOCsetHOR = 0.5
 karenzzeit = max(int(0.02*mpc_time_factor*(1/simulation_time_factor)*3600),3) # sekunden
 
 nrOfEms = 1
@@ -44,7 +44,7 @@ demandPath_elec  =   "FC_data_series/SF1_demand_elec.csv"
 pricePath_gas    =   "FC_data_series/SF1_gas_price.csv"
 pricePath_elec_buy    =   "FC_data_series/SF1_elec_price_buy.csv"
 pricePath_elec_sell    =   "FC_data_series/SF1_elec_price_sell.csv"
-interp_type = "spline" # alternatives: "step", "linear", "spline",
+interp_type = "step" # alternatives: "step", "linear", "spline",
 plot_forecasts = False
 
 
@@ -67,6 +67,8 @@ naming = objectName + EMS + "OBJ01"
 
 
 # ============================== EMS 1 - Devices ==============================
+
+
 # (Add Demand, Producer, Volatile Producer, Coupler, Storage)
 print("\n")
 ### add_Demand
@@ -92,12 +94,12 @@ print("\n")
 # add_coupler
 (myNodeIDcntr, BHKW_Prod1, BHKW_Prod2, BHKW_GenCosts, BHKW_CO2PerKWh, BHKW_SPDevPwr,
     BHKWcurPrice, BHKWcurCO2costs) = add_Coupler(
-     counter, naming, idx, myNodeIDcntr, 'SFH1_BHKW', Coupler, 'heat', 'elec', 0.723, 0.278, 4.9, 5.1, mpc)
+     counter, naming, idx, myNodeIDcntr, 'SFH1_BHKW', Coupler, 'heat', 'elec', 0.723, 0.278, 5.0, 5.0, mpc)
 
 # add_Storage 
 (myNodeIDcntr, STOR1_SOC, STOR1_calcSOC, STOR1_setpointChg, STOR1_setpointDisChg, SOCminHOR) = add_Storage(counter, naming,
                                                 mpc, idx, myNodeIDcntr,
-                                                "SFH1_TS1", Storage, "heat", 0.97, 0.97, 36.1, 0.0278, 10, 10, 1.0)
+                                                "SFH1_TS1", Storage, "heat", 0.97, 0.97, 62.94, 0.021, 10, 10, 0.5)
 
 
 

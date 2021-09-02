@@ -422,8 +422,8 @@
 				"formattedNameNodeA": "CoSES_H1",
 				"nameNodeB": "CoSES_H2",
 				"formattedNameNodeB": "CoSES_H2",
-				"length": 10.0,
-				"losses": 0.1,
+				"length": 50.0,
+				"losses": 0.20,
 				"maxTransportCapacity": 999.0
 			}
 		]
