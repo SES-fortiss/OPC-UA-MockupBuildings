@@ -423,7 +423,7 @@
 				"nameNodeB": "CoSES_H2",
 				"formattedNameNodeB": "CoSES_H2",
 				"length": 50.0,
-				"losses": 0.20,
+				"losses": 0.19,
 				"maxTransportCapacity": 999.0
 			}
 		]

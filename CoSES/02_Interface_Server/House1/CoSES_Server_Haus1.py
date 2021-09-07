@@ -72,14 +72,14 @@ naming = objectName + EMS + "OBJ01"
 # (Add Demand, Producer, Volatile Producer, Coupler, Storage)
 print("\n")
 ### add_Demand
-(myNodeIDcntr, counter, DMND01_DemandSetPt, DMND01_demandFC, DMND01_currDemand,
+(myNodeIDcntr, counter, DMND01_DemandSetPt, DMND01_demandFC, DMND01_currDemand, DMND01_currDemandMEMAP,
     DMND01_GrdBuyCost, DMND01_GrdSellCost, DMND01_GrdBuy, DMND01_GrdSell,
     DMND01_curPriceBuy, DMND01_curPriceSell, DMND01_GrdBuyCO2, DMND01_GrdSellCO2,
     DMND01_curCO2Buy, DMND01_curCO2Sell) = add_Demand(
     counter, naming, idx, myNodeIDcntr, Demand, "heat", "Wärmebedarf_Haus1", mpc)
 
 
-(myNodeIDcntr, counter, DMND02_DemandSetPt, DMND02_demandFC, DMND02_currDemand,
+(myNodeIDcntr, counter, DMND02_DemandSetPt, DMND02_demandFC, DMND02_currDemand, DMND02_currDemandMEMAP,
     DMND02_GrdBuyCost, DMND02_GrdSellCost, DMND02_GrdBuy, DMND02_GrdSell,
     DMND02_curPriceBuy, DMND02_curPriceSell, DMND02_GrdBuyCO2, DMND02_GrdSellCO2,
     DMND02_curCO2Buy, DMND02_curCO2Sell) = add_Demand(
@@ -94,7 +94,7 @@ print("\n")
 # add_coupler
 (myNodeIDcntr, BHKW_Prod1, BHKW_Prod2, BHKW_GenCosts, BHKW_CO2PerKWh, BHKW_SPDevPwr,
     BHKWcurPrice, BHKWcurCO2costs) = add_Coupler(
-     counter, naming, idx, myNodeIDcntr, 'SFH1_BHKW', Coupler, 'heat', 'elec', 0.723, 0.278, 5.0, 5.0, mpc)
+     counter, naming, idx, myNodeIDcntr, 'SFH1_BHKW', Coupler, 'heat', 'elec', 0.723, 0.278, 4.0, 5.0, mpc)
 
 # add_Storage 
 (myNodeIDcntr, STOR1_SOC, STOR1_calcSOC, STOR1_setpointChg, STOR1_setpointDisChg, SOCminHOR) = add_Storage(counter, naming,
@@ -399,6 +399,10 @@ while True:
         refminute_CoSESset = (((l-2)*time_ratio)+k)*60*CoSES_time_factor
         refminute_CoSESset2 = (((l-2)*time_ratio)+k+1)*60*CoSES_time_factor
 
+        # MEMAP values
+        DMND01_currDemandMEMAP.set_value(demand1_MEMAP[m-2])
+        DMND02_currDemandMEMAP.set_value(demand2_MEMAP[m-2])
+
         # Boundary Conditions
         refmin_bounds = horizon_min_MEMAP[0]-2*(60*mpc_time_factor)
         refmin_bounds2 = horizon_min_MEMAP[0]-1*(60*mpc_time_factor)
@@ -410,6 +414,10 @@ while True:
         # print
         print('demand setpoint CoSES heat: ', demand1_CoSES[((l-2)*time_ratio)+k], ', for minute ', refminute_CoSESset, 'to ', refminute_CoSESset2)
         print('demand setpoint CoSES electricity: ', demand2_MEMAP[l-2], ', for minute ', refminute_CoSESset, 'to ', refminute_CoSESset2)
+        print('demand is MEMAP heat: ', demand1_MEMAP[m-2], ', for minute ', refminute_CoSESset, 'to ',
+              refminute_CoSESset2)
+        print('demand is MEMAP electricity: ', demand2_MEMAP[m-2], ', for minute ', refminute_CoSESset, 'to ',
+              refminute_CoSESset2)
         print("\n")
         print('current price gas BHKW: ', priceGas_MEMAP[l-2], ', for minute ', refmin_bounds, 'to ', refmin_bounds2)
         print('current price electricity buy: ', priceElecbuy_MEMAP[l-2], ', for minute ', refmin_bounds, 'to ', refmin_bounds2)
@@ -430,6 +438,11 @@ while True:
         DMND02_DemandSetPt.set_value(demand2_CoSES[((l-2)*time_ratio)+k])
         refminute_CoSESset = (((j-2)*time_ratio)+k)*60*CoSES_time_factor
         refminute_CoSESset2 = (((j-2)*time_ratio)+k+1)*60*CoSES_time_factor
+
+        # MEMAP values
+        DMND01_currDemandMEMAP.set_value(demand1_MEMAP[m-2])
+        DMND02_currDemandMEMAP.set_value(demand2_MEMAP[m-2])
+
 
         # print
         print('demand setpoint CoSES heat: ', demand1_CoSES[((l - 2) * time_ratio) + k], ', for minute ',

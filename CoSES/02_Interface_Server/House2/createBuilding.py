@@ -107,6 +107,9 @@ def add_Demand(counter, naming, idx, myNodeIDcntr, Demand, sector, demName, FC_s
     demandArray.set_writable()
     k+=1
 
+    currDemand_MEMAP = Demnd.add_variable(mynsid(idx, 400 + k), demdNaming + "_2_ZM_" + short + "_currDemandMEMAP", 0.0)
+    currDemand_MEMAP.set_writable()
+
     currDemand = Demnd.add_variable(mynsid(idx, k), demdNaming + "_2_ZM_" + short + "_curDem", 0.0)
     currDemand.set_writable()
     k+=1
@@ -191,7 +194,7 @@ def add_Demand(counter, naming, idx, myNodeIDcntr, Demand, sector, demName, FC_s
     myNodeIDcntr = k
     counter[0,0]+=1
 
-    return (myNodeIDcntr, counter, DemandSetPt, demandArray, currDemand, GrdBuyCost, GrdSellCost, GrdBuy, GrdSell,
+    return (myNodeIDcntr, counter, DemandSetPt, demandArray, currDemand, currDemand_MEMAP, GrdBuyCost, GrdSellCost, GrdBuy, GrdSell,
             curPriceBuy, curPriceSell, GrdBuyCO2, GrdSellCO2, curCO2Buy, curCO2Sell)
 
 
