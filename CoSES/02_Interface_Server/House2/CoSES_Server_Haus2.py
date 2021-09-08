@@ -26,7 +26,7 @@ objectName = "CoSES"
 opc_port = "4852"
 
 # TIMING
-mpc = 8  # number of mpc horizont steps, usually 5-48
+mpc = 12  # number of mpc horizont steps, usually 5-48
 mpc_time_factor = 0.25  # time factor as ratio of hours,
     # determining the time different between steps, 0.25 = 15 min
 profile_time_factor = 0.25  # time factor as ratio of hours,
@@ -34,7 +34,7 @@ profile_time_factor = 0.25  # time factor as ratio of hours,
 CoSES_time_factor = 1/60 #  1 / 60  # time factor as ratio of hours,
     # for wished time difference for CoSES-Demand-Values, 1/60 = 1 min
 simulation_time_factor = 60  # 1 s in simulation time equals X seconds in real time
-SOCsetHOR = 0.3
+SOCsetHOR = 0.5
 karenzzeit = max(int(0.02*mpc_time_factor*(1/simulation_time_factor)*3600),3) # sekunden
 
 nrOfEms = 1
@@ -86,7 +86,7 @@ print("\n")
 add_Producer
 (myNodeIDcntr, CPROD1_production, CPROD1_GenCosts, CPROD1_CO2PerKWh, CPROD1_SPDevPwr,
       CPROD1curPrice, CPROD1curCO2costs) = add_Producer(counter, naming, mpc, idx,
-               myNodeIDcntr, "SFH2_EB1", Producer, "heat", 0.88, 8, 20)
+               myNodeIDcntr, "SFH2_EB1", Producer, "heat", 0.88, 8, 19)
 
 # add_coupler
 # (myNodeIDcntr, BHKW_Prod1, BHKW_Prod2, BHKW_GenCosts, BHKW_CO2PerKWh, BHKW_SPDevPwr,
