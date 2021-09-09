@@ -29,9 +29,9 @@ opc_port = "4852"
 mpc = 12  # number of mpc horizont steps, usually 5-48
 mpc_time_factor = 0.25  # time factor as ratio of hours,
     # determining the time different between steps, 0.25 = 15 min
-profile_time_factor = 0.25  # time factor as ratio of hours,
+demand_profile_time_factor = 30/3600  # time factor as ratio of hours,
     # for time difference between read values from profile, 0.25 = 15 min
-CoSES_time_factor = 1/60 #  1 / 60  # time factor as ratio of hours,
+CoSES_time_factor = 1/120 #  1 / 60  # time factor as ratio of hours,
     # for wished time difference for CoSES-Demand-Values, 1/60 = 1 min
 simulation_time_factor = 60  # 1 s in simulation time equals X seconds in real time
 SOCsetHOR = 0.5
@@ -39,11 +39,15 @@ karenzzeit = max(int(0.02*mpc_time_factor*(1/simulation_time_factor)*3600),3) # 
 
 nrOfEms = 1
 
-demandPath_heat  =   "FC_data_series/SF2_demand_heat.csv"
-demandPath_elec  =   "FC_data_series/SF2_demand_elec.csv"
-pricePath_gas    =   "FC_data_series/SF2_gas_price.csv"
-pricePath_elec_buy    =   "FC_data_series/SF2_elec_price_buy.csv"
-pricePath_elec_sell    =   "FC_data_series/SF2_elec_price_sell.csv"
+folder_forecasts =   "FC_data_series\SF2_SIMwtnet_con_MOD\\"
+
+demandPath_heat  =   folder_forecasts+"SF2_demand_heat.csv"
+demandPath_elec  =   folder_forecasts+"SF2_demand_elec.csv"
+demandPath_heat2  =   folder_forecasts+"SF2_demand_heat_MEMAP.csv"
+demandPath_elec2  =   folder_forecasts+"SF2_demand_elec_MEMAP.csv"
+pricePath_gas    =   folder_forecasts+"SF2_gas_price.csv"
+pricePath_elec_buy    =   folder_forecasts+"SF2_elec_price_buy.csv"
+pricePath_elec_sell    =   folder_forecasts+"SF2_elec_price_sell.csv"
 interp_type = "step" # alternatives: "step", "linear", "spline",
 plot_forecasts = False
 
@@ -104,22 +108,47 @@ add_Producer
 
 # ========= Load forecasts from file ======================================
 
-demand1_profile, demandtime_profile = ImportFromCSV (demandPath_heat, "\n", profile_time_factor)
-demand1_MEMAP, demandtime_MEMAP = InterpolateProfileMEMAP (demand1_profile, interp_type, profile_time_factor, mpc_time_factor)
-demand1_CoSES, demandtime_CoSES = InterpolateProfileCoSES (demand1_profile, interp_type, profile_time_factor, CoSES_time_factor)
+demand1_profile, demandtime_profile = ImportFromCSV (demandPath_heat, "\n", demand_profile_time_factor)
+demand2_profile, demandtime_profile = ImportFromCSV (demandPath_elec, "\n", demand_profile_time_factor)
+priceGas_profile, pricetime_profile = ImportFromCSV (pricePath_gas, "\n", mpc_time_factor)
+priceElecbuy_profile, pricetime_profile = ImportFromCSV (pricePath_elec_buy, "\n", mpc_time_factor)
+priceElecsell_profile, pricetime_profile = ImportFromCSV (pricePath_elec_sell, "\n", mpc_time_factor)
 
-demand2_profile, demandtime_profile = ImportFromCSV (demandPath_elec, "\n", profile_time_factor)
-demand2_MEMAP, demandtime_MEMAP = InterpolateProfileMEMAP (demand2_profile, interp_type, profile_time_factor, mpc_time_factor)
-demand2_CoSES, demandtime_CoSES = InterpolateProfileCoSES (demand2_profile, interp_type, profile_time_factor, CoSES_time_factor)
 
-priceGas_profile, pricetime_profile = ImportFromCSV (pricePath_gas, "\n", profile_time_factor)
-priceGas_MEMAP, pricetime_MEMAP = InterpolateProfileMEMAP (priceGas_profile, interp_type, profile_time_factor, mpc_time_factor)
 
-priceElecbuy_profile, pricetime_profile = ImportFromCSV (pricePath_elec_buy, "\n", profile_time_factor)
-priceElecbuy_MEMAP, pricetime_MEMAP = InterpolateProfileMEMAP (priceElecbuy_profile, interp_type, profile_time_factor, mpc_time_factor)
+if demand_profile_time_factor >= mpc_time_factor:
 
-priceElecsell_profile, pricetime_profile = ImportFromCSV (pricePath_elec_sell, "\n", profile_time_factor)
-priceElecsell_MEMAP, pricetime_MEMAP = InterpolateProfileMEMAP (priceElecsell_profile, interp_type, profile_time_factor, mpc_time_factor)
+    demand1_MEMAP, demandtime_MEMAP = InterpolateProfileMEMAP (demand1_profile, interp_type, demand_profile_time_factor, mpc_time_factor)
+    demand1_CoSES, demandtime_CoSES = InterpolateProfileCoSES (demand1_profile, interp_type, demand_profile_time_factor, CoSES_time_factor)
+
+    demand2_MEMAP, demandtime_MEMAP = InterpolateProfileMEMAP (demand2_profile, interp_type, demand_profile_time_factor, mpc_time_factor)
+    demand2_CoSES, demandtime_CoSES = InterpolateProfileCoSES (demand2_profile, interp_type, demand_profile_time_factor, CoSES_time_factor)
+
+    demand1_MEMAP_step, demandtime_MEMAP2 = InterpolateProfileMEMAP(demand1_profile, "step", demand_profile_time_factor,
+                                                                    CoSES_time_factor)
+    demand2_MEMAP_step, demandtime_MEMAP2 = InterpolateProfileMEMAP(demand2_profile, "step", demand_profile_time_factor,
+                                                                    CoSES_time_factor)
+
+elif demand_profile_time_factor < mpc_time_factor:
+    demand1_MEMAP, demandtime_MEMAP = ImportFromCSV (demandPath_heat2, "\n", mpc_time_factor)
+    demand1_CoSES, demandtime_CoSES = demand1_profile, demandtime_profile
+
+    demand2_MEMAP, demandtime_MEMAP = ImportFromCSV (demandPath_elec2, "\n", mpc_time_factor)
+    demand2_CoSES, demandtime_CoSES = demand2_profile, demandtime_profile
+
+    demand1_MEMAP_step, demandtime_MEMAP2 = InterpolateProfileMEMAP(demand1_MEMAP, "step", mpc_time_factor,
+                                                                    CoSES_time_factor)
+    demand2_MEMAP_step, demandtime_MEMAP2 = InterpolateProfileMEMAP(demand2_MEMAP, "step", mpc_time_factor,
+                                                                    CoSES_time_factor)
+
+
+#priceGas_MEMAP, pricetime_MEMAP = InterpolateProfileMEMAP (priceGas_profile, interp_type, mpc_time_factor, mpc_time_factor)
+#priceElecbuy_MEMAP, pricetime_MEMAP = InterpolateProfileMEMAP (priceElecbuy_profile, interp_type, mpc_time_factor, mpc_time_factor)
+#priceElecsell_MEMAP, pricetime_MEMAP = InterpolateProfileMEMAP (priceElecsell_profile, interp_type, mpc_time_factor, mpc_time_factor)
+
+priceGas_MEMAP, pricetime_MEMAP = priceGas_profile, pricetime_profile
+priceElecbuy_MEMAP, pricetime_MEMAP = priceElecbuy_profile, pricetime_profile
+priceElecsell_MEMAP, pricetime_MEMAP = priceElecsell_profile, pricetime_profile
 
 
 if plot_forecasts:
@@ -141,10 +170,6 @@ if plot_forecasts:
     PlotProfile(priceElecsell_profile, pricetime_profile, "priceElecsell", "€/kWh", "figures")
     PlotProfile(priceElecsell_MEMAP, pricetime_MEMAP, "priceElecsell_MEMAP", "€/kWh", "figures")
 
-    demand1_MEMAP_step, demandtime_MEMAP2 = InterpolateProfileMEMAP(demand1_profile, "step", profile_time_factor,
-                                                              CoSES_time_factor)
-    demand2_MEMAP_step, demandtime_MEMAP2 = InterpolateProfileMEMAP(demand2_profile, "step", profile_time_factor,
-                                                                    CoSES_time_factor)
     #demandtime_MEMAP_adj = [x+profile_time_factor*60/2 for x in demandtime_MEMAP]
     fig1 = plt.figure(num="MEMAP vs CoSES", figsize=[8.3, 5.8], dpi=400.0)
     plt.plot(demandtime_MEMAP2, demand1_MEMAP_step, linestyle="-", color='g')
@@ -160,7 +185,6 @@ if plot_forecasts:
     filename = "figures" + "/" + "MEMAP vs CoSES" + "_" + now_string + ".png"
     fig1.savefig(filename)
     print("Plot was saved.")
-
 
 # =============================== Start ===================================
 # ============================= scheme =================================
