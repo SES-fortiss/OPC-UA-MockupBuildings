@@ -226,7 +226,7 @@ print('delta_t_for_setting_CoSES: ', delta_t_for_setting_CoSES, " seconds")
 delta_t_for_setting_MEMAP = mpc_time_factor*3600 / simulation_time_factor  # in seconds
 print('delta_t_for_setting_MEMAP: ', delta_t_for_setting_MEMAP , " seconds")
 time_ratio = int(delta_t_for_setting_MEMAP / delta_t_for_setting_CoSES)
-maxsteps = np.size(demand1_profile)
+maxsteps = np.size(demand1_MEMAP)
 print("### Startup finished ###\n")
 
 # ## Standby --------------------------------------------------------
