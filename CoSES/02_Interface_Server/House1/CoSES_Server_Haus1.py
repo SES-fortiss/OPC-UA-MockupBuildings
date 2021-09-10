@@ -102,7 +102,7 @@ print("\n")
 # add_Storage 
 (myNodeIDcntr, STOR1_SOC, STOR1_calcSOC, STOR1_setpointChg, STOR1_setpointDisChg, SOCminHOR) = add_Storage(counter, naming,
                                                 mpc, idx, myNodeIDcntr,
-                                                "SFH1_TS1", Storage, "heat", 0.97, 0.97, 62.94, 0.021, 10, 10, 0.5)
+                                                "SFH1_TS1", Storage, "heat", 0.97, 0.97, 62.94, 0.021, 10, 10, 0.6)
 
 
 
