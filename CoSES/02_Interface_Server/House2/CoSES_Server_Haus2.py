@@ -34,7 +34,7 @@ demand_profile_time_factor = 30/3600  # time factor as ratio of hours,
     # for time difference between read values from profile, 0.25 = 15 min
 CoSES_time_factor = 1/120 #  1 / 60  # time factor as ratio of hours,
     # for wished time difference for CoSES-Demand-Values, 1/60 = 1 min
-simulation_time_factor = 60  # 1 s in simulation time equals X seconds in real time
+simulation_time_factor = 1  # 1 s in simulation time equals X seconds in real time
 SOCsetHOR = 0.5
 karenzzeit = max(int(0.02*mpc_time_factor*(1/simulation_time_factor)*3600),3) # sekunden
 
@@ -286,7 +286,7 @@ print('############## EXPERIMENT STARTED: ', current_time, '##############\n')
 newTriggerValue = oldTriggerValue
 while newTriggerValue == oldTriggerValue:
     newTriggerValue = Trigger.get_value()
-
+begin = time.monotonic()
 t = time.localtime()
 current_time = time.strftime("%d.%m.%Y, %H:%M:%S", t)
 print('############## FIRST TRIGGER RECEIVED: ', current_time, ' (= minute 0.0) ##############\n')
@@ -329,8 +329,18 @@ print('price forecast electricity sell: ', priceElecsell_MEMAP_FC, ', for minute
 print("### INITIALIZATION DONE ###\n")
 
 # ## Loop ---------------------------------------------------------------------------
+oldTriggerValue = time.monotonic()
+while (time.monotonic()-oldTriggerValue) < (mpc_time_factor*(3600/simulation_time_factor)):
+    pass
 while True:
-    newTriggerValue = Trigger.get_value()
+    if (time.monotonic()-oldTriggerValue) > (mpc_time_factor*(3600/simulation_time_factor)):
+        print((mpc_time_factor*(3600/simulation_time_factor)))
+        print(time.monotonic())
+        print(f"{oldTriggerValue=}")
+        print(time.monotonic()-oldTriggerValue)
+        newTriggerValue = time.monotonic()    #Trigger.get_value()
+        print(f"{newTriggerValue=}")
+        Trigger.set_value((newTriggerValue-begin))
 
     if newTriggerValue != oldTriggerValue:
         oldTriggerValue = newTriggerValue
@@ -427,8 +437,10 @@ while True:
         refminute_CoSESset2 = (((l-2)*time_ratio)+k+1)*60*CoSES_time_factor
 
         # MEMAP values
-        DMND01_currDemandMEMAP.set_value(demand1_MEMAP[m - 2])
-        DMND02_currDemandMEMAP.set_value(demand2_MEMAP[m - 2])
+        #DMND01_currDemandMEMAP.set_value(demand1_MEMAP[m - 2])
+        #DMND02_currDemandMEMAP.set_value(demand2_MEMAP[m - 2])
+        server1.get_node('ns=2;i=121').set_value(demand1_MEMAP[m - 2])  # heat_demand
+        server1.get_node('ns=2;i=149').set_value(demand1_MEMAP[m - 2]+1.0)  # boiler_power
 
         # Boundary Conditions
         refmin_bounds = horizon_min_MEMAP[0]-2*(60*mpc_time_factor)
@@ -467,8 +479,10 @@ while True:
         refminute_CoSESset2 = (((j-2)*time_ratio)+k+1)*60*CoSES_time_factor
 
         # MEMAP values
-        DMND01_currDemandMEMAP.set_value(demand1_MEMAP[m - 2])
-        DMND02_currDemandMEMAP.set_value(demand2_MEMAP[m - 2])
+        #DMND01_currDemandMEMAP.set_value(demand1_MEMAP[m - 2])
+        #DMND02_currDemandMEMAP.set_value(demand2_MEMAP[m - 2])
+        server1.get_node('ns=2;i=121').set_value(demand1_MEMAP[m - 2])  # heat_demand
+        server1.get_node('ns=2;i=149').set_value(demand1_MEMAP[m - 2]+1.0)  # boiler_power
 
         # print
         print('demand setpoint CoSES heat: ', demand1_CoSES[((l - 2) * time_ratio) + k], ', for minute ',
