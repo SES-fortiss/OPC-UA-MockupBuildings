@@ -11,9 +11,9 @@ import numpy as np
 
 # __init__
 
-def create_Server_Basics(objectName, ems, port):
+def create_Server_Basics(objectName, ems, port, ipadress):
     
-    url = 'opc.tcp://0.0.0.0:' + port
+    url = 'opc.tcp://'+ ipadress + ':' + port
     gebName = objectName + ems
     server = Server()
     server.set_endpoint(url)

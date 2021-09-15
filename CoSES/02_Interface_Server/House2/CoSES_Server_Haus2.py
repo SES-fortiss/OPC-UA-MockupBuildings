@@ -24,6 +24,7 @@ from importForecastsCSV import *
 # General Information:
 objectName = "CoSES"
 opc_port = "4852"
+ipadress = "0.0.0.0"
 
 # TIMING
 mpc = 12  # number of mpc horizont steps, usually 5-48
@@ -62,7 +63,7 @@ myNodeIDcntr = 100
 
 # ============================== EMS 1 - General ==============================
 EMS = "EMS02"
-(server1, url1, idx, objects) = create_Server_Basics(objectName, EMS, opc_port)
+(server1, url1, idx, objects) = create_Server_Basics(objectName, EMS, opc_port, ipadress)
 (General, Demand, Devices, Producer, VolatileProducer, Coupler, Storage) = create_Namespace(idx, objects)
 naming = objectName + EMS + "OBJ01"
 
@@ -312,6 +313,11 @@ CPROD1_GenCosts.set_value(priceGas_MEMAP_FC)
 # BHKW_GenCosts.set_value(priceGas_MEMAP_FC)
 DMND02_GrdBuyCost.set_value(priceElecbuy_MEMAP_FC)
 DMND02_GrdSellCost.set_value(priceElecsell_MEMAP_FC)
+
+# devices should run before first step to be initiated
+server1.get_node('ns=2;i=121').set_value(11.2) #heat_demand
+server1.get_node('ns=2;i=138').set_value(2.0) #electricity_demand
+server1.get_node('ns=2;i=149').set_value(11.2) #boiler_power
 
 # print
 print('demand forecast heat: ', demand1_MEMAP_FC, ', for minutes', horizon_min_MEMAP)
