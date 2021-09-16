@@ -334,15 +334,11 @@ print("### INITIALIZATION DONE ###\n")
 oldTriggerValue = time.monotonic()
 while (time.monotonic()-oldTriggerValue) < (mpc_time_factor*(3600/simulation_time_factor)):
     pass
+
 while True:
     if (time.monotonic()-oldTriggerValue) > (mpc_time_factor*(3600/simulation_time_factor)):
-        print((mpc_time_factor*(3600/simulation_time_factor)))
-        print(time.monotonic())
-        print(f"{oldTriggerValue=}")
-        print(time.monotonic()-oldTriggerValue)
-        newTriggerValue = time.monotonic()    #Trigger.get_value()
-        print(f"{newTriggerValue=}")
-        Trigger.set_value((newTriggerValue-begin))
+        newTriggerValue = time.monotonic()
+        Trigger.set_value(Trigger.get_value()+1)
 
     if newTriggerValue != oldTriggerValue:
         oldTriggerValue = newTriggerValue
@@ -435,14 +431,13 @@ while True:
         # CoSES demand setpoints
         DMND01_DemandSetPt.set_value(demand1_CoSES[((l-2)*time_ratio)+k])
         DMND02_DemandSetPt.set_value(demand2_CoSES[((l-2)*time_ratio)+k])
+        server1.get_node('ns=2;i=153').set_value(demand1_CoSES[((l - 2) * time_ratio) + k] + 1.0)  # CHP_power_thermal for tests
         refminute_CoSESset = (((l-2)*time_ratio)+k)*60*CoSES_time_factor
         refminute_CoSESset2 = (((l-2)*time_ratio)+k+1)*60*CoSES_time_factor
 
         # MEMAP values - for testing
-        #DMND01_currDemandMEMAP.set_value(demand1_MEMAP[m-2])
-        #DMND02_currDemandMEMAP.set_value(demand2_MEMAP[m-2])
-        server1.get_node('ns=2;i=121').set_value(demand1_MEMAP[m-2])  # heat_demand
-        server1.get_node('ns=2;i=153').set_value(demand1_MEMAP[m-2]+1.0)  # CHP_power_thermal
+        DMND01_currDemandMEMAP.set_value(demand1_MEMAP[m-2])
+        DMND02_currDemandMEMAP.set_value(demand2_MEMAP[m-2])
 
         # Boundary Conditions
         refmin_bounds = horizon_min_MEMAP[0]-2*(60*mpc_time_factor)
@@ -474,17 +469,16 @@ while True:
         # iterations in timestep
 
         # CoSES demand setpoints
-        # CoSES demand setpoints
         DMND01_DemandSetPt.set_value(demand1_CoSES[((l-2)*time_ratio)+k])
         DMND02_DemandSetPt.set_value(demand2_CoSES[((l-2)*time_ratio)+k])
+        server1.get_node('ns=2;i=153').set_value(demand1_CoSES[((l-2)*time_ratio)+k] + 1.0)  # CHP_power_thermal for tests
+
         refminute_CoSESset = (((j-2)*time_ratio)+k)*60*CoSES_time_factor
         refminute_CoSESset2 = (((j-2)*time_ratio)+k+1)*60*CoSES_time_factor
 
-        # MEMAP values - for testing
-        #DMND01_currDemandMEMAP.set_value(demand1_MEMAP[m-2])
-        #DMND02_currDemandMEMAP.set_value(demand2_MEMAP[m-2])
-        server1.get_node('ns=2;i=121').set_value(demand1_MEMAP[m - 2])  # heat_demand
-        server1.get_node('ns=2;i=153').set_value(demand1_MEMAP[m - 2] + 1.0)  # CHP_power_thermal
+        # MEMAP values
+        DMND01_currDemandMEMAP.set_value(demand1_MEMAP[m-2])
+        DMND02_currDemandMEMAP.set_value(demand2_MEMAP[m-2])
 
 
         # print
