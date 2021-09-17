@@ -105,9 +105,6 @@ print("\n")
                                                 mpc, idx, myNodeIDcntr,
                                                 "SFH1_TS1", Storage, "heat", 0.97, 0.97, 62.94, 0.021, 10, 10, 0.6)
 
-
-
-
 # ========= Load forecasts from file ======================================
 
 demand1_profile, demandtime_profile = ImportFromCSV (demandPath_heat, "\n", demand_profile_time_factor)
@@ -372,7 +369,7 @@ while True:
             DMND02_GrdSellCost.set_value(priceElecsell_MEMAP_FC)
 
             # only for debugging tests!!!
-            #STOR1_SOC.set_value(STOR1_calcSOC.get_value())
+            STOR1_SOC.set_value(STOR1_calcSOC.get_value())
 
             # print
             print('demand forecast heat: ', demand1_MEMAP_FC, ', for minutes', horizon_min_MEMAP)
@@ -407,7 +404,7 @@ while True:
             DMND02_GrdSellCost.set_value(priceElecsell_MEMAP_FC)
 
             # only for debugging tests!!!
-            #STOR1_SOC.set_value(STOR1_calcSOC.get_value())
+            STOR1_SOC.set_value(STOR1_calcSOC.get_value())
 
             # print
             print('demand forecast heat: ', demand1_MEMAP_FC, ', for minutes', horizon_min_MEMAP)
