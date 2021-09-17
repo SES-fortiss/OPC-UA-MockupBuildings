@@ -34,7 +34,7 @@ demand_profile_time_factor = 30/3600  # time factor as ratio of hours,
     # for time difference between read values from profile, 0.25 = 15 min
 CoSES_time_factor = 1/120 #  1 / 60  # time factor as ratio of hours,
     # for wished time difference for CoSES-Demand-Values, 1/60 = 1 min
-simulation_time_factor = 1  # 1 s in simulation time equals X seconds in real time
+simulation_time_factor = 60  # 1 s in simulation time equals X seconds in real time
 SOCsetHOR = 0.5
 karenzzeit = max(int(0.02*mpc_time_factor*(1/simulation_time_factor)*3600),3) # sekunden
 
@@ -42,13 +42,13 @@ nrOfEms = 1
 
 folder_forecasts =   "FC_data_series\SF2_SIMwtnet_con_MOD\\"
 
-demandPath_heat  =   folder_forecasts+"SF2_demand_heat.csv"
-demandPath_elec  =   folder_forecasts+"SF2_demand_elec.csv"
-demandPath_heat2  =   folder_forecasts+"SF2_demand_heat_MEMAP.csv"
-demandPath_elec2  =   folder_forecasts+"SF2_demand_elec_MEMAP.csv"
-pricePath_gas    =   folder_forecasts+"SF2_gas_price.csv"
-pricePath_elec_buy    =   folder_forecasts+"SF2_elec_price_buy.csv"
-pricePath_elec_sell    =   folder_forecasts+"SF2_elec_price_sell.csv"
+demandPath_heat  =   folder_forecasts+"SF2_demand_heat.CSV"
+demandPath_elec  =   folder_forecasts+"SF2_demand_elec.CSV"
+demandPath_heat2  =   folder_forecasts+"SF2_demand_heat_MEMAP.CSV"
+demandPath_elec2  =   folder_forecasts+"SF2_demand_elec_MEMAP.CSV"
+pricePath_gas    =   folder_forecasts+"SF2_gas_price.CSV"
+pricePath_elec_buy    =   folder_forecasts+"SF2_elec_price_buy.CSV"
+pricePath_elec_sell    =   folder_forecasts+"SF2_elec_price_sell.CSV"
 interp_type = "step" # alternatives: "step", "linear", "spline",
 plot_forecasts = False
 
