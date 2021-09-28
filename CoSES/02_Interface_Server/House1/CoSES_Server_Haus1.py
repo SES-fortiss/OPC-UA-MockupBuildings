@@ -34,7 +34,7 @@ demand_profile_time_factor = 30/3600  # time factor as ratio of hours,
     # for time difference between read values from profile, 0.25 = 15 min
 CoSES_time_factor = 1/120 # 1 / 60  # time factor as ratio of hours,
     # for wished time difference for CoSES-Demand-Values, 1/60 = 1 min
-simulation_time_factor = 60  # 1 s in simulation time equals X seconds in real time
+simulation_time_factor = 1  # 1 s in simulation time equals X seconds in real time
 SOCsetHOR = 0.5
 karenzzeit = max(int(0.02*mpc_time_factor*(1/simulation_time_factor)*3600),3) # sekunden
 
@@ -363,7 +363,7 @@ while True:
             DMND02_GrdSellCost.set_value(priceElecsell_MEMAP_FC)
 
             # only for debugging tests!!!
-            STOR1_SOC.set_value(STOR1_calcSOC.get_value())
+            #STOR1_SOC.set_value(STOR1_calcSOC.get_value())
 
             # print
             print('demand forecast heat: ', demand1_MEMAP_FC, ', for minutes', horizon_min_MEMAP)
@@ -398,7 +398,7 @@ while True:
             DMND02_GrdSellCost.set_value(priceElecsell_MEMAP_FC)
 
             # only for debugging tests!!!
-            STOR1_SOC.set_value(STOR1_calcSOC.get_value())
+            #STOR1_SOC.set_value(STOR1_calcSOC.get_value())
 
             # print
             print('demand forecast heat: ', demand1_MEMAP_FC, ', for minutes', horizon_min_MEMAP)

@@ -6,6 +6,7 @@ docker-compose up -d
 
 docker-compose down -v 
 
+docker-compose restart opcua_monitor opcua_scanner opcua_collector
 
 thomas.licklederer@tum.de
 MEMAP3009

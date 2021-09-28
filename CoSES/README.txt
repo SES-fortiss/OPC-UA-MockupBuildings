@@ -1,4 +1,5 @@
 1. Start Python Interface Servers for House 1 and House 2 using pycharm
+1a. connect Holsten portal to server
 2. Start UA Expert for Monitoring
 3. Start VeriStand via VI using API
 	3.1 choose the right targets
