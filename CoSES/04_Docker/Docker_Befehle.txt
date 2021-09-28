@@ -1,0 +1,11 @@
+docker login registry.unitedpartners.de -u HolstenCustomer -p 7LDuBbHnP98td72kSjsq
+
+docker-compose pull
+
+docker-compose up -d 
+
+docker-compose down -v 
+
+
+thomas.licklederer@tum.de
+MEMAP3009

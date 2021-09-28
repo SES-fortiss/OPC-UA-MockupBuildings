@@ -1,0 +1,102 @@
+version: '3'
+
+services:
+  frontend:
+    image: registry.unitedpartners.de/holsten/registry/frontend:1.2.3
+    ports:
+      - '80:80'
+    depends_on:
+      - backend
+      - websocket
+      - web_app
+    restart: always
+
+  web_app:
+    image: registry.unitedpartners.de/holsten/registry/web_app:coses
+    restart: always
+
+  backend:
+    image: registry.unitedpartners.de/holsten/registry/backend:coses
+    environment:
+      - "MYSQL_DATABASE=openvisu"
+      - "MYSQL_USERNAME=root"
+      - "MYSQL_PASSWORD=xBOsDH8Q4BoR7IDpQUd8"
+      - "MYSQL_HOST=db"
+      - "MYSQL_PORT=3306"
+      - "INFLUXDB_TOKEN=sTDyAn7wYwom8Y8VRqkI"
+      - "SERVICE_API_TOKEN=GrlQ9kqtBpXe5jQAdDgzbN6azAUsbAf0"
+    volumes:
+      - ./data/files:/app/files
+    depends_on:
+      - db
+      - influxdb
+    restart: always
+
+  db:
+    image: "mariadb"
+    environment:
+      - "MYSQL_DATABASE=openvisu"
+      - "MYSQL_ROOT_PASSWORD=xBOsDH8Q4BoR7IDpQUd8"
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+    command:
+      mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    restart: always
+
+  influxdb:
+    image: influxdb
+    environment:
+      - "DOCKER_INFLUXDB_INIT_MODE=setup"
+      - "DOCKER_INFLUXDB_INIT_USERNAME=admin"
+      - "DOCKER_INFLUXDB_INIT_PASSWORD=c9mXq6qKeGQA67VF7Wu0EYIi"
+      - "DOCKER_INFLUXDB_INIT_ORG=openvisu"
+      - "DOCKER_INFLUXDB_INIT_BUCKET=my-bucket"
+      - "DOCKER_INFLUXDB_INIT_RETENTION=5w"
+      - "DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=sTDyAn7wYwom8Y8VRqkI"
+    volumes:
+      - ./data/influxdb:/var/lib/influxdb
+    restart: always
+
+  websocket:
+    image: registry.unitedpartners.de/holsten/registry/websocket:1.2.3
+    environment:
+      - "API_URL=http://api/"
+      - "ACCESS_TOKEN=GrlQ9kqtBpXe5jQAdDgzbN6azAUsbAf0"
+    depends_on:
+      - backend
+    links:
+      - backend:api
+    restart: always
+
+  opcua_monitor:
+    image: registry.unitedpartners.de/holsten/registry/opcua_monitor:1.2.3
+    environment:
+      - "API_URL=http://api/"
+      - "ACCESS_TOKEN=GrlQ9kqtBpXe5jQAdDgzbN6azAUsbAf0"
+    depends_on:
+      - frontend
+    links:
+      - frontend:api
+    restart: always
+
+  opcua_scanner:
+    image: registry.unitedpartners.de/holsten/registry/opcua_scanner:1.2.3
+    environment:
+      - "API_URL=http://api/"
+      - "ACCESS_TOKEN=GrlQ9kqtBpXe5jQAdDgzbN6azAUsbAf0"
+    depends_on:
+      - frontend
+    links:
+      - frontend:api
+    restart: always
+
+  opcua_collector:
+    image: registry.unitedpartners.de/holsten/registry/opcua_collector:1.2.3
+    environment:
+      - "API_URL=http://api/"
+      - "ACCESS_TOKEN=GrlQ9kqtBpXe5jQAdDgzbN6azAUsbAf0"
+    depends_on:
+      - frontend
+    links:
+      - frontend:api
+    restart: always
