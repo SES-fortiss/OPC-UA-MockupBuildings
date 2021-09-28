@@ -24,7 +24,7 @@ from importForecastsCSV import *
 # General Information:
 objectName = "CoSES"
 opc_port = "4851"
-ipadress = "0.0.0.0"
+ipadress = "192.168.21.203"
 
 # TIMING
 mpc = 12  # number of mpc horizont steps, usually 5-48
@@ -422,7 +422,7 @@ while True:
         # CoSES demand setpoints
         DMND01_DemandSetPt.set_value(demand1_CoSES[((l-2)*time_ratio)+k])
         DMND02_DemandSetPt.set_value(demand2_CoSES[((l-2)*time_ratio)+k])
-        server1.get_node('ns=2;i=153').set_value(demand1_CoSES[((l - 2) * time_ratio) + k] + 1.0)  # CHP_power_thermal for tests
+        #server1.get_node('ns=2;i=153').set_value(demand1_CoSES[((l - 2) * time_ratio) + k] + 1.0)  # CHP_power_thermal for tests
         refminute_CoSESset = (((l-2)*time_ratio)+k)*60*CoSES_time_factor
         refminute_CoSESset2 = (((l-2)*time_ratio)+k+1)*60*CoSES_time_factor
 
@@ -462,7 +462,7 @@ while True:
         # CoSES demand setpoints
         DMND01_DemandSetPt.set_value(demand1_CoSES[((l-2)*time_ratio)+k])
         DMND02_DemandSetPt.set_value(demand2_CoSES[((l-2)*time_ratio)+k])
-        server1.get_node('ns=2;i=153').set_value(demand1_CoSES[((l-2)*time_ratio)+k] + 1.0)  # CHP_power_thermal for tests
+        #server1.get_node('ns=2;i=153').set_value(demand1_CoSES[((l-2)*time_ratio)+k] + 1.0)  # CHP_power_thermal for tests
 
         refminute_CoSESset = (((j-2)*time_ratio)+k)*60*CoSES_time_factor
         refminute_CoSESset2 = (((j-2)*time_ratio)+k+1)*60*CoSES_time_factor
