@@ -286,7 +286,7 @@ print('############## EXPERIMENT STARTED: ', current_time, '##############\n')
 newTriggerValue = oldTriggerValue
 while newTriggerValue == oldTriggerValue:
     newTriggerValue = Trigger.get_value()
-begin = time.monotonic()
+
 t = time.localtime()
 current_time = time.strftime("%d.%m.%Y, %H:%M:%S", t)
 print('############## FIRST TRIGGER RECEIVED: ', current_time, ' (= minute 0.0) ##############\n')
@@ -329,14 +329,8 @@ print('price forecast electricity sell: ', priceElecsell_MEMAP_FC, ', for minute
 print("### INITIALIZATION DONE ###\n")
 
 # ## Loop ---------------------------------------------------------------------------
-oldTriggerValue = time.monotonic()
-while (time.monotonic()-oldTriggerValue) < (mpc_time_factor*(3600/simulation_time_factor)):
-    pass
-
 while True:
-    if (time.monotonic()-oldTriggerValue) > (mpc_time_factor*(3600/simulation_time_factor)):
-        newTriggerValue = time.monotonic()
-        Trigger.set_value(Trigger.get_value()+1)
+    newTriggerValue = Trigger.get_value()
 
     if newTriggerValue != oldTriggerValue:
         oldTriggerValue = newTriggerValue
