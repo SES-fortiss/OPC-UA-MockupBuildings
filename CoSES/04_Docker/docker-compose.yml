@@ -16,7 +16,7 @@ services:
     restart: always
 
   backend:
-    image: registry.unitedpartners.de/holsten/registry/backend:coses
+    image: registry.unitedpartners.de/holsten/registry/backend:coses2
     environment:
       - "MYSQL_DATABASE=openvisu"
       - "MYSQL_USERNAME=root"
