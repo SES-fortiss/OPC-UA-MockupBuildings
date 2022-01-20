@@ -40,7 +40,7 @@ karenzzeit = max(int(0.02*mpc_time_factor*(1/simulation_time_factor)*3600),3) # 
 
 nrOfEms = 1
 
-folder_forecasts =   "FC_data_series\SF1_SIM_wtnet_con_MOD\\"
+folder_forecasts =   "FC_data_series/SF1_SIM_wtnet_con_MOD/"
 demandPath_heat  =   folder_forecasts+"SF1_demand_heat.CSV"
 demandPath_elec  =   folder_forecasts+"SF1_demand_elec.CSV"
 demandPath_heat2  =   folder_forecasts+"SF1_demand_heat_MEMAP.CSV"
@@ -270,10 +270,10 @@ print("### Server in STANDBY ###\n")
 # server1.export_xml_by_ns("CoSES_Server_full.xml")
 
 # ============================= wait ======================================
-myinput = input('-------------PRESS ENTER TO START EXPERIMENT!--------------')
+#myinput = input('-------------PRESS ENTER TO START EXPERIMENT!--------------')
 
-while myinput != '':
-    pass
+#while myinput != '':
+#    pass
 t = time.localtime()
 current_time = time.strftime("%d.%m.%Y, %H:%M:%S", t)
 
