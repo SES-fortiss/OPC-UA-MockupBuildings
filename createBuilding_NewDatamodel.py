@@ -347,8 +347,10 @@ def add_Storage(counter, naming, FC_step, idx, name, Storage, inMEMAP,
     maxP_in.set_writable()
     storageCap = Stor.add_variable(idx, storNaming + "_1_ZM_" + short + "_Capacity", Capacity)
     storageCap.set_writable()
-    storageLosses = Stor.add_variable(idx, storNaming + "_1_ZM_" + short + "_StorLossPD", loss)
-    storageLosses.set_writable()    
+    #storageLosses = Stor.add_variable(idx, storNaming + "_1_ZM_" + short + "_StorLossPD", loss)
+    #storageLosses.set_writable() 
+    storageLossesFC = Stor.add_variable(idx, storNaming + "_1_ZM_" + short + "_StorLossPD", list(np.zeros(FC_step)), datatype=opcua.ua.ObjectIds.Double)
+    storageLossesFC.set_writable()
     minTempIn = Stor.add_variable(idx, storNaming + "_1_ZM_" + short + "_TminStorHt", minTemp)
     minTempIn.set_writable()
     maxTempIn = Stor.add_variable(idx, storNaming + "_1_ZM_" + short + "_TmaxStorHt", maxTemp)
@@ -397,7 +399,7 @@ def add_Storage(counter, naming, FC_step, idx, name, Storage, inMEMAP,
     
     counter[0,4]+=1
     
-    return(currentP_in, currentP_out, setpointChgAr, setpointDisChgAr, SOC)
+    return(currentP_in, currentP_out, setpointChgAr, setpointDisChgAr, SOC, storageLossesFC)
     
 
 

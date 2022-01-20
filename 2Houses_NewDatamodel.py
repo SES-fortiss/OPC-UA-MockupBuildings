@@ -17,8 +17,8 @@ import numpy as np
 #import random
 
 mpc = 5
-time_factor = 0.25
-n = 96
+time_factor = 1
+n = 24
 size = n
 #size = 1440
 Value = 0.0
@@ -72,7 +72,7 @@ B1_Eff_Stor1 = 0.97
 B1_P_ChDisCh = 3.3				  
 B1_Cap_Stor1 = 10
 B1_StartSOC = 0.5				 
-(B1_Stor1_In, B1_Stor1_Out, B1_Stor1_setpointChgFC, B1_Stor1_setpointDisChgFC, B1_Stor1_SOC) = add_Storage(counter, naming, mpc, idx, "MFH1_Bat", Storage, True, "elec", B1_Eff_Stor1, B1_Eff_Stor1, B1_Cap_Stor1, 0.0, B1_P_ChDisCh, B1_P_ChDisCh, 0.0, 0.0, 0.0, B1_StartSOC, 0.0, 0.0, 0.0)
+(B1_Stor1_In, B1_Stor1_Out, B1_Stor1_setpointChgFC, B1_Stor1_setpointDisChgFC, B1_Stor1_SOC, B1_Stor1_losses) = add_Storage(counter, naming, mpc, idx, "MFH1_Bat", Storage, True, "elec", B1_Eff_Stor1, B1_Eff_Stor1, B1_Cap_Stor1, 0.0, B1_P_ChDisCh, B1_P_ChDisCh, 0.0, 0.0, 0.0, B1_StartSOC, 0.0, 0.0, 0.0)
 
 # Anlagen - Allgemein
 # nicht sehr allgemein gehalten. Hier wäre if (VolatileProducer.get_variables(Med) == "Electricity"): besser 
@@ -136,7 +136,7 @@ B2_Eff_Stor1 = 0.98
 B2_P_ChDisCh = 10				 
 B2_Cap_Stor1 = 20
 B2_StartSOC = 0.5				 
-(B2_Stor1_In, B2_Stor1_Out, B2_Stor1_setpointChgFC, B2_Stor1_setpointDisChgFC, B2_Stor1_SOC) = add_Storage(counter, naming, mpc, idx, "MFH2_TS", Storage, True, "heat", B2_Eff_Stor1, B2_Eff_Stor1 , B2_Cap_Stor1, 0.0, B2_P_ChDisCh, B2_P_ChDisCh, 60, 90, 60, B2_StartSOC, 0.0, 0.0, 0.0)
+(B2_Stor1_In, B2_Stor1_Out, B2_Stor1_setpointChgFC, B2_Stor1_setpointDisChgFC, B2_Stor1_SOC, B2_Stor1_losses) = add_Storage(counter, naming, mpc, idx, "MFH2_TS", Storage, True, "heat", B2_Eff_Stor1, B2_Eff_Stor1 , B2_Cap_Stor1, 0.0, B2_P_ChDisCh, 0, 60, 90, 60, B2_StartSOC, 0.0, 0.0, 0.0)
 
 
 # Anlagen - Allgemein
@@ -257,6 +257,8 @@ while True:
         B2_Stor1_In.set_value(P_B2_Strge[i,1])
         B2_Stor1_Out.set_value(P_B2_Strge[i,0])
 
+    B2_Stor1_losses.set_value(list(np.ones(5) * 0.05))
+
     # ToDo : Losses berücksichtigen
     B1_StorChange = time_factor * (B1_Stor1_In.get_value() - B1_Stor1_Out.get_value()) / B1_Cap_Stor1 # Änderung in Prozent der Capazität
     B2_StorChange = time_factor * (B2_Stor1_In.get_value() - B2_Stor1_Out.get_value()) / B2_Cap_Stor1 # Änderung in Prozent der Capazität
@@ -277,6 +279,11 @@ while True:
         
     time.sleep(15)    
     
+    
+def BuildingModel(ArrayIn):
+    
+    losses = np.ones(5) * 5
+    return losses
     
     
 '''
