@@ -49,7 +49,7 @@ def create_Namespace(server, idx, objects):
 
 def add_General(idx, naming, General, MemapActivated, url, connectionStat, EMSname, buildCat):
     
-    k = range(100, 150, 2)
+    k = range(500, 550, 2)
     
     endPoint = General.add_variable(ua.NodeId.from_string('ns={};i={}'.format(idx, k[0])), naming+"_NONE_0_ZM_XX_EndPoint", url)
     endPoint.set_writable()
@@ -63,6 +63,11 @@ def add_General(idx, naming, General, MemapActivated, url, connectionStat, EMSna
     MemapActive.set_writable()
     trigger = General.add_variable(ua.NodeId.from_string('ns={};i={}'.format(idx, 5000)), naming+"_NONE_0_ZM_XX_trigger", 0)
     trigger.set_writable()
+    
+    SPFwrdPwr = General.add_variable(ua.NodeId.from_string('ns={};i={}'.format(idx, k[5])), naming + "NONE_3_VM_HT_SPHeatFrwd",0.0)
+    SPFwrdPwr.set_writable()
+    SPBackPwr = General.add_variable(ua.NodeId.from_string('ns={};i={}'.format(idx, k[6])), naming + "NONE_3_VM_HT_SPHeatBack", 0.0)
+    SPBackPwr.set_writable()
 
     #return (only writables?)
     return (endPoint, connStat, EMSnameID, trigger)
@@ -397,7 +402,7 @@ def add_Storage(counter, naming, FC_step, idx, name, Storage, inMEMAP,
     
     counter[0,4]+=1
     
-    return(currentP_in, currentP_out, setpointChgAr, setpointDisChgAr, SOC)
+    return(currentP_in, currentP_out, setpointChgAr, setpointDisChgAr, SOC, storageLosses)
     
 
 

@@ -17,11 +17,11 @@ import numpy as np
 #import random
 
 mpc = 5
-time_factor = 0.25
+steptime = 15
+
 n = 96
+time_factor = 24/n
 size = n
-#size = 1440
-Value = 0.0
 
 objectName = "LS02"
 nrOfEms = 2
@@ -72,7 +72,7 @@ B1_Eff_Stor1 = 0.97
 B1_P_ChDisCh = 3.3				  
 B1_Cap_Stor1 = 10
 B1_StartSOC = 0.5				 
-(B1_Stor1_In, B1_Stor1_Out, B1_Stor1_setpointChgFC, B1_Stor1_setpointDisChgFC, B1_Stor1_SOC) = add_Storage(counter, naming, mpc, idx, "MFH1_Bat", Storage, True, "elec", B1_Eff_Stor1, B1_Eff_Stor1, B1_Cap_Stor1, 0.0, B1_P_ChDisCh, B1_P_ChDisCh, 0.0, 0.0, 0.0, B1_StartSOC, 0.0, 0.0, 0.0)
+(B1_Stor1_In, B1_Stor1_Out, B1_Stor1_setpointChgFC, B1_Stor1_setpointDisChgFC, B1_Stor1_SOC, B1_Stor1_losses) = add_Storage(counter, naming, mpc, idx, "MFH1_Bat", Storage, True, "elec", B1_Eff_Stor1, B1_Eff_Stor1, B1_Cap_Stor1, 0.0, B1_P_ChDisCh, B1_P_ChDisCh, 0.0, 0.0, 0.0, B1_StartSOC, 0.0, 0.0, 0.0)
 
 # Anlagen - Allgemein
 # nicht sehr allgemein gehalten. Hier wäre if (VolatileProducer.get_variables(Med) == "Electricity"): besser 
@@ -136,7 +136,7 @@ B2_Eff_Stor1 = 0.98
 B2_P_ChDisCh = 10				 
 B2_Cap_Stor1 = 20
 B2_StartSOC = 0.5				 
-(B2_Stor1_In, B2_Stor1_Out, B2_Stor1_setpointChgFC, B2_Stor1_setpointDisChgFC, B2_Stor1_SOC) = add_Storage(counter, naming, mpc, idx, "MFH2_TS", Storage, True, "heat", B2_Eff_Stor1, B2_Eff_Stor1 , B2_Cap_Stor1, 0.0, B2_P_ChDisCh, B2_P_ChDisCh, 60, 90, 60, B2_StartSOC, 0.0, 0.0, 0.0)
+(B2_Stor1_In, B2_Stor1_Out, B2_Stor1_setpointChgFC, B2_Stor1_setpointDisChgFC, B2_Stor1_SOC, B2_Stor1_losses) = add_Storage(counter, naming, mpc, idx, "MFH2_TS", Storage, True, "heat", B2_Eff_Stor1, B2_Eff_Stor1 , B2_Cap_Stor1, 0.0, B2_P_ChDisCh, B2_P_ChDisCh, 60, 90, 60, B2_StartSOC, 0.0, 0.0, 0.0)
 
 
 # Anlagen - Allgemein
@@ -191,6 +191,9 @@ E_Price = np.genfromtxt("data/YIpriceOrig.csv", delimiter=";")
 
 # ============================= set values =================================
 i = 0
+
+while B1_trigger.get_value() == 0:    
+     time.sleep(0.5)    
 
 while True:
    
@@ -257,12 +260,15 @@ while True:
         B2_Stor1_In.set_value(P_B2_Strge[i,1])
         B2_Stor1_Out.set_value(P_B2_Strge[i,0])
 
-    # ToDo : Losses berücksichtigen
+    #  Losses berücksichtigen
+    B1_alpha = 1 - time_factor * B1_Stor1_losses.get_value()
+    B2_alpha = 1 - time_factor * B2_Stor1_losses.get_value()
+    
     B1_StorChange = time_factor * (B1_Stor1_In.get_value() - B1_Stor1_Out.get_value()) / B1_Cap_Stor1 # Änderung in Prozent der Capazität
     B2_StorChange = time_factor * (B2_Stor1_In.get_value() - B2_Stor1_Out.get_value()) / B2_Cap_Stor1 # Änderung in Prozent der Capazität
     # SOC in Prozent
-    B1_Stor1_SOC.set_value(B1_Stor1_SOC.get_value() + B1_StorChange)
-    B2_Stor1_SOC.set_value(B2_Stor1_SOC.get_value() + B2_StorChange)
+    B1_Stor1_SOC.set_value(B1_alpha * B1_Stor1_SOC.get_value() + B1_StorChange)
+    B2_Stor1_SOC.set_value(B2_alpha * B2_Stor1_SOC.get_value() + B2_StorChange)
     
 
     print(i+1, "B1 strge: ", B1_Stor1_In.get_value(), B1_Stor1_Out.get_value(), B1_Stor1_SOC.get_value(), " demnd: ", demForecast1[0], demForecast3[0])
@@ -275,58 +281,6 @@ while True:
     else:
         i = 0
         
-    time.sleep(15)    
+    time.sleep(steptime)    
     
     
-    
-'''
-OLD VERSION
-    
-   
-    for j in range(mpc):
-        B1_elDemFCarray.get_value()[j] = Consumption_B1[n+i+j]/time_factor
-        B2_elDemFCarray.get_value()[j] = Consumption_B2[n+i+j]/time_factor
-        B1_htDemFCarray.get_value()[j] = Consumption_B1[i+j]/time_factor
-        B2_htDemFCarray.get_value()[j] = Consumption_B2[i+j]/time_factor
-    
-    B1_elBuyCost.set_value(-E_Price[i])
-    B2_elBuyCost.set_value(-E_Price[i])
-    
-    
-    B1_Prod1_Power1.set_value(B1_Eff1_Coup1*P_Geb1[i]/time_factor)
-    B1_Prod1_Power2.set_value(B1_Eff2_Coup1*P_Geb1[i]/time_factor)
-    B1_vProd1_Power.set_value(B1_Eff_VProd1*P_Geb1[n+i]/time_factor)
-
-    B1_Stor1_Chg = B1_Eff_Stor1*P_Geb1[2*n+i]/time_factor
-    B1_Stor1_DisChg = B1_Eff_Stor1*P_Geb1[3*n+i]/time_factor
-    
-    # Wenn MEMAP Setpoints schreibt:
-    # B1_Stor1_Chg = B1_Stor1_setpointChgFC.get_value()[0]
-    
-    # SOC in Prozent
-    B1_SOC_change = B1_Stor1_Chg*time_factor - B1_Stor1_DisChg*time_factor # in kWh
-    B1_Stor1_SOC.set_value(B1_Stor1_SOC.get_value() + B1_SOC_change/ B1_Cap_Stor1)
-
-
-    B2_Prod1_Power1.set_value(B2_Eff1_Coup1*P_Geb2[i]/time_factor)
-    B2_Prod1_Power2.set_value(B2_Eff2_Coup1*P_Geb2[i]/time_factor)
-    B2_vProd1_Power.set_value(B2_Eff_VProd1*P_Geb2[n+i]/time_factor)
-    B2_Stor1_Chg = B2_Eff_Stor1*P_Geb2[2*n+i]/time_factor
-    B2_Stor1_DisChg = B2_Eff_Stor1*P_Geb2[3*n+i]/time_factor
-    
-    # SOC in Prozent
-    B2_SOC_change = B2_Stor1_Chg*time_factor - B2_Stor1_DisChg*time_factor # in kWh
-    B2_Stor1_SOC.set_value(B2_Stor1_SOC.get_value() + B2_SOC_change/ B2_Cap_Stor1)
-
-    print(i+1, "B1: ", B1_elDemFCarray.get_value()[0], B1_htDemFCarray.get_value()[0], "B2: " , B2_elDemFCarray.get_value()[0], B2_htDemFCarray.get_value()[0])
-    #print(i, ElecPower_B1.get_value(), HeatPower_B1.get_value(), ElecPower_B2.get_value(), HeatPower_B2.get_value())
-    #print(" ")
-    
-    # We cut away 5 timesteps from the day here for the MPC
-    if i < size-5:
-        i += 1
-    else:
-        i -= size
-        
-    time.sleep(10)
- '''
