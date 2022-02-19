@@ -64,9 +64,9 @@ def add_General(idx, naming, General, MemapActivated, url, connectionStat, EMSna
     trigger = General.add_variable(ua.NodeId.from_string('ns={};i={}'.format(idx, 5000)), naming+"_NONE_0_ZM_XX_trigger", 0)
     trigger.set_writable()
     
-    SPFwrdPwr = General.add_variable(ua.NodeId.from_string('ns={};i={}'.format(idx, k[5])), naming + "NONE_3_VM_HT_SPHeatFrwd",0.0)
+    SPFwrdPwr = General.add_variable(ua.NodeId.from_string('ns={};i={}'.format(idx, k[5])), naming + "NONE_3_VM_HT_SPPwrFrwd",0.0)
     SPFwrdPwr.set_writable()
-    SPBackPwr = General.add_variable(ua.NodeId.from_string('ns={};i={}'.format(idx, k[6])), naming + "NONE_3_VM_HT_SPHeatBack", 0.0)
+    SPBackPwr = General.add_variable(ua.NodeId.from_string('ns={};i={}'.format(idx, k[6])), naming + "NONE_3_VM_HT_SPPwrBack", 0.0)
     SPBackPwr.set_writable()
 
     #return (only writables?)
