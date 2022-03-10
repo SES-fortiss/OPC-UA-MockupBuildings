@@ -1,0 +1,1057 @@
+<?xml version='1.0' encoding='utf-8'?>
+<UANodeSet xmlns="http://opcfoundation.org/UA/2011/03/UANodeSet.xsd" xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <NamespaceUris>
+    <Uri>LS02EMS01</Uri>
+  </NamespaceUris>
+  <Aliases>
+    <Alias Alias="Boolean">i=1</Alias>
+    <Alias Alias="Int64">i=8</Alias>
+    <Alias Alias="Double">i=11</Alias>
+    <Alias Alias="String">i=12</Alias>
+    <Alias Alias="Organizes">i=35</Alias>
+    <Alias Alias="HasTypeDefinition">i=40</Alias>
+    <Alias Alias="HasProperty">i=46</Alias>
+    <Alias Alias="HasComponent">i=47</Alias>
+  </Aliases>
+  <UAObject BrowseName="1:0_EMS" NodeId="ns=1;i=1" ParentNodeId="i=85">
+    <DisplayName>0_EMS</DisplayName>
+    <Description>0_EMS</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="Organizes">i=85</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=61</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=500</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=502</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=506</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=508</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=8013</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=5000</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=510</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=512</Reference>
+    </References>
+  </UAObject>
+  <UAObject BrowseName="1:1_Demand" NodeId="ns=1;i=2" ParentNodeId="i=85">
+    <DisplayName>1_Demand</DisplayName>
+    <Description>1_Demand</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="Organizes">i=85</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=61</Reference>
+      <Reference ReferenceType="Organizes">ns=1;i=8</Reference>
+      <Reference ReferenceType="Organizes">ns=1;i=21</Reference>
+    </References>
+  </UAObject>
+  <UAObject BrowseName="1:2_Systems" NodeId="ns=1;i=3" ParentNodeId="i=85">
+    <DisplayName>2_Systems</DisplayName>
+    <Description>2_Systems</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="Organizes">i=85</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=61</Reference>
+      <Reference ReferenceType="Organizes">ns=1;i=4</Reference>
+      <Reference ReferenceType="Organizes">ns=1;i=5</Reference>
+      <Reference ReferenceType="Organizes">ns=1;i=6</Reference>
+      <Reference ReferenceType="Organizes">ns=1;i=7</Reference>
+    </References>
+  </UAObject>
+  <UAObject BrowseName="1:21_Producer" NodeId="ns=1;i=4" ParentNodeId="ns=1;i=3">
+    <DisplayName>21_Producer</DisplayName>
+    <Description>21_Producer</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="Organizes">ns=1;i=3</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=61</Reference>
+    </References>
+  </UAObject>
+  <UAObject BrowseName="1:22_VolatileProducer" NodeId="ns=1;i=5" ParentNodeId="ns=1;i=3">
+    <DisplayName>22_VolatileProducer</DisplayName>
+    <Description>22_VolatileProducer</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="Organizes">ns=1;i=3</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=61</Reference>
+      <Reference ReferenceType="Organizes">ns=1;i=34</Reference>
+    </References>
+  </UAObject>
+  <UAObject BrowseName="1:23_Coupler" NodeId="ns=1;i=6" ParentNodeId="ns=1;i=3">
+    <DisplayName>23_Coupler</DisplayName>
+    <Description>23_Coupler</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="Organizes">ns=1;i=3</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=61</Reference>
+      <Reference ReferenceType="Organizes">ns=1;i=44</Reference>
+    </References>
+  </UAObject>
+  <UAObject BrowseName="1:24_Storage" NodeId="ns=1;i=7" ParentNodeId="ns=1;i=3">
+    <DisplayName>24_Storage</DisplayName>
+    <Description>24_Storage</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="Organizes">ns=1;i=3</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=61</Reference>
+      <Reference ReferenceType="Organizes">ns=1;i=59</Reference>
+    </References>
+  </UAObject>
+  <UAVariable AccessLevel="3" BrowseName="0:LS02EMS01OBJ01_NONE_0_ZM_XX_EndPoint" DataType="String" NodeId="ns=1;i=500" ParentNodeId="ns=1;i=1" UserAccessLevel="3">
+    <DisplayName>LS02EMS01OBJ01_NONE_0_ZM_XX_EndPoint</DisplayName>
+    <Description>LS02EMS01OBJ01_NONE_0_ZM_XX_EndPoint</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=1</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:String>opc.tcp://0.0.0.0:4880</uax:String>
+    </Value>
+  </UAVariable>
+  <UAVariable AccessLevel="3" BrowseName="0:LS02EMS01OBJ01_NONE_0_ZM_XX_ConnStat" DataType="Boolean" NodeId="ns=1;i=502" ParentNodeId="ns=1;i=1" UserAccessLevel="3">
+    <DisplayName>LS02EMS01OBJ01_NONE_0_ZM_XX_ConnStat</DisplayName>
+    <Description>LS02EMS01OBJ01_NONE_0_ZM_XX_ConnStat</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=1</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Boolean>true</uax:Boolean>
+    </Value>
+  </UAVariable>
+  <UAVariable AccessLevel="3" BrowseName="0:LS02EMS01OBJ01_NONE_0_ZM_XX_nameID" DataType="String" NodeId="ns=1;i=506" ParentNodeId="ns=1;i=1" UserAccessLevel="3">
+    <DisplayName>LS02EMS01OBJ01_NONE_0_ZM_XX_nameID</DisplayName>
+    <Description>LS02EMS01OBJ01_NONE_0_ZM_XX_nameID</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=1</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:String>MFH1_EMS</uax:String>
+    </Value>
+  </UAVariable>
+  <UAVariable AccessLevel="3" BrowseName="0:LS02EMS01OBJ01_NONE_1_ZM_XX_BCategory" DataType="String" NodeId="ns=1;i=508" ParentNodeId="ns=1;i=1" UserAccessLevel="3">
+    <DisplayName>LS02EMS01OBJ01_NONE_1_ZM_XX_BCategory</DisplayName>
+    <Description>LS02EMS01OBJ01_NONE_1_ZM_XX_BCategory</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=1</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:String>Electric-Multi-Family-Home</uax:String>
+    </Value>
+  </UAVariable>
+  <UAVariable AccessLevel="3" BrowseName="0:LS02EMS01OBJ01_NONE_1_ZM_XX_MemapAct" DataType="Boolean" NodeId="ns=1;i=8013" ParentNodeId="ns=1;i=1" UserAccessLevel="3">
+    <DisplayName>LS02EMS01OBJ01_NONE_1_ZM_XX_MemapAct</DisplayName>
+    <Description>LS02EMS01OBJ01_NONE_1_ZM_XX_MemapAct</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=1</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Boolean>true</uax:Boolean>
+    </Value>
+  </UAVariable>
+  <UAVariable AccessLevel="3" BrowseName="0:LS02EMS01OBJ01_NONE_0_ZM_XX_trigger" DataType="Int64" NodeId="ns=1;i=5000" ParentNodeId="ns=1;i=1" UserAccessLevel="3">
+    <DisplayName>LS02EMS01OBJ01_NONE_0_ZM_XX_trigger</DisplayName>
+    <Description>LS02EMS01OBJ01_NONE_0_ZM_XX_trigger</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=1</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable AccessLevel="3" BrowseName="0:LS02EMS01OBJ01NONE_3_VM_HT_SPPwrFrwd" DataType="Double" NodeId="ns=1;i=510" ParentNodeId="ns=1;i=1" UserAccessLevel="3">
+    <DisplayName>LS02EMS01OBJ01NONE_3_VM_HT_SPPwrFrwd</DisplayName>
+    <Description>LS02EMS01OBJ01NONE_3_VM_HT_SPPwrFrwd</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=1</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Double>0.0</uax:Double>
+    </Value>
+  </UAVariable>
+  <UAVariable AccessLevel="3" BrowseName="0:LS02EMS01OBJ01NONE_3_VM_HT_SPPwrBack" DataType="Double" NodeId="ns=1;i=512" ParentNodeId="ns=1;i=1" UserAccessLevel="3">
+    <DisplayName>LS02EMS01OBJ01NONE_3_VM_HT_SPPwrBack</DisplayName>
+    <Description>LS02EMS01OBJ01NONE_3_VM_HT_SPPwrBack</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=1</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Double>0.0</uax:Double>
+    </Value>
+  </UAVariable>
+  <UAObject BrowseName="1:DEMND01" NodeId="ns=1;i=8" ParentNodeId="ns=1;i=2">
+    <DisplayName>DEMND01</DisplayName>
+    <Description>DEMND01</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="Organizes">ns=1;i=2</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=61</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=9</Reference>
+      <Reference ReferenceType="Organizes">ns=1;i=10</Reference>
+      <Reference ReferenceType="Organizes">ns=1;i=12</Reference>
+      <Reference ReferenceType="Organizes">ns=1;i=18</Reference>
+    </References>
+  </UAObject>
+  <UAVariable AccessLevel="3" BrowseName="1:LS02EMS01OBJ01_DEMND01_0_ZM_XX_nameID" DataType="String" NodeId="ns=1;i=9" ParentNodeId="ns=1;i=8" UserAccessLevel="3">
+    <DisplayName>LS02EMS01OBJ01_DEMND01_0_ZM_XX_nameID</DisplayName>
+    <Description>LS02EMS01OBJ01_DEMND01_0_ZM_XX_nameID</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=8</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:String>Wärmebedarf_Haus1</uax:String>
+    </Value>
+  </UAVariable>
+  <UAObject BrowseName="1:HT_Parameters" NodeId="ns=1;i=10" ParentNodeId="ns=1;i=8">
+    <DisplayName>HT_Parameters</DisplayName>
+    <Description>HT_Parameters</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="Organizes">ns=1;i=8</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=61</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=11</Reference>
+    </References>
+  </UAObject>
+  <UAVariable AccessLevel="3" BrowseName="1:LS02EMS01OBJ01_DEMND01_1_ZM_HT_PrimSect" DataType="String" NodeId="ns=1;i=11" ParentNodeId="ns=1;i=10" UserAccessLevel="3">
+    <DisplayName>LS02EMS01OBJ01_DEMND01_1_ZM_HT_PrimSect</DisplayName>
+    <Description>LS02EMS01OBJ01_DEMND01_1_ZM_HT_PrimSect</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=10</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:String>heat</uax:String>
+    </Value>
+  </UAVariable>
+  <UAObject BrowseName="1:HT_Forecast" NodeId="ns=1;i=12" ParentNodeId="ns=1;i=8">
+    <DisplayName>HT_Forecast</DisplayName>
+    <Description>HT_Forecast</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="Organizes">ns=1;i=8</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=61</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=13</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=14</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=15</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=16</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=17</Reference>
+    </References>
+  </UAObject>
+  <UAVariable AccessLevel="3" BrowseName="1:LS02EMS01OBJ01_DEMND01_2_ZM_HT_DemandFC" DataType="Double" NodeId="ns=1;i=13" ParentNodeId="ns=1;i=12" UserAccessLevel="3" ValueRank="0">
+    <DisplayName>LS02EMS01OBJ01_DEMND01_2_ZM_HT_DemandFC</DisplayName>
+    <Description>LS02EMS01OBJ01_DEMND01_2_ZM_HT_DemandFC</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=12</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:ListOfDouble>
+        <uax:Double>0.0</uax:Double>
+        <uax:Double>0.0</uax:Double>
+        <uax:Double>0.0</uax:Double>
+        <uax:Double>0.0</uax:Double>
+        <uax:Double>0.0</uax:Double>
+      </uax:ListOfDouble>
+    </Value>
+  </UAVariable>
+  <UAVariable AccessLevel="3" BrowseName="1:LS02EMS01OBJ01_DEMND01_2_ZM_HT_GrdBuyCost" DataType="Double" NodeId="ns=1;i=14" ParentNodeId="ns=1;i=12" UserAccessLevel="3" ValueRank="0">
+    <DisplayName>LS02EMS01OBJ01_DEMND01_2_ZM_HT_GrdBuyCost</DisplayName>
+    <Description>LS02EMS01OBJ01_DEMND01_2_ZM_HT_GrdBuyCost</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=12</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:ListOfDouble>
+        <uax:Double>0.0534</uax:Double>
+        <uax:Double>0.0534</uax:Double>
+        <uax:Double>0.0534</uax:Double>
+        <uax:Double>0.0534</uax:Double>
+        <uax:Double>0.0534</uax:Double>
+      </uax:ListOfDouble>
+    </Value>
+  </UAVariable>
+  <UAVariable AccessLevel="3" BrowseName="1:LS02EMS01OBJ01_DEMND01_2_ZM_HT_GrdSellCost" DataType="Double" NodeId="ns=1;i=15" ParentNodeId="ns=1;i=12" UserAccessLevel="3" ValueRank="0">
+    <DisplayName>LS02EMS01OBJ01_DEMND01_2_ZM_HT_GrdSellCost</DisplayName>
+    <Description>LS02EMS01OBJ01_DEMND01_2_ZM_HT_GrdSellCost</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=12</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:ListOfDouble>
+        <uax:Double>999.0</uax:Double>
+        <uax:Double>999.0</uax:Double>
+        <uax:Double>999.0</uax:Double>
+        <uax:Double>999.0</uax:Double>
+        <uax:Double>999.0</uax:Double>
+      </uax:ListOfDouble>
+    </Value>
+  </UAVariable>
+  <UAVariable AccessLevel="3" BrowseName="1:LS02EMS01OBJ01_DEMND01_2_ZM_HT_CO2PerKWh" DataType="Double" NodeId="ns=1;i=16" ParentNodeId="ns=1;i=12" UserAccessLevel="3" ValueRank="0">
+    <DisplayName>LS02EMS01OBJ01_DEMND01_2_ZM_HT_CO2PerKWh</DisplayName>
+    <Description>LS02EMS01OBJ01_DEMND01_2_ZM_HT_CO2PerKWh</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=12</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:ListOfDouble>
+        <uax:Double>0.0</uax:Double>
+        <uax:Double>0.0</uax:Double>
+        <uax:Double>0.0</uax:Double>
+        <uax:Double>0.0</uax:Double>
+        <uax:Double>0.0</uax:Double>
+      </uax:ListOfDouble>
+    </Value>
+  </UAVariable>
+  <UAVariable AccessLevel="3" BrowseName="1:LS02EMS01OBJ01_DEMND01_2_ZM_HT_MaxBuyLimit" DataType="Double" NodeId="ns=1;i=17" ParentNodeId="ns=1;i=12" UserAccessLevel="3" ValueRank="0">
+    <DisplayName>LS02EMS01OBJ01_DEMND01_2_ZM_HT_MaxBuyLimit</DisplayName>
+    <Description>LS02EMS01OBJ01_DEMND01_2_ZM_HT_MaxBuyLimit</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=12</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:ListOfDouble>
+        <uax:Double>0.0</uax:Double>
+        <uax:Double>0.0</uax:Double>
+        <uax:Double>0.0</uax:Double>
+        <uax:Double>0.0</uax:Double>
+        <uax:Double>0.0</uax:Double>
+      </uax:ListOfDouble>
+    </Value>
+  </UAVariable>
+  <UAObject BrowseName="1:Setpoints_DEMND01" NodeId="ns=1;i=18" ParentNodeId="ns=1;i=8">
+    <DisplayName>Setpoints_DEMND01</DisplayName>
+    <Description>Setpoints_DEMND01</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="Organizes">ns=1;i=8</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=61</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=19</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=20</Reference>
+    </References>
+  </UAObject>
+  <UAVariable AccessLevel="3" BrowseName="1:LS02EMS01OBJ01_DEMND01_3_VM_HT_SPGrdBuy" DataType="Double" NodeId="ns=1;i=19" ParentNodeId="ns=1;i=18" UserAccessLevel="3" ValueRank="0">
+    <DisplayName>LS02EMS01OBJ01_DEMND01_3_VM_HT_SPGrdBuy</DisplayName>
+    <Description>LS02EMS01OBJ01_DEMND01_3_VM_HT_SPGrdBuy</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=18</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:ListOfDouble>
+        <uax:Double>0.0</uax:Double>
+        <uax:Double>0.0</uax:Double>
+        <uax:Double>0.0</uax:Double>
+        <uax:Double>0.0</uax:Double>
+        <uax:Double>0.0</uax:Double>
+      </uax:ListOfDouble>
+    </Value>
+  </UAVariable>
+  <UAVariable AccessLevel="3" BrowseName="1:LS02EMS01OBJ01_DEMND01_3_VM_HT_SPGrdSell" DataType="Double" NodeId="ns=1;i=20" ParentNodeId="ns=1;i=18" UserAccessLevel="3" ValueRank="0">
+    <DisplayName>LS02EMS01OBJ01_DEMND01_3_VM_HT_SPGrdSell</DisplayName>
+    <Description>LS02EMS01OBJ01_DEMND01_3_VM_HT_SPGrdSell</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=18</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:ListOfDouble>
+        <uax:Double>0.0</uax:Double>
+        <uax:Double>0.0</uax:Double>
+        <uax:Double>0.0</uax:Double>
+        <uax:Double>0.0</uax:Double>
+        <uax:Double>0.0</uax:Double>
+      </uax:ListOfDouble>
+    </Value>
+  </UAVariable>
+  <UAObject BrowseName="1:DEMND02" NodeId="ns=1;i=21" ParentNodeId="ns=1;i=2">
+    <DisplayName>DEMND02</DisplayName>
+    <Description>DEMND02</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="Organizes">ns=1;i=2</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=61</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=22</Reference>
+      <Reference ReferenceType="Organizes">ns=1;i=23</Reference>
+      <Reference ReferenceType="Organizes">ns=1;i=25</Reference>
+      <Reference ReferenceType="Organizes">ns=1;i=31</Reference>
+    </References>
+  </UAObject>
+  <UAVariable AccessLevel="3" BrowseName="1:LS02EMS01OBJ01_DEMND02_0_ZM_XX_nameID" DataType="String" NodeId="ns=1;i=22" ParentNodeId="ns=1;i=21" UserAccessLevel="3">
+    <DisplayName>LS02EMS01OBJ01_DEMND02_0_ZM_XX_nameID</DisplayName>
+    <Description>LS02EMS01OBJ01_DEMND02_0_ZM_XX_nameID</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=21</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:String>Strombedarf_Haus1</uax:String>
+    </Value>
+  </UAVariable>
+  <UAObject BrowseName="1:EL_Parameters" NodeId="ns=1;i=23" ParentNodeId="ns=1;i=21">
+    <DisplayName>EL_Parameters</DisplayName>
+    <Description>EL_Parameters</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="Organizes">ns=1;i=21</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=61</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=24</Reference>
+    </References>
+  </UAObject>
+  <UAVariable AccessLevel="3" BrowseName="1:LS02EMS01OBJ01_DEMND02_1_ZM_EL_PrimSect" DataType="String" NodeId="ns=1;i=24" ParentNodeId="ns=1;i=23" UserAccessLevel="3">
+    <DisplayName>LS02EMS01OBJ01_DEMND02_1_ZM_EL_PrimSect</DisplayName>
+    <Description>LS02EMS01OBJ01_DEMND02_1_ZM_EL_PrimSect</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=23</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:String>elec</uax:String>
+    </Value>
+  </UAVariable>
+  <UAObject BrowseName="1:EL_Forecast" NodeId="ns=1;i=25" ParentNodeId="ns=1;i=21">
+    <DisplayName>EL_Forecast</DisplayName>
+    <Description>EL_Forecast</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="Organizes">ns=1;i=21</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=61</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=26</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=27</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=28</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=29</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=30</Reference>
+    </References>
+  </UAObject>
+  <UAVariable AccessLevel="3" BrowseName="1:LS02EMS01OBJ01_DEMND02_2_ZM_EL_DemandFC" DataType="Double" NodeId="ns=1;i=26" ParentNodeId="ns=1;i=25" UserAccessLevel="3" ValueRank="0">
+    <DisplayName>LS02EMS01OBJ01_DEMND02_2_ZM_EL_DemandFC</DisplayName>
+    <Description>LS02EMS01OBJ01_DEMND02_2_ZM_EL_DemandFC</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=25</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:ListOfDouble>
+        <uax:Double>0.0</uax:Double>
+        <uax:Double>0.0</uax:Double>
+        <uax:Double>0.0</uax:Double>
+        <uax:Double>0.0</uax:Double>
+        <uax:Double>0.0</uax:Double>
+      </uax:ListOfDouble>
+    </Value>
+  </UAVariable>
+  <UAVariable AccessLevel="3" BrowseName="1:LS02EMS01OBJ01_DEMND02_2_ZM_EL_GrdBuyCost" DataType="Double" NodeId="ns=1;i=27" ParentNodeId="ns=1;i=25" UserAccessLevel="3" ValueRank="0">
+    <DisplayName>LS02EMS01OBJ01_DEMND02_2_ZM_EL_GrdBuyCost</DisplayName>
+    <Description>LS02EMS01OBJ01_DEMND02_2_ZM_EL_GrdBuyCost</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=25</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:ListOfDouble>
+        <uax:Double>0.26</uax:Double>
+        <uax:Double>0.26</uax:Double>
+        <uax:Double>0.26</uax:Double>
+        <uax:Double>0.26</uax:Double>
+        <uax:Double>0.26</uax:Double>
+      </uax:ListOfDouble>
+    </Value>
+  </UAVariable>
+  <UAVariable AccessLevel="3" BrowseName="1:LS02EMS01OBJ01_DEMND02_2_ZM_EL_GrdSellCost" DataType="Double" NodeId="ns=1;i=28" ParentNodeId="ns=1;i=25" UserAccessLevel="3" ValueRank="0">
+    <DisplayName>LS02EMS01OBJ01_DEMND02_2_ZM_EL_GrdSellCost</DisplayName>
+    <Description>LS02EMS01OBJ01_DEMND02_2_ZM_EL_GrdSellCost</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=25</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:ListOfDouble>
+        <uax:Double>0.03</uax:Double>
+        <uax:Double>0.03</uax:Double>
+        <uax:Double>0.03</uax:Double>
+        <uax:Double>0.03</uax:Double>
+        <uax:Double>0.03</uax:Double>
+      </uax:ListOfDouble>
+    </Value>
+  </UAVariable>
+  <UAVariable AccessLevel="3" BrowseName="1:LS02EMS01OBJ01_DEMND02_2_ZM_EL_CO2PerKWh" DataType="Double" NodeId="ns=1;i=29" ParentNodeId="ns=1;i=25" UserAccessLevel="3" ValueRank="0">
+    <DisplayName>LS02EMS01OBJ01_DEMND02_2_ZM_EL_CO2PerKWh</DisplayName>
+    <Description>LS02EMS01OBJ01_DEMND02_2_ZM_EL_CO2PerKWh</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=25</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:ListOfDouble>
+        <uax:Double>0.474</uax:Double>
+        <uax:Double>0.474</uax:Double>
+        <uax:Double>0.474</uax:Double>
+        <uax:Double>0.474</uax:Double>
+        <uax:Double>0.474</uax:Double>
+      </uax:ListOfDouble>
+    </Value>
+  </UAVariable>
+  <UAVariable AccessLevel="3" BrowseName="1:LS02EMS01OBJ01_DEMND02_2_ZM_EL_MaxBuyLimit" DataType="Double" NodeId="ns=1;i=30" ParentNodeId="ns=1;i=25" UserAccessLevel="3" ValueRank="0">
+    <DisplayName>LS02EMS01OBJ01_DEMND02_2_ZM_EL_MaxBuyLimit</DisplayName>
+    <Description>LS02EMS01OBJ01_DEMND02_2_ZM_EL_MaxBuyLimit</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=25</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:ListOfDouble>
+        <uax:Double>9999.0</uax:Double>
+        <uax:Double>9999.0</uax:Double>
+        <uax:Double>9999.0</uax:Double>
+        <uax:Double>9999.0</uax:Double>
+        <uax:Double>9999.0</uax:Double>
+      </uax:ListOfDouble>
+    </Value>
+  </UAVariable>
+  <UAObject BrowseName="1:Setpoints_DEMND01" NodeId="ns=1;i=31" ParentNodeId="ns=1;i=21">
+    <DisplayName>Setpoints_DEMND01</DisplayName>
+    <Description>Setpoints_DEMND01</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="Organizes">ns=1;i=21</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=61</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=32</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=33</Reference>
+    </References>
+  </UAObject>
+  <UAVariable AccessLevel="3" BrowseName="1:LS02EMS01OBJ01_DEMND02_3_VM_EL_SPGrdBuy" DataType="Double" NodeId="ns=1;i=32" ParentNodeId="ns=1;i=31" UserAccessLevel="3" ValueRank="0">
+    <DisplayName>LS02EMS01OBJ01_DEMND02_3_VM_EL_SPGrdBuy</DisplayName>
+    <Description>LS02EMS01OBJ01_DEMND02_3_VM_EL_SPGrdBuy</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=31</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:ListOfDouble>
+        <uax:Double>0.0</uax:Double>
+        <uax:Double>0.0</uax:Double>
+        <uax:Double>0.0</uax:Double>
+        <uax:Double>0.0</uax:Double>
+        <uax:Double>0.0</uax:Double>
+      </uax:ListOfDouble>
+    </Value>
+  </UAVariable>
+  <UAVariable AccessLevel="3" BrowseName="1:LS02EMS01OBJ01_DEMND02_3_VM_EL_SPGrdSell" DataType="Double" NodeId="ns=1;i=33" ParentNodeId="ns=1;i=31" UserAccessLevel="3" ValueRank="0">
+    <DisplayName>LS02EMS01OBJ01_DEMND02_3_VM_EL_SPGrdSell</DisplayName>
+    <Description>LS02EMS01OBJ01_DEMND02_3_VM_EL_SPGrdSell</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=31</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:ListOfDouble>
+        <uax:Double>0.0</uax:Double>
+        <uax:Double>0.0</uax:Double>
+        <uax:Double>0.0</uax:Double>
+        <uax:Double>0.0</uax:Double>
+        <uax:Double>0.0</uax:Double>
+      </uax:ListOfDouble>
+    </Value>
+  </UAVariable>
+  <UAObject BrowseName="1:VPROD01" NodeId="ns=1;i=34" ParentNodeId="ns=1;i=5">
+    <DisplayName>VPROD01</DisplayName>
+    <Description>VPROD01</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="Organizes">ns=1;i=5</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=61</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;i=35</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=36</Reference>
+      <Reference ReferenceType="Organizes">ns=1;i=37</Reference>
+      <Reference ReferenceType="Organizes">ns=1;i=42</Reference>
+    </References>
+  </UAObject>
+  <UAVariable AccessLevel="3" BrowseName="1:LS02EMS01OBJ01_VPROD01_0_ZM_XX_nameID" DataType="String" NodeId="ns=1;i=35" ParentNodeId="ns=1;i=34" UserAccessLevel="3">
+    <DisplayName>LS02EMS01OBJ01_VPROD01_0_ZM_XX_nameID</DisplayName>
+    <Description>LS02EMS01OBJ01_VPROD01_0_ZM_XX_nameID</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasProperty">ns=1;i=34</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+    </References>
+    <Value>
+      <uax:String>MFH1_PV</uax:String>
+    </Value>
+  </UAVariable>
+  <UAVariable AccessLevel="3" BrowseName="1:LS02EMS01OBJ01_VPROD01_0_ZM_EL_MEMAPflag" DataType="Boolean" NodeId="ns=1;i=36" ParentNodeId="ns=1;i=34" UserAccessLevel="3">
+    <DisplayName>LS02EMS01OBJ01_VPROD01_0_ZM_EL_MEMAPflag</DisplayName>
+    <Description>LS02EMS01OBJ01_VPROD01_0_ZM_EL_MEMAPflag</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=34</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Boolean>true</uax:Boolean>
+    </Value>
+  </UAVariable>
+  <UAObject BrowseName="1:EL_Parameters" NodeId="ns=1;i=37" ParentNodeId="ns=1;i=34">
+    <DisplayName>EL_Parameters</DisplayName>
+    <Description>EL_Parameters</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="Organizes">ns=1;i=34</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=61</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;i=38</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=39</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=40</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=41</Reference>
+    </References>
+  </UAObject>
+  <UAVariable AccessLevel="3" BrowseName="1:LS02EMS01OBJ01_VPROD01_1_ZM_EL_PrimSect" DataType="String" NodeId="ns=1;i=38" ParentNodeId="ns=1;i=37" UserAccessLevel="3">
+    <DisplayName>LS02EMS01OBJ01_VPROD01_1_ZM_EL_PrimSect</DisplayName>
+    <Description>LS02EMS01OBJ01_VPROD01_1_ZM_EL_PrimSect</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasProperty">ns=1;i=37</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+    </References>
+    <Value>
+      <uax:String>elec</uax:String>
+    </Value>
+  </UAVariable>
+  <UAVariable AccessLevel="3" BrowseName="1:LS02EMS01OBJ01_VPROD01_1_ZM_EL_MaxPower" DataType="Double" NodeId="ns=1;i=39" ParentNodeId="ns=1;i=37" UserAccessLevel="3">
+    <DisplayName>LS02EMS01OBJ01_VPROD01_1_ZM_EL_MaxPower</DisplayName>
+    <Description>LS02EMS01OBJ01_VPROD01_1_ZM_EL_MaxPower</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=37</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Double>3.29963</uax:Double>
+    </Value>
+  </UAVariable>
+  <UAVariable AccessLevel="3" BrowseName="1:LS02EMS01OBJ01_VPROD01_1_ZM_EL_GenCosts" DataType="Double" NodeId="ns=1;i=40" ParentNodeId="ns=1;i=37" UserAccessLevel="3">
+    <DisplayName>LS02EMS01OBJ01_VPROD01_1_ZM_EL_GenCosts</DisplayName>
+    <Description>LS02EMS01OBJ01_VPROD01_1_ZM_EL_GenCosts</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=37</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Double>0.0</uax:Double>
+    </Value>
+  </UAVariable>
+  <UAVariable AccessLevel="3" BrowseName="1:LS02EMS01OBJ01_VPROD01_1_ZM_EL_CO2PerKWh" DataType="Double" NodeId="ns=1;i=41" ParentNodeId="ns=1;i=37" UserAccessLevel="3">
+    <DisplayName>LS02EMS01OBJ01_VPROD01_1_ZM_EL_CO2PerKWh</DisplayName>
+    <Description>LS02EMS01OBJ01_VPROD01_1_ZM_EL_CO2PerKWh</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=37</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Double>0.0</uax:Double>
+    </Value>
+  </UAVariable>
+  <UAObject BrowseName="1:EL_Forecast" NodeId="ns=1;i=42" ParentNodeId="ns=1;i=34">
+    <DisplayName>EL_Forecast</DisplayName>
+    <Description>EL_Forecast</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="Organizes">ns=1;i=34</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=61</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=43</Reference>
+    </References>
+  </UAObject>
+  <UAVariable AccessLevel="3" BrowseName="1:LS02EMS01OBJ01_VPROD01_2_ZM_EL_ProdFC" DataType="Double" NodeId="ns=1;i=43" ParentNodeId="ns=1;i=42" UserAccessLevel="3" ValueRank="0">
+    <DisplayName>LS02EMS01OBJ01_VPROD01_2_ZM_EL_ProdFC</DisplayName>
+    <Description>LS02EMS01OBJ01_VPROD01_2_ZM_EL_ProdFC</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=42</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:ListOfDouble>
+        <uax:Double>0.0</uax:Double>
+        <uax:Double>0.0</uax:Double>
+        <uax:Double>0.0</uax:Double>
+        <uax:Double>0.0</uax:Double>
+        <uax:Double>0.0</uax:Double>
+      </uax:ListOfDouble>
+    </Value>
+  </UAVariable>
+  <UAObject BrowseName="1:COUPL01" NodeId="ns=1;i=44" ParentNodeId="ns=1;i=6">
+    <DisplayName>COUPL01</DisplayName>
+    <Description>COUPL01</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="Organizes">ns=1;i=6</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=61</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;i=45</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=46</Reference>
+      <Reference ReferenceType="Organizes">ns=1;i=47</Reference>
+      <Reference ReferenceType="Organizes">ns=1;i=55</Reference>
+      <Reference ReferenceType="Organizes">ns=1;i=57</Reference>
+    </References>
+  </UAObject>
+  <UAVariable AccessLevel="3" BrowseName="1:LS02EMS01OBJ01_COUPL01_0_ZM_XX_nameID" DataType="String" NodeId="ns=1;i=45" ParentNodeId="ns=1;i=44" UserAccessLevel="3">
+    <DisplayName>LS02EMS01OBJ01_COUPL01_0_ZM_XX_nameID</DisplayName>
+    <Description>LS02EMS01OBJ01_COUPL01_0_ZM_XX_nameID</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasProperty">ns=1;i=44</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+    </References>
+    <Value>
+      <uax:String>MFH1_HP</uax:String>
+    </Value>
+  </UAVariable>
+  <UAVariable AccessLevel="3" BrowseName="1:LS02EMS01OBJ01_COUPL01_0_ZM_HT_MEMAPflag" DataType="Boolean" NodeId="ns=1;i=46" ParentNodeId="ns=1;i=44" UserAccessLevel="3">
+    <DisplayName>LS02EMS01OBJ01_COUPL01_0_ZM_HT_MEMAPflag</DisplayName>
+    <Description>LS02EMS01OBJ01_COUPL01_0_ZM_HT_MEMAPflag</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=44</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Boolean>true</uax:Boolean>
+    </Value>
+  </UAVariable>
+  <UAObject BrowseName="1:HT_Parameters" NodeId="ns=1;i=47" ParentNodeId="ns=1;i=44">
+    <DisplayName>HT_Parameters</DisplayName>
+    <Description>HT_Parameters</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="Organizes">ns=1;i=44</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=61</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;i=48</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;i=49</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=50</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=51</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=52</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=53</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=54</Reference>
+    </References>
+  </UAObject>
+  <UAVariable AccessLevel="3" BrowseName="1:LS02EMS01OBJ01_COUPL01_1_ZM_HT_PrimSect" DataType="String" NodeId="ns=1;i=48" ParentNodeId="ns=1;i=47" UserAccessLevel="3">
+    <DisplayName>LS02EMS01OBJ01_COUPL01_1_ZM_HT_PrimSect</DisplayName>
+    <Description>LS02EMS01OBJ01_COUPL01_1_ZM_HT_PrimSect</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasProperty">ns=1;i=47</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+    </References>
+    <Value>
+      <uax:String>heat</uax:String>
+    </Value>
+  </UAVariable>
+  <UAVariable AccessLevel="3" BrowseName="1:LS02EMS01OBJ01_COUPL01_1_ZM_HT_SecdSect" DataType="String" NodeId="ns=1;i=49" ParentNodeId="ns=1;i=47" UserAccessLevel="3">
+    <DisplayName>LS02EMS01OBJ01_COUPL01_1_ZM_HT_SecdSect</DisplayName>
+    <Description>LS02EMS01OBJ01_COUPL01_1_ZM_HT_SecdSect</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasProperty">ns=1;i=47</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+    </References>
+    <Value>
+      <uax:String>elec</uax:String>
+    </Value>
+  </UAVariable>
+  <UAVariable AccessLevel="3" BrowseName="1:LS02EMS01OBJ01_COUPL01_1_ZM_HT_EffPrim" DataType="Double" NodeId="ns=1;i=50" ParentNodeId="ns=1;i=47" UserAccessLevel="3">
+    <DisplayName>LS02EMS01OBJ01_COUPL01_1_ZM_HT_EffPrim</DisplayName>
+    <Description>LS02EMS01OBJ01_COUPL01_1_ZM_HT_EffPrim</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=47</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Double>3.8</uax:Double>
+    </Value>
+  </UAVariable>
+  <UAVariable AccessLevel="3" BrowseName="1:LS02EMS01OBJ01_COUPL01_1_ZM_HT_EffSec" DataType="Int64" NodeId="ns=1;i=51" ParentNodeId="ns=1;i=47" UserAccessLevel="3">
+    <DisplayName>LS02EMS01OBJ01_COUPL01_1_ZM_HT_EffSec</DisplayName>
+    <Description>LS02EMS01OBJ01_COUPL01_1_ZM_HT_EffSec</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=47</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>-1</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable AccessLevel="3" BrowseName="1:LS02EMS01OBJ01_COUPL01_1_ZM_HT_MinPower" DataType="Int64" NodeId="ns=1;i=52" ParentNodeId="ns=1;i=47" UserAccessLevel="3">
+    <DisplayName>LS02EMS01OBJ01_COUPL01_1_ZM_HT_MinPower</DisplayName>
+    <Description>LS02EMS01OBJ01_COUPL01_1_ZM_HT_MinPower</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=47</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>0</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable AccessLevel="3" BrowseName="1:LS02EMS01OBJ01_COUPL01_1_ZM_HT_MaxPower" DataType="Int64" NodeId="ns=1;i=53" ParentNodeId="ns=1;i=47" UserAccessLevel="3">
+    <DisplayName>LS02EMS01OBJ01_COUPL01_1_ZM_HT_MaxPower</DisplayName>
+    <Description>LS02EMS01OBJ01_COUPL01_1_ZM_HT_MaxPower</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=47</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>12</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable AccessLevel="3" BrowseName="1:LS02EMS01OBJ01_COUPL01_1_ZM_HT_CO2PerKWh" DataType="Double" NodeId="ns=1;i=54" ParentNodeId="ns=1;i=47" UserAccessLevel="3">
+    <DisplayName>LS02EMS01OBJ01_COUPL01_1_ZM_HT_CO2PerKWh</DisplayName>
+    <Description>LS02EMS01OBJ01_COUPL01_1_ZM_HT_CO2PerKWh</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=47</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Double>0.0</uax:Double>
+    </Value>
+  </UAVariable>
+  <UAObject BrowseName="1:HT_Forecast" NodeId="ns=1;i=55" ParentNodeId="ns=1;i=44">
+    <DisplayName>HT_Forecast</DisplayName>
+    <Description>HT_Forecast</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="Organizes">ns=1;i=44</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=61</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=56</Reference>
+    </References>
+  </UAObject>
+  <UAVariable AccessLevel="3" BrowseName="1:LS02EMS01OBJ01_COUPL01_2_ZM_HT_GenCosts" DataType="Double" NodeId="ns=1;i=56" ParentNodeId="ns=1;i=55" UserAccessLevel="3" ValueRank="0">
+    <DisplayName>LS02EMS01OBJ01_COUPL01_2_ZM_HT_GenCosts</DisplayName>
+    <Description>LS02EMS01OBJ01_COUPL01_2_ZM_HT_GenCosts</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=55</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:ListOfDouble>
+        <uax:Double>0.0</uax:Double>
+        <uax:Double>0.0</uax:Double>
+        <uax:Double>0.0</uax:Double>
+        <uax:Double>0.0</uax:Double>
+        <uax:Double>0.0</uax:Double>
+      </uax:ListOfDouble>
+    </Value>
+  </UAVariable>
+  <UAObject BrowseName="1:Setpoints_COUPL01" NodeId="ns=1;i=57" ParentNodeId="ns=1;i=44">
+    <DisplayName>Setpoints_COUPL01</DisplayName>
+    <Description>Setpoints_COUPL01</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="Organizes">ns=1;i=44</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=61</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=58</Reference>
+    </References>
+  </UAObject>
+  <UAVariable AccessLevel="3" BrowseName="1:LS02EMS01OBJ01_COUPL01_3_VM_HT_SPDevPwr" DataType="Double" NodeId="ns=1;i=58" ParentNodeId="ns=1;i=57" UserAccessLevel="3" ValueRank="0">
+    <DisplayName>LS02EMS01OBJ01_COUPL01_3_VM_HT_SPDevPwr</DisplayName>
+    <Description>LS02EMS01OBJ01_COUPL01_3_VM_HT_SPDevPwr</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=57</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:ListOfDouble>
+        <uax:Double>0.0</uax:Double>
+        <uax:Double>0.0</uax:Double>
+        <uax:Double>0.0</uax:Double>
+        <uax:Double>0.0</uax:Double>
+        <uax:Double>0.0</uax:Double>
+      </uax:ListOfDouble>
+    </Value>
+  </UAVariable>
+  <UAObject BrowseName="1:STRGE01" NodeId="ns=1;i=59" ParentNodeId="ns=1;i=7">
+    <DisplayName>STRGE01</DisplayName>
+    <Description>STRGE01</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="Organizes">ns=1;i=7</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=61</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;i=60</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=61</Reference>
+      <Reference ReferenceType="Organizes">ns=1;i=62</Reference>
+      <Reference ReferenceType="Organizes">ns=1;i=72</Reference>
+      <Reference ReferenceType="Organizes">ns=1;i=75</Reference>
+    </References>
+  </UAObject>
+  <UAVariable AccessLevel="3" BrowseName="1:LS02EMS01OBJ01_STRGE01_0_ZM_XX_nameID" DataType="String" NodeId="ns=1;i=60" ParentNodeId="ns=1;i=59" UserAccessLevel="3">
+    <DisplayName>LS02EMS01OBJ01_STRGE01_0_ZM_XX_nameID</DisplayName>
+    <Description>LS02EMS01OBJ01_STRGE01_0_ZM_XX_nameID</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasProperty">ns=1;i=59</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+    </References>
+    <Value>
+      <uax:String>MFH1_Bat</uax:String>
+    </Value>
+  </UAVariable>
+  <UAVariable AccessLevel="3" BrowseName="1:LS02EMS01OBJ01_STRGE01_0_ZM_EL_MEMAPflag" DataType="Boolean" NodeId="ns=1;i=61" ParentNodeId="ns=1;i=59" UserAccessLevel="3">
+    <DisplayName>LS02EMS01OBJ01_STRGE01_0_ZM_EL_MEMAPflag</DisplayName>
+    <Description>LS02EMS01OBJ01_STRGE01_0_ZM_EL_MEMAPflag</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=59</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Boolean>true</uax:Boolean>
+    </Value>
+  </UAVariable>
+  <UAObject BrowseName="1:EL_Parameters" NodeId="ns=1;i=62" ParentNodeId="ns=1;i=59">
+    <DisplayName>EL_Parameters</DisplayName>
+    <Description>EL_Parameters</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="Organizes">ns=1;i=59</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=61</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;i=63</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=64</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=65</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=66</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=67</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=68</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=69</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=70</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=71</Reference>
+    </References>
+  </UAObject>
+  <UAVariable AccessLevel="3" BrowseName="1:LS02EMS01OBJ01_STRGE01_1_ZM_EL_PrimSect" DataType="String" NodeId="ns=1;i=63" ParentNodeId="ns=1;i=62" UserAccessLevel="3">
+    <DisplayName>LS02EMS01OBJ01_STRGE01_1_ZM_EL_PrimSect</DisplayName>
+    <Description>LS02EMS01OBJ01_STRGE01_1_ZM_EL_PrimSect</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasProperty">ns=1;i=62</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+    </References>
+    <Value>
+      <uax:String>elec</uax:String>
+    </Value>
+  </UAVariable>
+  <UAVariable AccessLevel="3" BrowseName="1:LS02EMS01OBJ01_STRGE01_1_ZM_EL_EffPrim" DataType="Double" NodeId="ns=1;i=64" ParentNodeId="ns=1;i=62" UserAccessLevel="3">
+    <DisplayName>LS02EMS01OBJ01_STRGE01_1_ZM_EL_EffPrim</DisplayName>
+    <Description>LS02EMS01OBJ01_STRGE01_1_ZM_EL_EffPrim</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=62</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Double>0.97</uax:Double>
+    </Value>
+  </UAVariable>
+  <UAVariable AccessLevel="3" BrowseName="1:LS02EMS01OBJ01_STRGE01_1_ZM_EL_DisEffPrim" DataType="Double" NodeId="ns=1;i=65" ParentNodeId="ns=1;i=62" UserAccessLevel="3">
+    <DisplayName>LS02EMS01OBJ01_STRGE01_1_ZM_EL_DisEffPrim</DisplayName>
+    <Description>LS02EMS01OBJ01_STRGE01_1_ZM_EL_DisEffPrim</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=62</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Double>0.97</uax:Double>
+    </Value>
+  </UAVariable>
+  <UAVariable AccessLevel="3" BrowseName="1:LS02EMS01OBJ01_STRGE01_1_ZM_EL_MaxPower" DataType="Double" NodeId="ns=1;i=66" ParentNodeId="ns=1;i=62" UserAccessLevel="3">
+    <DisplayName>LS02EMS01OBJ01_STRGE01_1_ZM_EL_MaxPower</DisplayName>
+    <Description>LS02EMS01OBJ01_STRGE01_1_ZM_EL_MaxPower</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=62</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Double>3.3</uax:Double>
+    </Value>
+  </UAVariable>
+  <UAVariable AccessLevel="3" BrowseName="1:LS02EMS01OBJ01_STRGE01_1_ZM_EL_MaxPowerIn" DataType="Double" NodeId="ns=1;i=67" ParentNodeId="ns=1;i=62" UserAccessLevel="3">
+    <DisplayName>LS02EMS01OBJ01_STRGE01_1_ZM_EL_MaxPowerIn</DisplayName>
+    <Description>LS02EMS01OBJ01_STRGE01_1_ZM_EL_MaxPowerIn</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=62</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Double>3.3</uax:Double>
+    </Value>
+  </UAVariable>
+  <UAVariable AccessLevel="3" BrowseName="1:LS02EMS01OBJ01_STRGE01_1_ZM_EL_Capacity" DataType="Int64" NodeId="ns=1;i=68" ParentNodeId="ns=1;i=62" UserAccessLevel="3">
+    <DisplayName>LS02EMS01OBJ01_STRGE01_1_ZM_EL_Capacity</DisplayName>
+    <Description>LS02EMS01OBJ01_STRGE01_1_ZM_EL_Capacity</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=62</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Int64>10</uax:Int64>
+    </Value>
+  </UAVariable>
+  <UAVariable AccessLevel="3" BrowseName="1:LS02EMS01OBJ01_STRGE01_1_ZM_EL_StorLossPD" DataType="Double" NodeId="ns=1;i=69" ParentNodeId="ns=1;i=62" UserAccessLevel="3">
+    <DisplayName>LS02EMS01OBJ01_STRGE01_1_ZM_EL_StorLossPD</DisplayName>
+    <Description>LS02EMS01OBJ01_STRGE01_1_ZM_EL_StorLossPD</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=62</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Double>0.05</uax:Double>
+    </Value>
+  </UAVariable>
+  <UAVariable AccessLevel="3" BrowseName="1:LS02EMS01OBJ01_STRGE01_1_ZM_EL_GenCosts" DataType="Double" NodeId="ns=1;i=70" ParentNodeId="ns=1;i=62" UserAccessLevel="3">
+    <DisplayName>LS02EMS01OBJ01_STRGE01_1_ZM_EL_GenCosts</DisplayName>
+    <Description>LS02EMS01OBJ01_STRGE01_1_ZM_EL_GenCosts</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=62</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Double>0.0</uax:Double>
+    </Value>
+  </UAVariable>
+  <UAVariable AccessLevel="3" BrowseName="1:LS02EMS01OBJ01_STRGE01_1_ZM_EL_CO2PerKWh" DataType="Double" NodeId="ns=1;i=71" ParentNodeId="ns=1;i=62" UserAccessLevel="3">
+    <DisplayName>LS02EMS01OBJ01_STRGE01_1_ZM_EL_CO2PerKWh</DisplayName>
+    <Description>LS02EMS01OBJ01_STRGE01_1_ZM_EL_CO2PerKWh</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=62</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Double>0.0</uax:Double>
+    </Value>
+  </UAVariable>
+  <UAObject BrowseName="1:Setpoints_STRGE01" NodeId="ns=1;i=72" ParentNodeId="ns=1;i=59">
+    <DisplayName>Setpoints_STRGE01</DisplayName>
+    <Description>Setpoints_STRGE01</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="Organizes">ns=1;i=59</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=61</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=73</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=74</Reference>
+    </References>
+  </UAObject>
+  <UAVariable AccessLevel="3" BrowseName="1:LS02EMS01OBJ01_STRGE01_3_VM_EL_SPCharge" DataType="Double" NodeId="ns=1;i=73" ParentNodeId="ns=1;i=72" UserAccessLevel="3" ValueRank="0">
+    <DisplayName>LS02EMS01OBJ01_STRGE01_3_VM_EL_SPCharge</DisplayName>
+    <Description>LS02EMS01OBJ01_STRGE01_3_VM_EL_SPCharge</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=72</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:ListOfDouble>
+        <uax:Double>0.0</uax:Double>
+        <uax:Double>0.0</uax:Double>
+        <uax:Double>0.0</uax:Double>
+        <uax:Double>0.0</uax:Double>
+        <uax:Double>0.0</uax:Double>
+      </uax:ListOfDouble>
+    </Value>
+  </UAVariable>
+  <UAVariable AccessLevel="3" BrowseName="1:LS02EMS01OBJ01_STRGE01_3_VM_EL_SPDisChrg" DataType="Double" NodeId="ns=1;i=74" ParentNodeId="ns=1;i=72" UserAccessLevel="3" ValueRank="0">
+    <DisplayName>LS02EMS01OBJ01_STRGE01_3_VM_EL_SPDisChrg</DisplayName>
+    <Description>LS02EMS01OBJ01_STRGE01_3_VM_EL_SPDisChrg</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=72</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:ListOfDouble>
+        <uax:Double>0.0</uax:Double>
+        <uax:Double>0.0</uax:Double>
+        <uax:Double>0.0</uax:Double>
+        <uax:Double>0.0</uax:Double>
+        <uax:Double>0.0</uax:Double>
+      </uax:ListOfDouble>
+    </Value>
+  </UAVariable>
+  <UAObject BrowseName="1:EL_Measurement" NodeId="ns=1;i=75" ParentNodeId="ns=1;i=59">
+    <DisplayName>EL_Measurement</DisplayName>
+    <Description>EL_Measurement</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="Organizes">ns=1;i=59</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=61</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=76</Reference>
+    </References>
+  </UAObject>
+  <UAVariable AccessLevel="3" BrowseName="1:LS02EMS01OBJ01_STRGE01_4_ZM_EL_curSOC" DataType="Double" NodeId="ns=1;i=76" ParentNodeId="ns=1;i=75" UserAccessLevel="3">
+    <DisplayName>LS02EMS01OBJ01_STRGE01_4_ZM_EL_curSOC</DisplayName>
+    <Description>LS02EMS01OBJ01_STRGE01_4_ZM_EL_curSOC</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=75</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+    <Value>
+      <uax:Double>0.5</uax:Double>
+    </Value>
+  </UAVariable>
+</UANodeSet>
